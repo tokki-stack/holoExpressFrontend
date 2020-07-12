@@ -1,0 +1,121 @@
+<kt-portlet>
+	<kt-portlet-header [class]="'card-head-lg'">
+        <ng-container ktPortletTitle>
+			Order1 | Juan Perez
+		</ng-container>
+		<ng-container ktPortletTools>
+			<button mat-raised-button color="primary" type="button">
+				<span>In progress</span>
+			</button>
+		</ng-container>
+    </kt-portlet-header>
+	<kt-portlet-body>
+        <mat-card>
+            <mat-card-header>
+                Directions
+            </mat-card-header>
+			<div class="separator separator-dashed my-6"></div>
+            <mat-card-content style="display: grid; margin-left: 30px;">
+                <span>Delivery Address</span>
+                <span><strong>123 Random Street, region1, state 1</strong></span>
+                <span style="color: blue;"><strong>Deliver to Jane doe, call her at 325-5263</strong></span>
+                <div style="display: flex;">
+                    <div style="display: grid;">
+                        <span>Name</span>
+                        <span><strong>Jane Doe</strong></span>
+                    </div>
+                    <div style="display: grid; margin-left: 30%;">
+                        <span>Phone</span>
+                        <span><strong>325-5263</strong></span>
+                    </div>
+
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card style="margin-top: 30px;">
+            <mat-card-header>
+                <span>Packages = 2</span>
+                <span style="margin-left: auto;">Total Price = 6.00</span>
+            </mat-card-header>
+			<div class="separator separator-dashed my-6"></div>
+            <mat-card-content>
+                <mat-table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="tracking">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>tracking</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.tracking}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="weight">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>weight</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.weight}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="volWeight">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>volWeight</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.volWeight}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="length">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>length</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.length}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="width">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>width</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.width}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="height">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>height</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.height}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="type">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>type</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.type}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="cost">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>cost</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.cost}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>status</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.status}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="log">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>log</mat-header-cell>
+                        <mat-cell *matCellDef="let package">
+                            <button mat-button (click)="log(package)"><mat-icon>search</mat-icon></button>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        
+                    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                </mat-table>
+            </mat-card-content>
+        </mat-card>
+        <mat-card style="margin-top: 30px;">
+            <mat-card-header>
+                Record Log
+            </mat-card-header>
+			<div class="separator separator-dashed my-6"></div>
+            <mat-card-content>
+                <mat-table [dataSource]="dataSourceLog" matSort>
+                    <ng-container matColumnDef="date">
+                        <!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>date</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.date}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="description">
+                        <!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>description</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.description}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="user">
+                        <!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>user</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.user}}</mat-cell>
+                    </ng-container>
+                    
+                    <mat-header-row *matHeaderRowDef="displayedColumnsLog"></mat-header-row>
+        
+                    <mat-row *matRowDef="let row; columns: displayedColumnsLog"></mat-row>
+                </mat-table>
+            </mat-card-content>
+        </mat-card>
+    </kt-portlet-body>
+</kt-portlet>

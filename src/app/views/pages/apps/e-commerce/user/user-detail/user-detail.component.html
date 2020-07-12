@@ -1,0 +1,59 @@
+<mat-card>
+    <mat-card-header>
+        <span style="font-size: x-large;">Add User</span>
+        <button mat-raised-button color="white" type="button" style="margin-left: auto;
+        width: 90px;
+        margin-right: 20px;">
+            <span>Cancel</span>
+        </button>
+        <button mat-raised-button color="primary" type="button" style="width: 90px;">
+            <mat-icon style="margin-top: 4px;">save</mat-icon>
+            <span>Save</span>
+        </button>
+    </mat-card-header>
+    <div class="separator separator-dashed my-6"></div>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Name" [(ngModel)]="name"/>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="User" [(ngModel)]="user"/>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Email" [(ngModel)]="email"/>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row" style="margin-left: 0px;">
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-select placeholder="Role" [value]="type">
+                    <mat-option value="0">SuperAdmin</mat-option>
+                    <mat-option value="1">Admin</mat-option>
+                    <mat-option value="2">Messenger</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="row" style="margin-left: 0px;">
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-select placeholder="Status" [value]="status">
+                    <mat-option value="0">Enabled</mat-option>
+                    <mat-option value="1">Disabled</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="button" style="    height: 40px;
+            margin-top: auto;
+            margin-bottom: auto;
+            margin-left: auto;
+            margin-right: 20px;">
+                <mat-icon style="margin-top: 4px;">delete</mat-icon>
+                <span>delete</span>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>

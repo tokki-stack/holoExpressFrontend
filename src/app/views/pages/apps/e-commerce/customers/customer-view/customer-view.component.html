@@ -1,0 +1,81 @@
+<kt-portlet>
+	<!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
+	<kt-portlet-header [class]="'card-head-lg'">
+		<!-- PORTLET LOADING | Binded to TABLE Datasource -->
+
+		<ng-container ktPortletTitle>
+			<span>J Box</span>
+		</ng-container>
+
+		<ng-container ktPortletTools>
+			<button mat-raised-button matTooltip="Create new customer" color="primary"
+				type="button">
+				<span (click)="back()">Back</span>
+			</button>
+		</ng-container>
+	</kt-portlet-header>
+
+	<kt-portlet-body>
+
+        <mat-tab-group>
+            <mat-tab label="Profile">
+                <div class="container" style="margin-left: 30px;">
+                    <div class="row">
+                        <div class="col-md-2"> 
+                            <span>Name</span>
+                            <br>
+                            <input style="color: black;" matInput value="{{customer.firstName}}" disabled/>
+                        </div>
+                        <div class="col-md-2"> 
+                            <span>LastName</span>
+                            <br>
+                            <input style="color: black;" matInput value="{{customer.lastName}}" disabled/>
+                        </div>
+                        <div class="col-md-2"> 
+                            <span>Email</span>
+                            <br>
+                            <input style="color: black;" matInput value="{{customer.email}}" disabled/>
+                        </div>
+                        <div class="col-md-2"> 
+                            <span>Phone</span>
+                            <br>
+                            <input style="color: black;" matInput value="{{customer.phone}}" disabled/>
+                        </div>
+                        <div class="col-md-2"> 
+                            <span>Mobile</span>
+                            <br>
+                            <input style="color: black;" matInput value="{{customer.mobile}}" disabled/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 30px;">
+                        <div class="col-md-2"> 
+                            <span>Company</span>
+                            <br>
+                            <input style="color: black;" matInput value="{{customer.company}}" disabled/>
+                        </div>
+                        <div class="col-md-2"> 
+                            <span>Since Date</span>
+                            <br>
+                            <input style="color: black;" matInput value="{{customer.registered}}" disabled/>
+                        </div>
+                        <div class="col-md-3"> 
+                            <span>Address</span>
+                            <br>
+                            <input style="color: black;" matInput value="{{customer.address}}" disabled/>
+                        </div>
+                    </div>
+                </div>
+                <div class="separator separator-dashed my-6"></div>
+                <mat-tab-group style="margin-top: 30px;">
+                    <mat-tab label="Comments">
+                    </mat-tab>
+                    <mat-tab label="Records Log">Content 2</mat-tab>
+                </mat-tab-group>
+            </mat-tab>
+            <mat-tab label="Orders">
+                <kt-products-list></kt-products-list>
+            </mat-tab>
+        </mat-tab-group>
+
+	</kt-portlet-body>
+</kt-portlet>

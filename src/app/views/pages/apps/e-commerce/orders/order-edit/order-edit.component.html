@@ -1,0 +1,130 @@
+<mat-card>
+    <mat-card-header>
+        <span style="font-size: x-large;">Order1</span>    
+        <div style="margin-left: auto;">
+            <button style="width: 80px;margin-right: 20px;" mat-raised-button color="primary" type="button">
+                <span>Cancel</span>
+            </button>
+            <button style="width: 80px;" mat-raised-button color="primary" type="button">
+                <span>Save</span>
+            </button>
+        </div>
+    </mat-card-header>
+
+    <div class="separator separator-dashed my-6"></div>
+
+    <mat-card-content>
+
+        <mat-card>
+            <mat-card-header>
+                Order Information
+            </mat-card-header>
+            <div class="separator separator-dashed my-6"></div>
+            <mat-card-content>
+                <div style="display: flex;">
+                    <mat-form-field class="mat-form-field-fluid" style="width: 30%;">
+                        <mat-select placeholder="Customer" formControlName="type">
+                            <mat-option value="0">Jane Doe</mat-option>
+                            <mat-option value="1">Doe</mat-option>
+                        </mat-select>
+                        <mat-hint align="start">
+                            <strong>Customer</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field class="mat-form-field-fluid" style="width: 30%; margin-left: 20px;">
+                        <mat-select placeholder="Delivery Type" formControlName="type">
+                            <mat-option value="0">Standard</mat-option>
+                            <mat-option value="1">Delivery Pickup</mat-option>
+                        </mat-select>
+                        <mat-hint align="start">
+                            <strong>Delivery Type</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="separator separator-dashed my-6"></div>
+                <div>Delivery Information</div>
+                <div class="separator separator-dashed my-6"></div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Pickup Address"/>
+                        </mat-form-field>
+                        <div class="separator separator-dashed my-6"></div>
+                    </div>
+                    <div class="col-md-5">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Delivery Address"/>
+                        </mat-form-field>
+                        <div class="separator separator-dashed my-6"></div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input matInput placeholder="Nombre"/>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-5">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input matInput placeholder="Telefono"/>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="separator separator-dashed my-6"></div>
+                <div class="row" style="margin-left: 0px;">
+                    <div>Packages cm/kg = 2</div>
+                    <div style="margin-left: auto;
+                    margin-right: 20px;
+                    background-color: yellow;
+                    padding: 4px;
+                    border: black 1px solid;">Price = $ 5.18</div>
+                </div>
+                <div class="separator separator-dashed my-6"></div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <mat-form-field style="width: 100%;">
+                            <mat-label>Weight</mat-label>
+                            <input matInput type="number">
+                            <span matSuffix>kg</span>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field style="width: 100%;">
+                            <mat-label>Length</mat-label>
+                            <input matInput type="number">
+                            <span matSuffix>cm</span>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field style="width: 100%;">
+                            <mat-label>Width</mat-label>
+                            <input matInput type="number">
+                            <span matSuffix>cm</span>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field style="width: 100%;">
+                            <mat-label>Height</mat-label>
+                            <input matInput type="number">
+                            <span matSuffix>cm</span>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field class="mat-form-field-fluid" style="width: 100%">
+                            <mat-select placeholder="Type">
+                                <mat-option value="0">Box</mat-option>
+                                <mat-option value="1">Container</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row" style="margin-top: 16px;">
+                            <mat-icon>add</mat-icon>
+                            <mat-icon>delete</mat-icon>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-card-content>
+</mat-card>
