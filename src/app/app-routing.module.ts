@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: '',
     component: BaseComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
@@ -25,6 +25,14 @@ const routes: Routes = [
       {
         path: 'ecommerce',
         loadChildren: () => import('./views/pages/apps/e-commerce/e-commerce.module').then(m => m.ECommerceModule),
+      },
+      {
+        path: 'courier',
+        loadChildren: () => import('./views/pages/apps/courier/courier.module').then(m => m.CourierModule),
+      },
+      {
+        path: 'orders',
+        loadChildren: () => import('./views/pages/apps/customer-orders/customer-orders.module').then(m => m.CustomerOrdersModule),
       },
       {
         path: 'user-management',

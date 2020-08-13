@@ -1,0 +1,138 @@
+<kt-portlet>
+	<kt-portlet-header [class]="'card-head-lg'">
+		<ng-container ktPortletTitle>
+			<div>Invoices --- | Juan Perez 22/01/19</div>
+		</ng-container>
+		<ng-container ktPortletTools>
+			<button mat-raised-button color="warn"
+				type="button" style="margin-right: 20px;">
+				<span>Close Invoice</span>
+            </button>
+            <!-- <button mat-raised-button color="primary"
+                type="button">
+                <span>OPEN</span>
+            </button> -->
+            
+            
+            <button mat-button [matMenuTriggerFor]="menu" class="status0" [ngStyle]="buttonStyle" >{{title}}</button>
+			<mat-menu #menu="matMenu">
+				<button mat-menu-item (click)="menuChange($event)" class="status0">OPEN</button>
+				<button mat-menu-item (click)="menuChange($event)" class="status3">PARTIAL</button>
+				<!-- <button mat-menu-item (click)="menuChange($event)">CANCELLED</button> -->
+			</mat-menu>
+		</ng-container>
+	</kt-portlet-header>
+	<kt-portlet-body>
+        <mat-card>
+            <mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="description">
+                    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+                    <mat-cell *matCellDef="let detail">
+                        {{detail.description}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="total">
+                    <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+                    <mat-cell *matCellDef="let detail">
+                        {{detail.total}}
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                
+            </mat-table>
+            <div class="separator separator-dashed my-6"></div>
+            <div class="row">
+                <div style="font-size: 15px;
+                margin-left: 20px;
+                height: fit-content;
+                margin-top: auto;
+                margin-bottom: auto;"><strong>Pagos = 50.00</strong></div>
+                <button mat-raised-button color="primary"
+                    type="button" style="margin-right: 20px;margin-left: auto;" (click)="openNewPayment()">
+                    <span>New Payment</span>
+                </button>
+            </div>
+            <mat-table [dataSource]="dataSourcePagos">
+                <ng-container matColumnDef="paymentID">
+                    <mat-header-cell *matHeaderCellDef>Payment ID</mat-header-cell>
+                    <mat-cell *matCellDef="let pago">
+                        {{pago.paymentID}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+                    <mat-cell *matCellDef="let pago">
+                        {{pago.date}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="description">
+                    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+                    <mat-cell *matCellDef="let pago">
+                        {{pago.description}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="amount">
+                    <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
+                    <mat-cell *matCellDef="let pago">
+                        {{pago.amount}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="user">
+                    <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
+                    <mat-cell *matCellDef="let pago">
+                        {{pago.user}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let pago">
+                        <div *ngIf="pago.actions == 1"><mat-icon>do_not_disturb_alt</mat-icon></div>
+                        <div *ngIf="pago.actions == 0" class="status2">Cancelled</div>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumnsPagos"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsPagos"></mat-row>
+                
+            </mat-table>
+        </mat-card>
+        <mat-card style="margin-top: 20px;">
+            <div class="row">
+                <div style="font-size: 15px;
+                margin-left: 20px;
+                height: fit-content;
+                margin-top: auto;
+                margin-bottom: auto;"><strong>Factura Log</strong></div>
+            </div>
+            <mat-table [dataSource]="dataSourceLogs">
+                <ng-container matColumnDef="paymentID">
+                    <mat-header-cell *matHeaderCellDef>Payment ID</mat-header-cell>
+                    <mat-cell *matCellDef="let log">
+                        {{log.paymentID}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+                    <mat-cell *matCellDef="let log">
+                        {{log.date}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="description">
+                    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+                    <mat-cell *matCellDef="let log">
+                        {{log.description}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="user">
+                    <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
+                    <mat-cell *matCellDef="let log">
+                        {{log.user}}
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumnsLogs"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsLogs"></mat-row>
+                
+            </mat-table>
+        </mat-card>
+    </kt-portlet-body>
+</kt-portlet>

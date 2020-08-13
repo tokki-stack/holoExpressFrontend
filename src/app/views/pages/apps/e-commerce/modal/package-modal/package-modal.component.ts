@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'kt-package-modal',
@@ -9,15 +9,14 @@ import { MatTableDataSource} from '@angular/material/table';
   styleUrls: ['./package-modal.component.scss']
 })
 export class PackageModalComponent implements OnInit {
-	displayedColumnsLog = ['date','description','user'];
-	dataSourceLog: MatTableDataSource<any>;
+  displayedColumnsLog = ['date', 'description', 'user'];
+  dataSourceLog: MatTableDataSource<any>;
 
   constructor(public dialogRef: MatDialogRef<PackageModalComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: any,) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
   ngOnInit(): void {
-    console.log(this.data);
-		this.dataSourceLog = new MatTableDataSource(this.logs);
+    this.dataSourceLog = new MatTableDataSource(this.logs);
   }
   logs: any = [
     {

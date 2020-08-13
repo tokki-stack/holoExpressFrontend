@@ -1,11 +1,11 @@
-<mat-card>
+<mat-card style="overflow: auto; max-height: 80vh;">
     <mat-card-header>
-        <span style="font-size: x-large;">Order1</span>    
+        <span style="font-size: x-large;">Order{{order.idorders}}</span>    
         <div style="margin-left: auto;">
-            <button style="width: 80px;margin-right: 20px;" mat-raised-button color="primary" type="button">
+            <button style="width: 80px;margin-right: 20px;" mat-raised-button color="primary" type="button" (click)="cancel()">
                 <span>Cancel</span>
             </button>
-            <button style="width: 80px;" mat-raised-button color="primary" type="button">
+            <button style="width: 80px;" mat-raised-button color="primary" type="button" (click)="save()">
                 <span>Save</span>
             </button>
         </div>
@@ -22,17 +22,23 @@
             <div class="separator separator-dashed my-6"></div>
             <mat-card-content>
                 <div style="display: flex;">
-                    <mat-form-field class="mat-form-field-fluid" style="width: 30%;">
-                        <mat-select placeholder="Customer" formControlName="type">
-                            <mat-option value="0">Jane Doe</mat-option>
-                            <mat-option value="1">Doe</mat-option>
-                        </mat-select>
-                        <mat-hint align="start">
-                            <strong>Customer</strong>
-                        </mat-hint>
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input type="text"
+                                placeholder="Customer"
+                                aria-label="Number"
+                                matInput
+                                [formControl]="myControl"
+                                [matAutocomplete]="auto"
+                                [(ngModel)]="order.customer">
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.firstName" (onSelectionChange)="customerChange(option)">
+                            {{option.firstName}}{{option.idcustomers}}
+                        </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
+
                     <mat-form-field class="mat-form-field-fluid" style="width: 30%; margin-left: 20px;">
-                        <mat-select placeholder="Delivery Type" formControlName="type">
+                        <mat-select placeholder="Delivery Type" [(ngModel)]="order.deliveryType">
                             <mat-option value="0">Standard</mat-option>
                             <mat-option value="1">Delivery Pickup</mat-option>
                         </mat-select>
@@ -45,26 +51,50 @@
                 <div>Delivery Information</div>
                 <div class="separator separator-dashed my-6"></div>
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5" *ngIf="order.deliveryType == '1'">
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="Pickup Address"/>
+                            <input matInput placeholder="Pickup Address" [(ngModel)]="order.pickUpAddress"/>
                         </mat-form-field>
+                        <div class="row">
+                            <mat-form-field class="mat-form-field-fluid" style="width: 30%; margin-left: 20px;">
+                                <mat-select placeholder="State" [(ngModel)]="order.pickUpAddressState">
+                                    <mat-option *ngFor="let state of states" [value]="state.idstates" (click)="StateChange(state, 'p')">{{state.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="mat-form-field-fluid" style="width: 30%; margin-left: 20px;">
+                                <mat-select placeholder="Area" [(ngModel)]="order.pickUpAddressArea">
+                                    <mat-option *ngFor="let area of pickUpAreas" [value]="area.idareas">{{area.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                         <div class="separator separator-dashed my-6"></div>
                     </div>
                     <div class="col-md-5">
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="Delivery Address"/>
+                            <input matInput placeholder="Delivery Address" [(ngModel)]="order.deliveryAddress"/>
                         </mat-form-field>
+                        <div class="row">
+                            <mat-form-field class="mat-form-field-fluid" style="width: 30%; margin-left: 20px;">
+                                <mat-select placeholder="State" [(ngModel)]="order.deliveryAddressState">
+                                    <mat-option *ngFor="let state of states" [value]="state.idstates" (click)="StateChange(state, 'd')">{{state.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="mat-form-field-fluid" style="width: 30%; margin-left: 20px;">
+                                <mat-select placeholder="Area" [(ngModel)]="order.deliveryAddressArea">
+                                    <mat-option *ngFor="let area of deliveryAreas" [value]="area.idareas">{{area.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                         <div class="separator separator-dashed my-6"></div>
                         <div class="row">
                             <div class="col-md-5">
                                 <mat-form-field class="mat-form-field-fluid">
-                                    <input matInput placeholder="Nombre"/>
+                                    <input matInput placeholder="Nombre" [(ngModel)]="order.deliveryName"/>
                                 </mat-form-field>
                             </div>
                             <div class="col-md-5">
                                 <mat-form-field class="mat-form-field-fluid">
-                                    <input matInput placeholder="Telefono"/>
+                                    <input matInput placeholder="Telefono" [(ngModel)]="order.deliveryPhone"/>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -77,53 +107,84 @@
                     margin-right: 20px;
                     background-color: yellow;
                     padding: 4px;
-                    border: black 1px solid;">Price = $ 5.18</div>
+                    border: black 1px solid;">Price = $ {{order.cost}}</div>
                 </div>
                 <div class="separator separator-dashed my-6"></div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <mat-form-field style="width: 100%;">
-                            <mat-label>Weight</mat-label>
-                            <input matInput type="number">
-                            <span matSuffix>kg</span>
-                        </mat-form-field>
+
+                <div class="row" *ngFor="let package of packages; index as i">
+                    <div class="form-group" style="width: 15%; margin-left: 20px;">
+                        <label>Weight</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-secondary dropdown-toggle"
+                                    [matMenuTriggerFor]="menuWeightT">{{weightType}}</button>
+                                <mat-menu #menuWeightT="matMenu" >
+                                    <a class="dropdown-item" (click)="changeWeightType('kg')">kg</a>
+                                    <a class="dropdown-item" (click)="changeWeightType('lb')">lb</a>
+                                </mat-menu>
+                            </div>
+                            <input type="number" min="0" class="form-control" [(ngModel)]='package.weight'/>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <mat-form-field style="width: 100%;">
-                            <mat-label>Length</mat-label>
-                            <input matInput type="number">
-                            <span matSuffix>cm</span>
-                        </mat-form-field>
+                    <div class="form-group" style="width: 15%; margin-left: 20px;">
+                        <label>Length</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-secondary dropdown-toggle"
+                                    [matMenuTriggerFor]="menu">{{lengthType}}</button>
+                                <mat-menu #menu="matMenu">
+                                    <a class="dropdown-item" (click)="changelengthType('cm')">cm</a>
+                                    <a class="dropdown-item" (click)="changelengthType('inch')">inch</a>
+                                </mat-menu>
+                            </div>
+                            <input type="number" min="0" class="form-control" [(ngModel)]='package.length'/>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <mat-form-field style="width: 100%;">
-                            <mat-label>Width</mat-label>
-                            <input matInput type="number">
-                            <span matSuffix>cm</span>
-                        </mat-form-field>
+                    <div class="form-group" style="width: 15%; margin-left: 20px;">
+                        <label>Width</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-secondary dropdown-toggle"
+                                    [matMenuTriggerFor]="menu">{{lengthType}}</button>
+                                <mat-menu #menu="matMenu">
+                                    <a class="dropdown-item" (click)="changelengthType('cm')">cm</a>
+                                    <a class="dropdown-item" (click)="changelengthType('inch')">inch</a>
+                                </mat-menu>
+                            </div>
+                            <input type="number" min="0" class="form-control" [(ngModel)]='package.width'/>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <mat-form-field style="width: 100%;">
-                            <mat-label>Height</mat-label>
-                            <input matInput type="number">
-                            <span matSuffix>cm</span>
-                        </mat-form-field>
+                    <div class="form-group" style="width: 15%; margin-left: 20px;">
+                        <label>Height</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-secondary dropdown-toggle"
+                                    [matMenuTriggerFor]="menu">{{lengthType}}</button>
+                                <mat-menu #menu="matMenu">
+                                    <a class="dropdown-item" (click)="changelengthType('cm')">cm</a>
+                                    <a class="dropdown-item" (click)="changelengthType('inch')">inch</a>
+                                </mat-menu>
+                            </div>
+                            <input type="number" min="0" class="form-control" [(ngModel)]='package.height'/>
+                        </div>
                     </div>
-                    <div class="col-md-2">
+
+                    <div class="col-md-2" style="height: fit-content; margin-top: 20px; margin-left: 10px;">
                         <mat-form-field class="mat-form-field-fluid" style="width: 100%">
-                            <mat-select placeholder="Type">
+                            <mat-select placeholder="Type" [(ngModel)]='package.type'>
                                 <mat-option value="0">Box</mat-option>
                                 <mat-option value="1">Container</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-md-2">
-                        <div class="row" style="margin-top: 16px;">
-                            <mat-icon>add</mat-icon>
-                            <mat-icon>delete</mat-icon>
+                    <div class="col-md">
+                        <div class="row" style="margin-top: 35px;">
+                            <mat-icon *ngIf="i+1 == packages.length" style="cursor:pointer" (click)="addPackage()">add</mat-icon>
+                            <mat-icon style="cursor:pointer" (click)="deletePackage(package)">delete</mat-icon>
                         </div>
                     </div>
                 </div>
+
             </mat-card-content>
         </mat-card>
     </mat-card-content>

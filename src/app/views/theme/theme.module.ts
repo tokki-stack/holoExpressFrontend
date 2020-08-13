@@ -39,6 +39,7 @@ import { PagesModule } from '../pages/pages.module';
 import { HtmlClassService } from './html-class.service';
 import { HeaderMobileComponent } from './header/header-mobile/header-mobile.component';
 import { PermissionEffects, permissionsReducer, RoleEffects, rolesReducer } from '../../core/auth';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,8 @@ import { PermissionEffects, permissionsReducer, RoleEffects, rolesReducer } from
     // ng-bootstrap modules
     NgbProgressbarModule,
     NgbTooltipModule,
+		MatIconModule,
+
   ]
 })
 export class ThemeModule {

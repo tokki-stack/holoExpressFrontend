@@ -12,13 +12,19 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 // Auth
 import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
+import { CustomerService } from 'src/app/service/customer.service';
+
+import { MessengerService } from 'src/app/service/messenger.service';
+
 
 /**
  * ! Just example => Should be removed in development
  */
 const DEMO_PARAMS = {
-	EMAIL: 'admin@demo.com',
-	PASSWORD: 'demo'
+	// EMAIL: 'admin@demo.com',
+	// PASSWORD: 'demo'
+	EMAIL: '',
+	PASSWORD: ''
 };
 
 @Component({
@@ -32,11 +38,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 	loading = false;
 	isLoggedIn$: Observable<boolean>;
 	errors: any = [];
-
+	roleFlag;
+	roleTitle;
 	private unsubscribe: Subject<any>;
 
 	private returnUrl: any;
 
+
+	tempResult:any = [];
 	// Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 
 	/**
@@ -59,7 +68,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private store: Store<AppState>,
 		private fb: FormBuilder,
 		private cdr: ChangeDetectorRef,
-		private route: ActivatedRoute
+		private route: ActivatedRoute,
+		private customerService: CustomerService,
+		private messengerService: MessengerService,
+
+
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -73,7 +86,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit(): void {
 		this.initLoginForm();
-
+		this.roleFlag = true;
+		this.roleTitle = "customer";
 		// redirect back to the returnUrl before login
 		this.route.queryParams.subscribe(params => {
 			this.returnUrl = params.returnUrl || '/';
@@ -97,10 +111,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 	initLoginForm() {
 		// demo message to show
 		if (!this.authNoticeService.onNoticeChanged$.getValue()) {
-			const initialNotice = `Use account
-			<strong>${DEMO_PARAMS.EMAIL}</strong> and password
-			<strong>${DEMO_PARAMS.PASSWORD}</strong> to continue.`;
-			this.authNoticeService.setNotice(initialNotice, 'info');
+			// const initialNotice = `Use account
+			// <strong>${DEMO_PARAMS.EMAIL}</strong> and password
+			// <strong>${DEMO_PARAMS.PASSWORD}</strong> to continue.`;
+			// this.authNoticeService.setNotice(initialNotice, 'info');
 		}
 
 		this.loginForm = this.fb.group({
@@ -124,6 +138,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 * Form Submit
 	 */
 	submit() {
+		console.log(this.roleFlag);
 		const controls = this.loginForm.controls;
 		/** check form */
 		if (this.loginForm.invalid) {
@@ -139,24 +154,74 @@ export class LoginComponent implements OnInit, OnDestroy {
 			email: controls.email.value,
 			password: controls.password.value
 		};
-		this.auth
-			.login(authData.email, authData.password)
-			.pipe(
-				tap(user => {
-					if (user) {
-						this.store.dispatch(new Login({authToken: user.accessToken}));
-						this.router.navigateByUrl(this.returnUrl); // Main page
-					} else {
-						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
+
+		if (this.roleFlag){
+			this.customerService.getCustomerByEmail(authData).then(result => {
+				this.tempResult = result;
+				if (this.tempResult.length == 0){
+					this.authNoticeService.setNotice('please input valid email and password', 'danger');
+				}
+				else{
+					if(this.tempResult[0].status == 1){
+						this.authNoticeService.setNotice('your account is limited, please contact our support team', 'danger');
 					}
-				}),
-				takeUntil(this.unsubscribe),
-				finalize(() => {
-					this.loading = false;
-					this.cdr.markForCheck();
-				})
-			)
-			.subscribe();
+					else{
+						this.authNoticeService.setNotice('Login Successfully', 'success');
+						window.localStorage.setItem('idcustomers', this.tempResult[0].idcustomers);
+						window.localStorage.setItem('userRole', '0');
+						this.router.navigate(['orders']); // Main page
+					}
+				}
+			}).catch(err => {
+				console.log(err);
+			})
+		}
+		else {
+			console.log("admin");
+			this.messengerService.getMessengerByEmail(authData).then(result => {
+				this.tempResult = result;
+				console.log(this.tempResult);
+
+				if (this.tempResult.length == 0){
+					this.authNoticeService.setNotice('please input valid email and password', 'danger');
+				}
+				else{
+					if(this.tempResult[0].status == 1){
+						this.authNoticeService.setNotice('your account is limited, please contact our support team', 'danger');
+					}
+					else {
+						this.authNoticeService.setNotice('Login Successfully', 'success');
+						window.localStorage.setItem('userRole', this.tempResult[0].role);
+						if(this.tempResult[0].role == '2'){
+							this.router.navigate(['courier']);
+						}
+						else{
+							this.router.navigate(['ecommerce/customers']);
+						}
+					}
+				}
+			}).catch(err => {
+				console.log(err);
+			})
+		}
+		// this.auth
+		// 	.login(authData.email, authData.password)
+		// 	.pipe(
+		// 		tap(user => {
+		// 			if (user) {
+		// 				this.store.dispatch(new Login({authToken: user.accessToken}));
+		// 				this.router.navigateByUrl(this.returnUrl); // Main page
+		// 			} else {
+		// 				this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
+		// 			}
+		// 		}),
+		// 		takeUntil(this.unsubscribe),
+		// 		finalize(() => {
+		// 			this.loading = false;
+		// 			this.cdr.markForCheck();
+		// 		})
+		// 	)
+		// 	.subscribe();
 	}
 
 	/**
@@ -173,5 +238,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 		const result = control.hasError(validationType) && (control.dirty || control.touched);
 		return result;
+	}
+	changeRole(){
+		console.log(this.roleFlag);
+		if(this.roleFlag){
+			this.roleTitle = "admin or messenger";
+		}
+		else {
+			this.roleTitle = "customer";
+		}
 	}
 }

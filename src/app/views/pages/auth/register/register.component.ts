@@ -13,6 +13,8 @@ import { AppState } from '../../../../core/reducers';
 import { AuthNoticeService, AuthService, Register, User } from '../../../../core/auth/';
 import { Subject } from 'rxjs';
 import { ConfirmPasswordValidator } from './confirm-password.validator';
+import { CustomerAuthService } from 'src/app/service/customer-auth.service';
+import { CustomerService } from 'src/app/service/customer.service';
 
 @Component({
 	selector: 'kt-register',
@@ -23,7 +25,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	registerForm: FormGroup;
 	loading = false;
 	errors: any = [];
-
+	customer:any = {};
+	tempResult;
 	private unsubscribe: Subject<any>; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 
 	/**
@@ -44,7 +47,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
 		private auth: AuthService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-		private cdr: ChangeDetectorRef
+		private cdr: ChangeDetectorRef,
+		private customerAuthService: CustomerAuthService,
+		private customerService: CustomerService,
+
+
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -75,7 +82,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	 */
 	initRegisterForm() {
 		this.registerForm = this.fb.group({
-			fullname: ['', Validators.compose([
+			lastName: ['', Validators.compose([
 				Validators.required,
 				Validators.minLength(3),
 				Validators.maxLength(100)
@@ -89,7 +96,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 				Validators.maxLength(320)
 			]),
 			],
-			username: ['', Validators.compose([
+			firstName: ['', Validators.compose([
 				Validators.required,
 				Validators.minLength(3),
 				Validators.maxLength(100)
@@ -116,52 +123,82 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	/**
 	 * Form Submit
 	 */
+	// submit() {
+	// 	const controls = this.registerForm.controls;
+
+	// 	// check form
+	// 	if (this.registerForm.invalid) {
+	// 		Object.keys(controls).forEach(controlName =>
+	// 			controls[controlName].markAsTouched()
+	// 		);
+	// 		return;
+	// 	}
+
+	// 	this.loading = true;
+
+	// 	if (!controls.agree.value) {
+	// 		// you must agree the terms and condition
+	// 		// checkbox cannot work inside mat-form-field https://github.com/angular/material2/issues/7891
+	// 		this.authNoticeService.setNotice('You must agree the terms and condition', 'danger');
+	// 		return;
+	// 	}
+
+	// 	const _user: User = new User();
+	// 	_user.clear();
+	// 	_user.email = controls.email.value;
+	// 	_user.firstName = controls.firstName.value;
+	// 	_user.lastName = controls.lastName.value;
+	// 	_user.password = controls.password.value;
+	// 	_user.roles = [];
+	// 	this.auth.register(_user).pipe(
+	// 		tap(user => {
+	// 			if (user) {
+	// 				this.store.dispatch(new Register({authToken: user.accessToken}));
+	// 				// pass notice message to the login page
+	// 				this.authNoticeService.setNotice(this.translate.instant('AUTH.REGISTER.SUCCESS'), 'success');
+	// 				this.router.navigateByUrl('/auth/login');
+	// 			} else {
+	// 				this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
+	// 			}
+	// 		}),
+	// 		takeUntil(this.unsubscribe),
+	// 		finalize(() => {
+	// 			this.loading = false;
+	// 			this.cdr.markForCheck();
+	// 		})
+	// 	).subscribe();
+	// }
 	submit() {
 		const controls = this.registerForm.controls;
-
-		// check form
 		if (this.registerForm.invalid) {
-			Object.keys(controls).forEach(controlName =>
-				controls[controlName].markAsTouched()
-			);
-			return;
+			return
 		}
-
-		this.loading = true;
-
 		if (!controls.agree.value) {
-			// you must agree the terms and condition
-			// checkbox cannot work inside mat-form-field https://github.com/angular/material2/issues/7891
 			this.authNoticeService.setNotice('You must agree the terms and condition', 'danger');
 			return;
 		}
 
-		const _user: User = new User();
-		_user.clear();
-		_user.email = controls.email.value;
-		_user.username = controls.username.value;
-		_user.fullname = controls.fullname.value;
-		_user.password = controls.password.value;
-		_user.roles = [];
-		this.auth.register(_user).pipe(
-			tap(user => {
-				if (user) {
-					this.store.dispatch(new Register({authToken: user.accessToken}));
-					// pass notice message to the login page
-					this.authNoticeService.setNotice(this.translate.instant('AUTH.REGISTER.SUCCESS'), 'success');
-					this.router.navigateByUrl('/auth/login');
-				} else {
-					this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
-				}
-			}),
-			takeUntil(this.unsubscribe),
-			finalize(() => {
-				this.loading = false;
-				this.cdr.markForCheck();
-			})
-		).subscribe();
-	}
+		this.customer.firstName = controls.firstName.value;
+		this.customer.lastName = controls.lastName.value;
+		this.customer.email = controls.email.value;
+		this.customer.password = controls.password.value;
+		// this.customerService.getAll().then(customers => {
+		// 	console.log(customers);
+		// })
+		this.customerService.createNew(this.customer).then((result) => {
+			this.tempResult = result;
+			this.authNoticeService.setNotice('Registered Successfully', 'success');
+			window.localStorage.setItem('idcustomers', this.tempResult.results.insertId);
+			window.localStorage.setItem('userRole', '0');
+			this.router.navigate(['orders']); // Main page
 
+	
+		}).catch(err => {
+			this.authNoticeService.setNotice('The email is already used by another user', 'danger');
+			console.log(err);
+		})
+
+	}
 	/**
 	 * Checking control validation
 	 *

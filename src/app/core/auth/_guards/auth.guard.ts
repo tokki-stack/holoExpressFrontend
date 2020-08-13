@@ -20,6 +20,13 @@ export class AuthGuard implements CanActivate {
       .pipe(
         select(isLoggedIn),
         tap(loggedIn => {
+          console.log(loggedIn);
+          // if(window.localStorage.getItem("idcustomers")){
+          //   this.router.navigateByUrl('dashboard')
+          // }
+          // else {
+          //   this.router.navigateByUrl('/auth/login');
+          // }
           if (!loggedIn) {
             this.router.navigateByUrl('/auth/login');
           }

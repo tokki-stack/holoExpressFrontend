@@ -30,46 +30,11 @@
 		margin-left: auto;
 		margin-right: auto;
 		justify-content: flex-end;">
-			<div style="background-color: white;margin-right: 20px;
-			color: black;
-			width: 150px;
-			text-align: center;
-			vertical-align: middle;
-			margin-top: auto;
-			border: black 2px solid;
-			margin-bottom: auto;"> total = {{total}} </div>
-			<div style="background-color: aqua;margin-right: 20px;
-			color: black;
-			width: 150px;
-			text-align: center;
-			vertical-align: middle;
-			margin-top: auto;
-			border: black 2px solid;
-			margin-bottom: auto;"> bodega = {{bodega}} </div>
-			<div style="background-color: blue;margin-right: 20px;
-			color: white;
-			width: 150px;
-			text-align: center;
-			vertical-align: middle;
-			margin-top: auto;
-			border: black 2px solid;
-			margin-bottom: auto;"> Por Entregar = {{porEntregar}} </div>
-			<div style="background-color: bisque;margin-right: 20px;
-			color: black;
-			width: 150px;
-			text-align: center;
-			vertical-align: middle;
-			margin-top: auto;
-			border: black 2px solid;
-			margin-bottom: auto;"> Por Recoger = {{porRecoger}} </div>
-			<div style="background-color: green;margin-right: 20px;
-			color: white;
-			width: 150px;
-			text-align: center;
-			vertical-align: middle;
-			margin-top: auto;
-			border: black 2px solid;
-			margin-bottom: auto;"> Recogido = {{recogido}} </div>
+			<div style="margin-right: 20px;" class="status4"> total = {{total}} </div>
+			<div style="margin-right: 20px;" class="status0"> bodega = {{bodega}} </div>
+			<div style="margin-right: 20px;" class="status1"> Por Entregar = {{porEntregar}} </div>
+			<div style="margin-right: 20px;" class="status2"> Por Recoger = {{porRecoger}} </div>
+			<div style="margin-right: 20px;" class="status3"> Recogido = {{recogido}} </div>
 		</div>
 		<mat-table [dataSource]="dataSource" matSort>
 			<ng-container matColumnDef="id">
@@ -111,38 +76,10 @@
 			<ng-container matColumnDef="status">
 				<mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
 				<mat-cell *matCellDef="let package">
-					<div *ngIf="package.status == 0" style="background-color: aqua;
-					color: black;
-					width: 100px;
-					text-align: center;
-					vertical-align: middle;
-					margin-top: auto;
-					border: black 2px solid;
-					margin-bottom: auto;"> bodega </div>
-					<div *ngIf="package.status == 1" style="background-color: blue;
-					color: white;
-					width: 100px;
-					text-align: center;
-					vertical-align: middle;
-					margin-top: auto;
-					border: black 2px solid;
-					margin-bottom: auto;"> Por Entregar </div>
-					<div *ngIf="package.status == 2" style="background-color: bisque;
-					color: black;
-					width: 100px;
-					text-align: center;
-					vertical-align: middle;
-					margin-top: auto;
-					border: black 2px solid;
-					margin-bottom: auto;"> Por Recoger </div>
-					<div *ngIf="package.status == 3" style="background-color: green;
-					color: white;
-					width: 100px;
-					text-align: center;
-					vertical-align: middle;
-					margin-top: auto;
-					border: black 2px solid;
-					margin-bottom: auto;"> Recogido </div>
+					<div *ngIf="package.status == 0" class="status0"> bodega </div>
+					<div *ngIf="package.status == 1" class="status1"> Por Entregar </div>
+					<div *ngIf="package.status == 2" class="status2"> Por Recoger </div>
+					<div *ngIf="package.status == 3" class="status3"> Recogido </div>
 
 					<!-- {{package.status == 0 ? 'bodega' : (package.status == 1 ? 'Por Entregar' : (package.status == 2 ? 'Por Recoger' : (package.status == 3 ? 'Recogido')))}} -->
 				</mat-cell>

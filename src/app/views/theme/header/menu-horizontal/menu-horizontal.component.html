@@ -18,11 +18,16 @@
 				<ng-container *ngIf="item.title" [ngTemplateOutlet]="menuTemplate" [ngTemplateOutletContext]="{ item: item }"></ng-container>
 			</ng-container>
 		</ul> -->
-	<button mat-button (click)="customers()">Customers</button>
-	<button mat-button (click)="orders()">Orders</button>
-	<button mat-button (click)="packages()">Packages</button>
-	<button mat-button (click)="reports()">Reports</button>
-	<button mat-button (click)="settings()">Settings</button>
+	<button mat-button (click)="customers()" *ngIf="userRole == 1">Customers</button>
+	<button mat-button (click)="orders()" *ngIf="userRole == 1">Orders</button>
+	<button mat-button (click)="packages()" *ngIf="userRole == 1">Packages</button>
+	<button mat-button (click)="reports()" *ngIf="userRole == 1">Reports</button>
+	<button mat-button (click)="settings()" *ngIf="userRole == 1">Settings</button>
+	<button mat-button (click)="courier()" *ngIf="userRole == 2">Courier Web App</button>
+	<button mat-button (click)="myOrders()" *ngIf="userRole == 0">My Orders</button>
+	<button mat-button (click)="invoice()" *ngIf="userRole == 0">Mis Facturas</button>
+	<button mat-button (click)="customer_orders()" *ngIf="userRole == 0">Delivery Quote</button>
+
     <!--end::Header Nav-->
   </div>
   <!--end::Header Menu-->

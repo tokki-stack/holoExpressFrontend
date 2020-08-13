@@ -48,8 +48,6 @@ import {
 // Components
 import { ECommerceComponent } from './e-commerce.component';
 // Customers
-import { CustomersListComponent } from './customers/customers-list/customers-list.component';
-import { CustomerEditDialogComponent } from './customers/customer-edit/customer-edit.dialog.component';
 // Products
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
@@ -91,6 +89,16 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { SettingsComponent } from './settings/settings.component';
 import { InvoicesListComponent } from './invoices/invoices-list/invoices-list.component';
+import { InvoicesDetailComponent } from './invoices/invoices-detail/invoices-detail.component';
+import { InvoicesNewPaymentComponent } from './invoices/invoices-new-payment/invoices-new-payment.component';
+import { CustomerListComponent } from './customers/customer-list/customer-list.component';
+import { CustomerNewComponent } from './customers/customer-new/customer-new.component';
+import { OrdersByCustomerComponent } from './customers/orders-by-customer/orders-by-customer.component';
+import { PackageTypeComponent } from './settings/package-type/package-type.component';
+import { AddPackageTypeComponent } from './settings/package-type/add-package-type/add-package-type.component';
+import { PricingComponent } from './settings/pricing/pricing.component';
+import { EditPricingComponent } from './settings/pricing/edit-pricing/edit-pricing.component';
+import { EditAreaComponent } from './settings/pricing/edit-area/edit-area.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -107,7 +115,7 @@ const routes: Routes = [
 			},
 			{
 				path: 'customers',
-				component: CustomersListComponent
+				component: CustomerListComponent
 			},
 			{
 				path: 'package',
@@ -116,6 +124,10 @@ const routes: Routes = [
 			{
 				path: 'invoice',
 				component: InvoicesListComponent
+			},
+			{
+				path: 'invoice/detail',
+				component: InvoicesDetailComponent
 			},
 			{
 				path: 'setting',
@@ -231,20 +243,21 @@ const routes: Routes = [
 	],
 	entryComponents: [
 		ActionNotificationComponent,
-		CustomerEditDialogComponent,
 		OrderEditComponent,
 		PackageModalComponent,
 		UserDetailComponent,
 		DeleteEntityDialogComponent,
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
-		SpecificationEditDialogComponent
+		SpecificationEditDialogComponent,
+		InvoicesNewPaymentComponent,
+		CustomerNewComponent,
+		AddPackageTypeComponent,
+		EditPricingComponent,
+		EditAreaComponent
 	],
 	declarations: [
 		ECommerceComponent,
-		// Customers
-		CustomersListComponent,
-		CustomerEditDialogComponent,
 		// Orders
 		OrdersListComponent,
 		OrderEditComponent,
@@ -261,7 +274,17 @@ const routes: Routes = [
 		UserListComponent,
 		UserDetailComponent,
 		SettingsComponent,
-		InvoicesListComponent
+		InvoicesListComponent,
+		InvoicesDetailComponent,
+		InvoicesNewPaymentComponent,
+		CustomerListComponent,
+		CustomerNewComponent,
+		OrdersByCustomerComponent,
+		PackageTypeComponent,
+		AddPackageTypeComponent,
+		PricingComponent,
+		EditPricingComponent,
+		EditAreaComponent
 	]
 })
 export class ECommerceModule { }

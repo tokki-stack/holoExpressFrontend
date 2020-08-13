@@ -1,6 +1,7 @@
 // Angular
 import { Component } from '@angular/core';
 import {LayoutConfigService} from '../../../../core/_base/layout';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'kt-topbar',
@@ -18,7 +19,9 @@ export class TopbarComponent {
   userLayout = 'offcanvas';
   userDropdownStyle = 'light';
 
-  constructor(private layoutConfigService: LayoutConfigService) {
+  constructor(private layoutConfigService: LayoutConfigService,
+		private router: Router,
+    ) {
     this.searchDisplay = this.layoutConfigService.getConfig('extras.search.display');
     this.notificationsDisplay = this.layoutConfigService.getConfig('extras.notifications.display');
     this.quickActionsDisplay = this.layoutConfigService.getConfig('extras.quick-actions.display');
@@ -28,5 +31,10 @@ export class TopbarComponent {
     this.userDisplay = this.layoutConfigService.getConfig('extras.user.display');
     this.userLayout = this.layoutConfigService.getConfig('extras.user.layout');
     this.userDropdownStyle = this.layoutConfigService.getConfig('extras.user.dropdown.style');
+    
+  }
+  signOut(){
+      window.localStorage.clear();
+      this.router.navigate(['auth/login']); // Main page
   }
 }

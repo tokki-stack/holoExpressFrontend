@@ -40,6 +40,12 @@
     <!--end: Language bar -->
   </ng-container>
 
+  <button mat-button (click)="signOut()">
+    <mat-icon>exit_to_app</mat-icon>
+    <!-- <mat-icon style="margin-top: 2px;">keyboard_arrow_left</mat-icon> -->
+    
+  </button>
+
   <ng-container *ngIf="userDisplay">
     <ng-container *ngIf="userLayout === 'dropdown'">
       <kt-user-profile [userDropdownStyle]="userDropdownStyle"></kt-user-profile>

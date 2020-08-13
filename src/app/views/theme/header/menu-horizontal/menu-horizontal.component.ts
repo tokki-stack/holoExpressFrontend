@@ -44,6 +44,8 @@ export class MenuHorizontalComponent implements OnInit, AfterViewInit {
   asideSelfDisplay = '';
   rootArrowEnabled: boolean;
 
+  userRole;
+
   menuOptions: MenuOptions = {
     submenu: {
       desktop: 'dropdown',
@@ -107,6 +109,13 @@ export class MenuHorizontalComponent implements OnInit, AfterViewInit {
    * On init
    */
   ngOnInit(): void {
+    if(window.localStorage.getItem("userRole")){
+      this.userRole = window.localStorage.getItem("userRole")
+    }
+    else {
+      this.router.navigate(['auth/login']); // Main page
+
+    }
     this.rootArrowEnabled = this.layoutConfigService.getConfig('header.menu.self.rootArrow');
     this.currentRouteUrl = this.router.url;
     setTimeout(() => {
@@ -282,4 +291,22 @@ export class MenuHorizontalComponent implements OnInit, AfterViewInit {
   settings(){
     this.router.navigate(['ecommerce/setting']);
   }
+  courier(){
+    this.router.navigate(['courier']);
+    
+  }
+  customer_orders(){
+    this.router.navigate(['orders']);
+    
+  }
+  myOrders(){
+    this.router.navigate(['orders/myOrder']);
+
+  }
+  invoice(){
+    this.router.navigate(['orders/invoice']);
+
+  }
+  
+
 }

@@ -1,81 +1,117 @@
 <kt-portlet>
-	<!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
-	<kt-portlet-header [class]="'card-head-lg'">
-		<!-- PORTLET LOADING | Binded to TABLE Datasource -->
+    <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
+    <kt-portlet-header [class]="'card-head-lg'">
+        <!-- PORTLET LOADING | Binded to TABLE Datasource -->
 
-		<ng-container ktPortletTitle>
-			<span>J Box</span>
-		</ng-container>
+        <ng-container ktPortletTitle>
+            <span>{{customer.firstName}}</span>
+        </ng-container>
 
-		<ng-container ktPortletTools>
-			<button mat-raised-button matTooltip="Create new customer" color="primary"
-				type="button">
-				<span (click)="back()">Back</span>
-			</button>
-		</ng-container>
-	</kt-portlet-header>
+        <ng-container ktPortletTools>
+            <button mat-raised-button matTooltip="Create new customer" color="primary" type="button">
+                <span (click)="back()">Back</span>
+            </button>
 
-	<kt-portlet-body>
+        </ng-container>
+    </kt-portlet-header>
 
-        <mat-tab-group>
-            <mat-tab label="Profile">
-                <div class="container" style="margin-left: 30px;">
-                    <div class="row">
-                        <div class="col-md-2"> 
-                            <span>Name</span>
-                            <br>
-                            <input style="color: black;" matInput value="{{customer.firstName}}" disabled/>
+    <kt-portlet-body>
+        <mat-card>
+            <mat-tab-group>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon style="margin-top: 5px;">account_box</mat-icon>
+                        Profile
+                    </ng-template>
+                    <div class="container" style="margin-left: 30px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <span>Name</span>
+                                <br>
+                                <input style="color: black;" matInput value="{{customer.firstName}}" [(ngModel)]="firstName" [disabled]="disabledFlag" />
+                            </div>
+                            <div class="col-md-2">
+                                <span>LastName</span>
+                                <br>
+                                <input style="color: black;" matInput value="{{customer.lastName}}" [(ngModel)]="lastName" [disabled]="disabledFlag" />
+                            </div>
+                            <div class="col-md-2">
+                                <span>Email</span>
+                                <br>
+                                <input style="color: black;" matInput value="{{customer.email}}" [(ngModel)]="email" [disabled]="disabledFlag" />
+                            </div>
+                            <div class="col-md-2">
+                                <span>Phone</span>
+                                <br>
+                                <input style="color: black;" matInput value="{{customer.phone}}" [(ngModel)]="phone" [disabled]="disabledFlag" />
+                            </div>
+                            <div class="col-md-2">
+                                <span>Mobile</span>
+                                <br>
+                                <input style="color: black;" matInput value="{{customer.mobile}}" [(ngModel)]="mobile" [disabled]="disabledFlag" />
+                            </div>
                         </div>
-                        <div class="col-md-2"> 
-                            <span>LastName</span>
-                            <br>
-                            <input style="color: black;" matInput value="{{customer.lastName}}" disabled/>
+                        <div class="row" style="margin-top: 30px;">
+                            <div class="col-md-2">
+                                <span>Company</span>
+                                <br>
+                                <input style="color: black;" matInput value="{{customer.company}}" [(ngModel)]="company" [disabled]="disabledFlag" />
+                            </div>
+                            <div class="col-md-2">
+                                <span>Since Date</span>
+                                <br>
+                                <input style="color: black;" matInput value="{{customer.register}}" [(ngModel)]="register" [disabled]="disabledFlag" />
+                            </div>
+                            <div class="col-md-2">
+                                <span>Address</span>
+                                <br>
+                                <input style="color: black;" matInput value="{{customer.address}}" [(ngModel)]="address" [disabled]="disabledFlag" />
+                            </div>
+                            <div class="col-md-2">
+                                <span>Status</span>
+                                <br>
+                                <div [ngClass]="statusClass" [matMenuTriggerFor]="menu" style="width: 80px;" [ngStyle]="disabledFlag ? {'pointer-events':'none'} : {'pointer-events':'auto'}">
+                                    {{status}}
+                                </div>
+                                <mat-menu #menu="matMenu">
+                                    <div mat-menu-item class="status3" (click)="updateStatus($event)">Active</div>
+                                    <div mat-menu-item class="status2" (click)="updateStatus($event)">InActive</div>
+                                </mat-menu>
+                            </div>
                         </div>
-                        <div class="col-md-2"> 
-                            <span>Email</span>
-                            <br>
-                            <input style="color: black;" matInput value="{{customer.email}}" disabled/>
-                        </div>
-                        <div class="col-md-2"> 
-                            <span>Phone</span>
-                            <br>
-                            <input style="color: black;" matInput value="{{customer.phone}}" disabled/>
-                        </div>
-                        <div class="col-md-2"> 
-                            <span>Mobile</span>
-                            <br>
-                            <input style="color: black;" matInput value="{{customer.mobile}}" disabled/>
+                        <div class="row" style="width: fit-content;
+                        margin-left: auto;
+                        margin-right: auto;
+                        margin-top: 30px;">
+                            <button *ngIf="disabledFlag" mat-raised-button color="primary" type="button" (click)="editProfile()">
+                                <span>Edit Profile</span>
+                            </button>
+                            <button *ngIf="!disabledFlag" mat-raised-button color="primary" type="button" (click)="updateProfile()">
+                                <span>Update Profile</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 30px;">
-                        <div class="col-md-2"> 
-                            <span>Company</span>
-                            <br>
-                            <input style="color: black;" matInput value="{{customer.company}}" disabled/>
-                        </div>
-                        <div class="col-md-2"> 
-                            <span>Since Date</span>
-                            <br>
-                            <input style="color: black;" matInput value="{{customer.registered}}" disabled/>
-                        </div>
-                        <div class="col-md-3"> 
-                            <span>Address</span>
-                            <br>
-                            <input style="color: black;" matInput value="{{customer.address}}" disabled/>
-                        </div>
-                    </div>
-                </div>
+
+                </mat-tab>
                 <div class="separator separator-dashed my-6"></div>
-                <mat-tab-group style="margin-top: 30px;">
-                    <mat-tab label="Comments">
-                    </mat-tab>
-                    <mat-tab label="Records Log">Content 2</mat-tab>
-                </mat-tab-group>
-            </mat-tab>
-            <mat-tab label="Orders">
-                <kt-products-list></kt-products-list>
-            </mat-tab>
-        </mat-tab-group>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon style="margin-top: 5px;">reorder</mat-icon>
+                        Orders
+                    </ng-template>
+                    <kt-orders-by-customer [customerID]="customerID"></kt-orders-by-customer>
+                    <!-- <kt-products-list></kt-products-list> -->
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card>
 
-	</kt-portlet-body>
+        <mat-card style="margin-top: 30px;">
+            <mat-tab-group>
+                <mat-tab label="Comments">
+                </mat-tab>
+                <mat-tab label="Records Log">Content 2</mat-tab>
+            </mat-tab-group>
+        </mat-card>
+
+    </kt-portlet-body>
 </kt-portlet>
