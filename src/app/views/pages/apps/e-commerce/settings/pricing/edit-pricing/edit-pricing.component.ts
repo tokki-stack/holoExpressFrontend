@@ -45,7 +45,7 @@ export class EditPricingComponent implements OnInit {
       else {
         this.stateAreaService.createState(this.stateForm.value).then(result => {
           window.alert("successfully saved!");
-          this.dialogRef.close();
+          this.dialogRef.close({flag: "saved"});
 
         })
       }
@@ -58,7 +58,7 @@ export class EditPricingComponent implements OnInit {
       else {
         this.stateAreaService.editState(this.data.state.idstates, this.stateForm.value.state, this.stateForm.value.stateStatus).then(result => {
           window.alert("successfully saved!");
-          this.dialogRef.close();
+          this.dialogRef.close({flag: "saved"});
         })
       }
 

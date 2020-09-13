@@ -4,14 +4,30 @@
         <!-- PORTLET LOADING | Binded to TABLE Datasource -->
 
         <ng-container ktPortletTitle>
-            <span>{{customer.firstName}}</span>
+            <span>{{customer.firstName}}&nbsp;&nbsp;&nbsp;{{customer.lastName}}</span>
         </ng-container>
 
         <ng-container ktPortletTools>
-            <button mat-raised-button matTooltip="Create new customer" color="primary" type="button">
-                <span (click)="back()">Back</span>
+            <button *ngIf="disabledFlag" mat-button color="primary" type="button" (click)="editProfile()">
+                <mat-icon style="font-size: 30px !important; margin-top: -5px;">edit</mat-icon>
             </button>
+            <!-- [ngStyle]="disabledFlag ? {'pointer-events':'none'} : {'pointer-events':'auto'}" -->
+            <!-- <div class="col-md-2">
+                <span>Status</span>
+                <br> -->
+            <div [ngClass]="statusClass" [matMenuTriggerFor]="menu" style="width: 80px; height: 40px; padding: 12px;">
+                {{status}}
+            </div>
+            <mat-menu #menu="matMenu">
+                <div mat-menu-item class="status3" (click)="updateStatus($event)">Active</div>
+                <div mat-menu-item class="status2" (click)="updateStatus($event)">InActive</div>
+            </mat-menu>
+            <!-- </div> -->
 
+
+            <!-- <button mat-raised-button matTooltip="Create new customer" color="primary" type="button">
+                <span (click)="back()">Back</span>
+            </button> -->
         </ng-container>
     </kt-portlet-header>
 
@@ -68,24 +84,19 @@
                                 <input style="color: black;" matInput value="{{customer.address}}" [(ngModel)]="address" [disabled]="disabledFlag" />
                             </div>
                             <div class="col-md-2">
-                                <span>Status</span>
+                                <span>R.U.C</span>
                                 <br>
-                                <div [ngClass]="statusClass" [matMenuTriggerFor]="menu" style="width: 80px;" [ngStyle]="disabledFlag ? {'pointer-events':'none'} : {'pointer-events':'auto'}">
-                                    {{status}}
-                                </div>
-                                <mat-menu #menu="matMenu">
-                                    <div mat-menu-item class="status3" (click)="updateStatus($event)">Active</div>
-                                    <div mat-menu-item class="status2" (click)="updateStatus($event)">InActive</div>
-                                </mat-menu>
+                                <input style="color: black;" matInput value="{{customer.ruc}}" [(ngModel)]="ruc" [disabled]="disabledFlag" />
                             </div>
+
                         </div>
                         <div class="row" style="width: fit-content;
                         margin-left: auto;
                         margin-right: auto;
                         margin-top: 30px;">
-                            <button *ngIf="disabledFlag" mat-raised-button color="primary" type="button" (click)="editProfile()">
+                            <!-- <button *ngIf="disabledFlag" mat-raised-button color="primary" type="button" (click)="editProfile()">
                                 <span>Edit Profile</span>
-                            </button>
+                            </button> -->
                             <button *ngIf="!disabledFlag" mat-raised-button color="primary" type="button" (click)="updateProfile()">
                                 <span>Update Profile</span>
                             </button>
@@ -107,9 +118,12 @@
 
         <mat-card style="margin-top: 30px;">
             <mat-tab-group>
-                <mat-tab label="Comments">
+                <mat-tab label="Comments" style="overflow: unset;">
+                    <kt-customer-comments [customerID]="customerID"></kt-customer-comments>
                 </mat-tab>
-                <mat-tab label="Records Log">Content 2</mat-tab>
+                <mat-tab label="Records Log">
+                    <kt-customer-log [customerID]="customerID"></kt-customer-log>
+                </mat-tab>
             </mat-tab-group>
         </mat-card>
 

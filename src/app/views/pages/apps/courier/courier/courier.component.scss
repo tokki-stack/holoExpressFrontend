@@ -6,3 +6,7 @@
     flex-grow: 1;
     overflow: initial !important;
 }
+
+::ng-deep .card.card-custom {
+    margin-top: 20px;
+}

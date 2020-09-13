@@ -57,6 +57,8 @@ import { SpecificationEditDialogComponent } from './products/_subs/specification
 // Orders
 import { OrdersListComponent } from './orders/orders-list/orders-list.component';
 import { OrderEditComponent } from './orders/order-edit/order-edit.component';
+import { FocusDirective } from './orders/order-edit/focus.directive';
+
 // Material
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -70,7 +72,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
@@ -99,6 +101,21 @@ import { AddPackageTypeComponent } from './settings/package-type/add-package-typ
 import { PricingComponent } from './settings/pricing/pricing.component';
 import { EditPricingComponent } from './settings/pricing/edit-pricing/edit-pricing.component';
 import { EditAreaComponent } from './settings/pricing/edit-area/edit-area.component';
+import { CustomerCommentsComponent } from './customers/customer-comments/customer-comments.component';
+import { PackageScanComponent } from './package/package-scan/package-scan.component';
+import { InvoiceComponent } from './invoices/invoice/invoice.component';
+import { CustomerGroupsComponent } from './settings/customer-groups/customer-groups.component';
+import { AddCustomerGroupsComponent } from './settings/customer-groups/add-customer-groups/add-customer-groups.component';
+import { AddCommentsComponent } from './customers/customer-comments/add-comments/add-comments.component';
+import { AssignPackageComponent } from './package/assign-package/assign-package.component';
+import { PublicTrackingComponent } from './settings/public-tracking/public-tracking.component';
+import { AssignOrderComponentComponent } from './orders/orders-list/assign-order-component/assign-order-component.component';
+import { PrintLabelComponent } from './package-view/print-label/print-label.component';
+import { NgxPrintModule } from 'ngx-print';
+import { InvoicesNewComponent } from './invoices/invoices-new/invoices-new.component';
+import { NgxBarcodeModule } from 'ngx-barcode';
+import { CustomerLogComponent } from './customers/customer-log/customer-log.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -126,6 +143,14 @@ const routes: Routes = [
 				component: InvoicesListComponent
 			},
 			{
+				path: 'invoice/view',
+				component: InvoiceComponent
+			},
+			{
+				path: 'invoice/new',
+				component: InvoicesNewComponent
+			},
+			{
 				path: 'invoice/detail',
 				component: InvoicesDetailComponent
 			},
@@ -133,6 +158,10 @@ const routes: Routes = [
 				path: 'setting',
 				component: SettingsComponent
 			},
+			// {
+			// 	path: 'setting/publicTracking',
+			// 	component: PublicTrackingComponent
+			// },
 			{
 				path: 'user',
 				component: UserListComponent
@@ -142,12 +171,24 @@ const routes: Routes = [
 				component: PackageViewComponent
 			},
 			{
+				path: 'package/scan',
+				component: PackageScanComponent
+			},
+			{
 				path: 'customers/view',
 				component: CustomerViewComponent,
 			},
 			{
+				path: 'customers/new',
+				component: CustomerNewComponent,
+			},
+			{
 				path: 'orders',
 				component: OrdersListComponent
+			},
+			{
+				path: 'orders/edit',
+				component: OrderEditComponent
 			},
 			{
 				path: 'products',
@@ -171,6 +212,8 @@ const routes: Routes = [
 
 @NgModule({
 	imports: [
+		MatStepperModule,
+		NgxPrintModule,
 		MatDialogModule,
 		CommonModule,
 		HttpClientModule,
@@ -189,6 +232,7 @@ const routes: Routes = [
 		MatRadioModule,
 		MatIconModule,
 		MatNativeDateModule,
+		MatRippleModule,
 		MatProgressBarModule,
 		MatDatepickerModule,
 		MatCardModule,
@@ -212,6 +256,7 @@ const routes: Routes = [
 		EffectsModule.forFeature([ProductRemarkEffects]),
 		StoreModule.forFeature('productSpecifications', productSpecificationsReducer),
 		EffectsModule.forFeature([ProductSpecificationEffects]),
+		NgxBarcodeModule
 	],
 	providers: [
 		FakeApiService,
@@ -251,16 +296,22 @@ const routes: Routes = [
 		UpdateStatusDialogComponent,
 		SpecificationEditDialogComponent,
 		InvoicesNewPaymentComponent,
-		CustomerNewComponent,
+		// CustomerNewComponent,
 		AddPackageTypeComponent,
+		AddCustomerGroupsComponent,
 		EditPricingComponent,
-		EditAreaComponent
+		EditAreaComponent,
+		AddCommentsComponent,
+		AssignPackageComponent,
+		AssignOrderComponentComponent,
+		PrintLabelComponent
 	],
 	declarations: [
 		ECommerceComponent,
 		// Orders
 		OrdersListComponent,
 		OrderEditComponent,
+		FocusDirective,
 		// Products
 		ProductsListComponent,
 		ProductEditComponent,
@@ -284,7 +335,19 @@ const routes: Routes = [
 		AddPackageTypeComponent,
 		PricingComponent,
 		EditPricingComponent,
-		EditAreaComponent
+		EditAreaComponent,
+		CustomerCommentsComponent,
+		PackageScanComponent,
+		InvoiceComponent,
+		CustomerGroupsComponent,
+		AddCustomerGroupsComponent,
+		AddCommentsComponent,
+		AssignPackageComponent,
+		PublicTrackingComponent,
+		AssignOrderComponentComponent,
+		PrintLabelComponent,
+		InvoicesNewComponent,
+		CustomerLogComponent,
 	]
 })
 export class ECommerceModule { }

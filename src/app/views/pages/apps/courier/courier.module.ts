@@ -83,9 +83,9 @@ import { CourierFinalComponent } from './courier-final/courier-final.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
-	{
-		path: '',
-		component: CourierComponent,
+  {
+	path: '',
+	component: CourierComponent,
   },
   {
     path: 'detail',

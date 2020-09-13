@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment'
+import { result } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +9,12 @@ import { HttpClient } from '@angular/common/http';
 export class PackagesService {
 
   constructor(private http: HttpClient) { }
+  baseURL = environment.baseURL;
 
   createNewPackage(_package) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packages/createNewPackage', { _package: _package })
+        .post(this.baseURL + '/packages/createNewPackage', { _package: _package })
         .subscribe(
           json => {
             resolve(json);
@@ -26,7 +29,7 @@ export class PackagesService {
   getAllPackages() {
     return new Promise((resolve, reject) => {
       this.http
-        .get('http://198.58.106.89:3000/packages/getAllPackages')
+        .get(this.baseURL + '/packages/getAllPackages')
         .subscribe(
           async json => {
             await this.getTracking(json)
@@ -42,7 +45,7 @@ export class PackagesService {
   getPackagesByOrderID(idorders) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packages/getPackagesByOrderID', { idorders: idorders })
+        .post(this.baseURL + '/packages/getPackagesByOrderID', { idorders: idorders })
         .subscribe(
           json => {
             resolve(json);
@@ -57,7 +60,7 @@ export class PackagesService {
   getCustomerByorderID(idorders) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packages/getCustomerByorderID', { idorders: idorders })
+        .post(this.baseURL + '/packages/getCustomerByorderID', { idorders: idorders })
         .subscribe(
           json => {
             resolve(json);
@@ -72,7 +75,7 @@ export class PackagesService {
   getMessengerByorderID(idorders) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packages/getMessengerByorderID', { idorders: idorders })
+        .post(this.baseURL + '/packages/getMessengerByorderID', { idorders: idorders })
         .subscribe(
           json => {
             resolve(json);
@@ -87,7 +90,7 @@ export class PackagesService {
   updatePackage(_package) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packages/updatePackage', { _package: _package })
+        .post(this.baseURL + '/packages/updatePackage', { _package: _package })
         .subscribe(
           json => {
             resolve(json);
@@ -102,7 +105,7 @@ export class PackagesService {
   deletePackage(_package) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packages/deletePackage', { _package: _package })
+        .post(this.baseURL + '/packages/deletePackage', { _package: _package })
         .subscribe(
           json => {
             resolve(json);
@@ -114,10 +117,57 @@ export class PackagesService {
     });
   }
 
-  setPackageStatus(_package, status) {
+  setPackageStatus(_package, status, idmessenger) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packages/setPackageStatus', { _package: _package, status: status })
+        .post(this.baseURL + '/packages/setPackageStatus', { _package: _package, status: status })
+        .subscribe(
+          async json => {
+            await this.packageLog(_package.idpackages, status, idmessenger).then(result => {
+            })
+            resolve(json);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  packageLog(idpackages, status, idmessengers) {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(this.baseURL + '/packages/packageLog', { idpackages: idpackages, status: status , idmessengers: idmessengers})
+        .subscribe(
+          json => {
+            resolve(json);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  getPackageLog(idpackages) {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(this.baseURL + '/packages/getPackageLog', { idpackages: idpackages})
+        .subscribe(
+          json => {
+            resolve(json);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  getPackageByidpackages(idpackages) {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(this.baseURL + '/packages/getPackageByidpackages', { idpackages: idpackages })
         .subscribe(
           json => {
             resolve(json);

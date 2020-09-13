@@ -1,15 +1,15 @@
 <kt-portlet>
-	<kt-portlet-header [class]="'card-head-lg'">
+    <kt-portlet-header [class]="'card-head-lg'">
         <ng-container ktPortletTitle>
-			Order &nbsp;&nbsp;&nbsp; {{order.idorders}} &nbsp;&nbsp;&nbsp; {{order.date}}
-		</ng-container>
+            Order &nbsp;&nbsp;&nbsp; {{order.idorders}} &nbsp;&nbsp;&nbsp; {{order.date}}
+        </ng-container>
     </kt-portlet-header>
-	<kt-portlet-body>
+    <kt-portlet-body>
         <mat-card>
             <mat-card-header>
                 Directions
             </mat-card-header>
-			<div class="separator separator-dashed my-6"></div>
+            <div class="separator separator-dashed my-6"></div>
             <mat-card-content style="display: grid; margin-left: 30px;">
                 <div class="row">
                     <div class="col">
@@ -30,7 +30,7 @@
             <mat-card-header>
                 <span>Packages = {{order.items}}</span>
             </mat-card-header>
-			<div class="separator separator-dashed my-6"></div>
+            <div class="separator separator-dashed my-6"></div>
             <mat-card-content>
                 <mat-table [dataSource]="dataSource" matSort>
                     <ng-container matColumnDef="weight">
@@ -60,7 +60,7 @@
 
                     </ng-container>
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        
+
                     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
                 </mat-table>
             </mat-card-content>
@@ -72,22 +72,34 @@
                     <span>Delivery Proof</span>
                 </button>
             </mat-card-header>
-			<div class="separator separator-dashed my-6"></div>
+            <div class="separator separator-dashed my-6"></div>
             <mat-card-content style="display: grid; margin-left: 30px;">
                 <mat-horizontal-stepper [linear]="isLinear" #stepper>
                     <mat-step>
-                        <ng-template matStepLabel><div>Creado</div><div>02/02/20  3:38pm</div></ng-template>
+                        <ng-template matStepLabel>
+                            <div>orden aceptado</div>
+                            <div>{{accepted == 'undefined' ? '' : accepted}}</div>
+                        </ng-template>
                     </mat-step>
                     <mat-step>
-                        <ng-template matStepLabel><div>Recibido</div><div>02/02/20  3:38pm</div></ng-template>
+                        <ng-template matStepLabel>
+                            <div>recibido</div>
+                            <div>{{pickedUp == 'undefined' ? '' : pickedUp}}</div>
+                        </ng-template>
                     </mat-step>
                     <mat-step>
-                        <ng-template matStepLabel><div>Enviado</div><div>02/02/20  3:38pm</div></ng-template>
+                        <ng-template matStepLabel>
+                            <div>Enviado</div>
+                            <div>{{bodega == 'undefined' ? '' : bodega}}</div>
+                        </ng-template>
                     </mat-step>
                     <mat-step>
-                        <ng-template matStepLabel><div>Entregado</div><div>02/02/20  3:38pm</div></ng-template>
+                        <ng-template matStepLabel>
+                            <div>Entregado</div>
+                            <div>{{porEntregar == 'undefined' ? '' : porEntregar}}</div>
+                        </ng-template>
                     </mat-step>
-                    </mat-horizontal-stepper>
+                </mat-horizontal-stepper>
             </mat-card-content>
         </mat-card>
     </kt-portlet-body>

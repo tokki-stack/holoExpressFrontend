@@ -15,22 +15,24 @@ export class AuthGuard implements CanActivate {
   constructor(private store: Store<AppState>, private router: Router) {
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.store
-      .pipe(
-        select(isLoggedIn),
-        tap(loggedIn => {
-          console.log(loggedIn);
-          // if(window.localStorage.getItem("idcustomers")){
-          //   this.router.navigateByUrl('dashboard')
-          // }
-          // else {
-          //   this.router.navigateByUrl('/auth/login');
-          // }
-          if (!loggedIn) {
-            this.router.navigateByUrl('/auth/login');
-          }
-        })
-      );
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if(window.localStorage.getItem("userRole") == null){
+      this.router.navigateByUrl('/auth/login');
+      return false
+    }
+    return true;
+    // return this.store
+    //   .pipe(
+    //     select(isLoggedIn),
+    //     tap(loggedIn => {
+    //       console.log(loggedIn);
+    //       if(window.localStorage.getItem("userID") == null){
+    //         this.router.navigateByUrl('/auth/login');
+    //       }
+    //       // if (!loggedIn) {
+    //       //   this.router.navigateByUrl('/auth/login');
+    //       // }
+    //     })
+    //   );
   }
 }

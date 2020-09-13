@@ -44,6 +44,7 @@ export class OrderListComponent implements OnInit {
     this.customerID = window.localStorage.getItem("idcustomers")
     await this.ordersService.getOrdersByCustomer(this.customerID).then(async result => {
       this.orders = result;
+      this.orders = this.orders.reverse();
       await this.orders.map(async result => {
         await this.packagesService.getPackagesByOrderID(result.idorders).then(async resultpackages => {
           this.tempPackages = resultpackages;

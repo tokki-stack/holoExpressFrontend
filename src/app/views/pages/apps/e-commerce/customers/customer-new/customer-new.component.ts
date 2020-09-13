@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+// import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomerService } from 'src/app/service/customer.service';
+import { CustomerGroupsService } from 'src/app/service/customer-groups.service';
+
+import { Router } from '@angular/router';
+import { EmailService } from 'src/app/service/email.service';
 
 @Component({
 	selector: 'kt-customer-new',
@@ -12,10 +16,16 @@ export class CustomerNewComponent implements OnInit {
 	customerForm: FormGroup;
 	hasFormErrors = false;
 	tempResult;
-
-	constructor(public dialogRef: MatDialogRef<CustomerNewComponent>,
+	customerGroups;
+	constructor(
+		// public dialogRef: MatDialogRef<CustomerNewComponent>,
 		private fb: FormBuilder,
 		private customerService: CustomerService,
+		private customerGroupsService: CustomerGroupsService,
+		private emailService: EmailService,
+
+		
+		private router: Router,
 
 	) { }
 
@@ -32,10 +42,23 @@ export class CustomerNewComponent implements OnInit {
 			type: ['', Validators.compose([Validators.required])]
 
 		});
-
+		this.customerGroupsService.getAllCustomerGroups().then(customerGroups => {
+			this.customerGroups = customerGroups;
+			// this.customerGroups.push({
+			// 	idcustomerGroup: '0',
+			// 	name: 'Standard'
+			// })
+			this.customerGroups.map(customerGroup => {
+				console.log(customerGroup);
+				customerGroup.idcustomerGroup = customerGroup.idcustomerGroup.toString();
+			})
+		})
 	}
 	close() {
-		this.dialogRef.close();
+		// this.dialogRef.close();
+		
+		this.router.navigate(['ecommerce/customers']);
+
 	}
 	save() {
 		this.hasFormErrors = false;
@@ -45,15 +68,34 @@ export class CustomerNewComponent implements OnInit {
 			this.hasFormErrors = true;
 		}
 		else {
+			console.log(this.customerForm.value);
 			this.customerService.createNew(this.customerForm.value).then(result => {
 				this.tempResult = result;
 				if (this.tempResult.status = "ok") {
-					this.dialogRef.close({ data: this.customerForm.value, status: 'success', registered: this.tempResult.registered });
+					// window.alert("successfully saved!(default password is 123)")
+					var config = {
+						email: this.customerForm.value.email,
+						html : '<div style="margin: auto;"><img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png"><div>Welcome To HoloExpress</div><div>Your account was created</div><div>Email: '+
+						this.customerForm.value.email + '</div><div>Password: '+this.tempResult.password+'</div></div>'
+					}
+					this.emailService.sendmail(config).then(result => {
+						console.log(result);
+						window.alert("email successfully delivered")
+					}).catch(err => {
+						console.log(err);
+						window.alert("Unfortunately message did not delivered!");
+					})
+					this.router.navigate(['ecommerce/customers']);
+					// this.dialogRef.close({ data: this.customerForm.value, status: 'success', registered: this.tempResult.registered });
 				}
+			}).catch(error => {
+				console.log(error);
+				window.alert("Please use another email, someone already used the email!")
 			});
 		}
 
 	}
+
 	onAlertClose($event) {
 		this.hasFormErrors = false;
 	}

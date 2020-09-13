@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { FileSelectDirective } from 'ng2-file-upload';
 // Angular
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
@@ -97,7 +98,9 @@ export function getHighlightLanguages() {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
     BrowserAnimationsModule,
     CommonModule,

@@ -117,7 +117,7 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     if (brandSelfTheme === 'light') {
       result = 'logo-dark.png';
     }
-    return `./assets/media/logos/${result}`;
+    return `./assets/media/logos/holo.png`;
   }
 
   /**

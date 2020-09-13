@@ -304,9 +304,11 @@ export class MenuHorizontalComponent implements OnInit, AfterViewInit {
 
   }
   invoice(){
-    this.router.navigate(['orders/invoice']);
+    this.router.navigate(['ecommerce/invoice']);
 
   }
-  
+  onRightClick(event){
+    console.log(event);
+  }
 
 }

@@ -105,6 +105,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         result = 'logo-light.png';
       }
     }
-    return `./assets/media/logos/${result}`;
+    return `./assets/media/logos/holo.png`;
   }
 }

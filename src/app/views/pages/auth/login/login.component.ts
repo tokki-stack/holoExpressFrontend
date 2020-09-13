@@ -169,6 +169,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 						this.authNoticeService.setNotice('Login Successfully', 'success');
 						window.localStorage.setItem('idcustomers', this.tempResult[0].idcustomers);
 						window.localStorage.setItem('userRole', '0');
+						window.localStorage.setItem('customerGroup', this.tempResult[0].customerGroup);
+						
 						this.router.navigate(['orders']); // Main page
 					}
 				}
@@ -192,11 +194,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 					else {
 						this.authNoticeService.setNotice('Login Successfully', 'success');
 						window.localStorage.setItem('userRole', this.tempResult[0].role);
+						window.localStorage.setItem('userID', this.tempResult[0].idmessengers);
+
 						if(this.tempResult[0].role == '2'){
 							this.router.navigate(['courier']);
 						}
 						else{
-							this.router.navigate(['ecommerce/customers']);
+							this.router.navigate(['ecommerce/orders']);
 						}
 					}
 				}

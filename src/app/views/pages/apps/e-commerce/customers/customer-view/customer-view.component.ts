@@ -11,7 +11,8 @@ import { CustomerService } from 'src/app/service/customer.service';
 export class CustomerViewComponent implements OnInit {
   customer;
   tempCustomer;
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private customerService: CustomerService,
     private router: Router) { }
   customerID;
@@ -28,7 +29,7 @@ export class CustomerViewComponent implements OnInit {
   company;
   register;
   address;
-
+  ruc;
   ngOnInit(): void {
 
     this.route.queryParams.subscribe(params => {
@@ -52,6 +53,8 @@ export class CustomerViewComponent implements OnInit {
     this.company = this.customer.company;
     this.register = this.customer.register;
     this.address = this.customer.address;
+    this.ruc = this.customer.ruc;
+
 
   }
 
@@ -67,6 +70,10 @@ export class CustomerViewComponent implements OnInit {
           this.tempResult = result;
           if (this.tempResult.status == 'ok') {
             window.alert("Successfully updated");
+            this.customerService.createCustomerLog(window.localStorage.getItem('userID'), this.customer.idcustomers, 'status : inactive --> active').then(result => {
+              console.log(result);
+              this.ngOnInit();
+            })
           }
           else {
             window.alert("Error Occured");
@@ -79,6 +86,10 @@ export class CustomerViewComponent implements OnInit {
           this.tempResult = result;
           if (this.tempResult.status == 'ok') {
             window.alert("Successfully updated");
+            this.customerService.createCustomerLog(window.localStorage.getItem('userID'), this.customer.idcustomers, 'status :  active --> inactive').then(result => {
+              console.log(result);
+              this.ngOnInit();
+            })
           }
           else {
             window.alert("Error Occured");
@@ -101,12 +112,14 @@ export class CustomerViewComponent implements OnInit {
       (this.tempCustomer.mobile == this.mobile) &&
       (this.tempCustomer.company == this.company) &&
       (this.tempCustomer.register == this.register) &&
+      (this.tempCustomer.ruc == this.ruc) &&
       (this.tempCustomer.address == this.address)) {
     }
     else {
       if (confirm("Are you sure to update profile?")) {
         var temp = {
           address: this.address,
+          ruc: this.ruc,
           company: this.company,
           email: this.email,
           firstName: this.firstName,
@@ -116,9 +129,24 @@ export class CustomerViewComponent implements OnInit {
           register: this.register,
         }
         this.customerService.updateProfile(this.tempCustomer.idcustomers, temp).then(result => {
+          console.log(result);
           this.tempResult = result;
           if (this.tempResult.status == 'ok') {
             window.alert("Successfully Updated!");
+            var descriptions = '';
+            for(var key of Object.keys(temp)){
+              // console.log(key);
+              if(this.tempCustomer[key] != temp[key]){
+                console.log(key,this.tempCustomer[key], temp[key] );
+                descriptions = descriptions  + key + " : " + this.tempCustomer[key] + " --> " +  temp[key] + " | ";
+              }
+            }
+            console.log(descriptions);
+            this.customerService.createCustomerLog(window.localStorage.getItem('userID'), this.tempCustomer.idcustomers,descriptions).then(result => {
+              console.log(result);
+              this.ngOnInit();
+
+            })
           }
           else {
             window.alert("Error occured!")
@@ -127,4 +155,5 @@ export class CustomerViewComponent implements OnInit {
       }
     }
   }
+
 }

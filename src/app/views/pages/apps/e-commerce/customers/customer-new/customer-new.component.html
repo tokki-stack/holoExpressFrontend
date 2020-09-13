@@ -2,17 +2,27 @@
     <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
         Oh snap! Change a few things up and try submitting again.
     </kt-alert>
-	<div class="card-header">
-		<div class="card-title">
-			<h3 class="card-label">New Customer</h3>
-		</div>
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">New Customer</h3>
+        </div>
+        <div style="height: fit-content;
+        margin-top: auto;
+        margin-bottom: auto;">
+            <button type="button" mat-raised-button color="primary" (click)="close()" style="height: 36px; margin-top: auto; margin-bottom: auto;">
+                Cancel
+            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" mat-raised-button color="primary" (click)="save()" style="height: 36px; margin-top: auto; margin-bottom: auto;">
+                Save
+            </button>
+        </div>
     </div>
 
     <form class="card-body" [formGroup]="customerForm">
         <div class="row">
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Enter First Name" formControlName="firstName"/>
+                    <input matInput placeholder="Enter First Name" formControlName="firstName" />
                     <mat-error>First Name is
                         <strong>required</strong>
                     </mat-error>
@@ -23,7 +33,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Enter Last Name" formControlName="lastName"/>
+                    <input matInput placeholder="Enter Last Name" formControlName="lastName" />
                     <mat-error>Last Name is
                         <strong>required</strong>
                     </mat-error>
@@ -34,7 +44,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input type="email" matInput placeholder="Enter Email" formControlName="email"/>
+                    <input type="email" matInput placeholder="Enter Email" formControlName="email" />
                     <mat-error>Email is
                         <strong>required</strong>
                     </mat-error>
@@ -47,7 +57,7 @@
         <div class="row" style="margin-top:20px">
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Enter PhoneNumber" formControlName="phone"/>
+                    <input matInput placeholder="Enter PhoneNumber" formControlName="phone" />
                     <mat-error>PhoneNumber is
                         <strong>required</strong>
                     </mat-error>
@@ -58,7 +68,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Enter MobileNumber" formControlName="mobile"/>
+                    <input matInput placeholder="Enter MobileNumber" formControlName="mobile" />
                     <mat-error>MobileNumber is
                         <strong>required</strong>
                     </mat-error>
@@ -69,7 +79,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Enter CompanyName" formControlName="company"/>
+                    <input matInput placeholder="Enter CompanyName" formControlName="company" />
                     <mat-error>Company is
                         <strong>required</strong>
                     </mat-error>
@@ -82,7 +92,7 @@
         <div class="row" style="margin-top:20px">
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="R.U.C" formControlName="ruc"/>
+                    <input matInput placeholder="R.U.C" formControlName="ruc" />
                     <mat-error>R.U.C is
                         <strong>required</strong>
                     </mat-error>
@@ -93,7 +103,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Address" formControlName="address"/>
+                    <input matInput placeholder="Address" formControlName="address" />
                     <mat-error>Address is
                         <strong>required</strong>
                     </mat-error>
@@ -105,8 +115,7 @@
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
                     <mat-select placeholder="Customer Group" formControlName="type">
-                        <mat-option value="0">Ecommerce</mat-option>
-                        <mat-option value="1">Individual</mat-option>
+                        <mat-option *ngFor="let customerGroup of customerGroups" [value]="customerGroup.idcustomerGroup">{{customerGroup.name}}</mat-option>
                     </mat-select>
                     <mat-hint align="start">
                         <strong>Customer Group</strong>
@@ -114,7 +123,7 @@
                 </mat-form-field>
             </div>
         </div>
-        <div class="row" style="margin-top:20px; margin-top: 20px;
+        <!-- <div class="row" style="margin-top:20px; margin-top: 20px;
         display: flex;
         width: fit-content;
         margin-left: auto;
@@ -125,7 +134,14 @@
             <button type="button" mat-raised-button color="primary" (click)="save()">
                 Save
             </button>
-        </div>
+        </div> -->
 
     </form>
+    <!-- <div style="margin: auto;">
+        <img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png">
+        <div>Welcome To HoloExpress</div>
+        <div>Your account was created</div>
+        <div>Email:</div>
+        <div>Password:</div>
+    </div> -->
 </div>

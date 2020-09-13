@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-md-2">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Search customer" (keyup)="applyFilter($event.target.value)"/>
+                    <input matInput placeholder="Search customer" (keyup)="applyFilter($event.target.value)" />
                     <mat-hint align="start">
                         <strong>Search</strong> in all fields
                     </mat-hint>
@@ -38,16 +38,10 @@
             </div>
         </div>
         <mat-table [dataSource]="dataSourceCustomer" matSort>
-            <ng-container matColumnDef="select">
-                <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                <mat-cell *matCellDef="let customer">
-                    <mat-checkbox></mat-checkbox>
-                </mat-cell>
-            </ng-container>
 
             <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-                <mat-cell *matCellDef="let customer; let i = index" (click)="viewCustomer(customer)">{{i + (paginator.pageIndex * paginator.pageSize) + 1}}</mat-cell>
+                <mat-cell *matCellDef="let customer; let i = index" (click)="viewCustomer(customer)">{{customer.idcustomers}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="firstName">
@@ -78,24 +72,24 @@
             <ng-container matColumnDef="status">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
                 <mat-cell *matCellDef="let customer" (click)="viewCustomer(customer)">
-                <div *ngIf="customer.status == 0" class="status3">
-                    Active
-                </div>
-                <div *ngIf="customer.status == 1" class="status2">
-                    InActive
-                </div>
+                    <div *ngIf="customer.status == 0" class="status3">
+                        Active
+                    </div>
+                    <div *ngIf="customer.status == 1" class="status2">
+                        InActive
+                    </div>
                 </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="actions">
+            <!-- <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                 <mat-cell *matCellDef="let customer">
-                    <!-- <ng-template ngxPermissionsOnly="canEditECommerceData">
+                    <ng-template ngxPermissionsOnly="canEditECommerceData">
                         <button mat-icon-button color="primary" matTooltip="Edit customer"
                             (click)="editCustomer(customer)">
                             <mat-icon>create</mat-icon>
                         </button>&nbsp;
-                    </ng-template> -->
+                    </ng-template>
 
                     <ng-template ngxPermissionsOnly="canDeleteECommerceData">
                         <button mat-icon-button color="warn" type="button"
@@ -104,7 +98,7 @@
                         </button>&nbsp;
                     </ng-template>
 
-                    <!-- <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">
                         <mat-icon>more_vert</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
@@ -120,15 +114,14 @@
                             <mat-icon>notifications_off</mat-icon>
                             <span>Disable alerts</span>
                         </button>
-                    </mat-menu> -->
+                    </mat-menu>
                 </mat-cell>
-            </ng-container>
+            </ng-container> -->
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
         </mat-table>
-        <mat-paginator [pageSize]="20" [pageSizeOptions]="[5, 10, 20, 50]" [length]="10"
-        [showFirstLastButtons]="true"></mat-paginator>
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" [length]="10" [showFirstLastButtons]="true"></mat-paginator>
     </kt-portlet-body>
 </kt-portlet>

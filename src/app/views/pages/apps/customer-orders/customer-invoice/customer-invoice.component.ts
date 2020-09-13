@@ -11,7 +11,7 @@ export class CustomerInvoiceComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   dataSourcePagos: MatTableDataSource<any>;
 
-  displayedColumns = ['description','total'];
+  displayedColumns = ['description','discount','total'];
 	displayedColumnsPagos = ['paymentID','date','description','amount'];
   
 
@@ -22,55 +22,50 @@ export class CustomerInvoiceComponent implements OnInit {
     this.dataSourcePagos = new MatTableDataSource(this.pagos);
 
   }
+  packageView(){
+    
+  }
   description:any = [
     {
       id: 0,
       description: 'Servicio de entrega ID',
+      discount: '',
       total: '50.00',
     },
     {
       id: 1,
       description: 'Servicio de entrega ID',
+      discount: '',
       total: '50.00',
     },
     {
       id: 2,
       description: 'Servicio de entrega ID',
+      discount: '',
       total: '50.00',
     },
     {
-      id: 3,
-      description: '',
-      total: '',
-    },
-    {
-      id: 4,
-      description: '',
-      total: '',
-    },
-    {
-      id: 5,
-      description: '',
-      total: '',
-    },
-    {
       id: 6,
-      description: 'Discount',
+      discount: 'Discount',
+      description: '',
       total: '-50.00',
     },
     {
       id: 7,
-      description: 'Sub Total',
+      discount: 'Sub Total',
+      description: '',
       total: '100.00',
     },
     {
       id: 8,
-      description: 'items',
+      discount: 'items',
+      description: '',
       total: '7.00',
     },
     {
       id: 9,
-      description: 'Total',
+      discount: 'Total',
+      description: '',
       total: '107.00',
     }
   ]

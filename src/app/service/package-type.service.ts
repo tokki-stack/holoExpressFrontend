@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +8,12 @@ import { HttpClient } from '@angular/common/http';
 export class PackageTypeService {
 
   constructor(private http: HttpClient) { }
+  baseURL = environment.baseURL;
 
   getAllPackageTypes() {
     return new Promise((resolve, reject) => {
       this.http
-        .get('http://198.58.106.89:3000/packageType/getAllPackageTypes')
+        .get(this.baseURL + '/packageType/getAllPackageTypes')
         .subscribe(
           json => {
             resolve(json);
@@ -25,7 +27,7 @@ export class PackageTypeService {
   getPackageTypeByID(idpackageType){
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packageType/getPackageTypeByID', { idpackageType: idpackageType })
+        .post(this.baseURL + '/packageType/getPackageTypeByID', { idpackageType: idpackageType })
         .subscribe(
           json => {
             resolve(json);
@@ -40,7 +42,7 @@ export class PackageTypeService {
   createPackageType(packageType) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packageType/createPackageType', { packageType })
+        .post(this.baseURL + '/packageType/createPackageType', { packageType })
         .subscribe(
           json => {
             resolve(json);
@@ -55,7 +57,7 @@ export class PackageTypeService {
   editPackageType(idpackageType, name) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packageType/editPackageType', { idpackageType: idpackageType, name: name })
+        .post(this.baseURL + '/packageType/editPackageType', { idpackageType: idpackageType, name: name })
         .subscribe(
           json => {
             resolve(json);
@@ -70,7 +72,7 @@ export class PackageTypeService {
   deletePackageType(idpackageType) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/packageType/deletePackageType', { idpackageType: idpackageType })
+        .post(this.baseURL + '/packageType/deletePackageType', { idpackageType: idpackageType })
         .subscribe(
           json => {
             resolve(json);

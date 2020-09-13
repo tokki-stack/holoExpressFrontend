@@ -80,6 +80,10 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { CustomerInvoiceComponent } from './customer-invoice/customer-invoice.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { DeliveryProofComponent } from './order-detail/delivery-proof/delivery-proof.component';
+import { InvoicListComponent } from './invoic-list/invoic-list.component';
+import { FocussDirective } from './order-create/focuss.directive';
+
+
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -95,6 +99,10 @@ const routes: Routes = [
 		path: 'invoice',
 		component: CustomerInvoiceComponent,
 	},
+	{
+		path: 'invoice/list',
+		component: InvoicListComponent,
+  	},
 	{
 		path: 'detail',
 		component: OrderDetailComponent,
@@ -191,7 +199,10 @@ const routes: Routes = [
     OrderListComponent,
     CustomerInvoiceComponent,
     OrderDetailComponent,
-    DeliveryProofComponent]
+    DeliveryProofComponent,
+	InvoicListComponent,
+	FocussDirective,
+	]
 })
 export class CustomerOrdersModule { }
 

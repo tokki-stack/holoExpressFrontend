@@ -15,9 +15,9 @@ export class UserDetailComponent implements OnInit {
   email: string;
   role: string;
   status: string;
-
+  password;
   title;
-
+  hide = true;
   member;
   userForm = new FormGroup({
     name: new FormControl,
@@ -25,6 +25,9 @@ export class UserDetailComponent implements OnInit {
     email: new FormControl,
     role: new FormControl,
     status: new FormControl,
+    password: new FormControl,
+
+    
   });
 
 
@@ -45,6 +48,8 @@ export class UserDetailComponent implements OnInit {
       email: ['', Validators.compose([Validators.required, Validators.email])],
       role: ['', Validators.required],
       status: ['', Validators.required],
+      password: ['', Validators.required],
+
     });
 
     if (this.data.user != '') {
@@ -54,12 +59,16 @@ export class UserDetailComponent implements OnInit {
         status: this.data?.user.status.toString(),
         role: this.data?.user.role.toString(),
         email: this.data?.user.email,
+        password: this.data?.user.password,
+
       })
       this.name = this.data?.user.name;
       this.user = this.data?.user.user;
       this.status = this.data?.user.status.toString();
       this.role = this.data?.user.role.toString();
       this.email = this.data?.user.email;
+      this.password = this.data?.user.password;
+
       this.title = "edit";
     }
     else {
@@ -86,7 +95,7 @@ export class UserDetailComponent implements OnInit {
       }
       else {
         this.messengerService.createNewMember(this.userForm.value).then(result => {
-          window.alert("successfully created! The default password of the user is '123'! ")
+          window.alert("successfully created!")
           this.dialogRef.close();
         })
       }

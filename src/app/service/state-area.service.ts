@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +8,12 @@ import { HttpClient } from '@angular/common/http';
 export class StateAreaService {
 
   constructor(private http: HttpClient) { }
+  baseURL = environment.baseURL;
 
   getAllStates() {
     return new Promise((resolve, reject) => {
       this.http
-        .get('http://198.58.106.89:3000/states/getAllStates')
+        .get(this.baseURL + '/states/getAllStates')
         .subscribe(
           async json => {
             resolve(json);
@@ -26,7 +28,7 @@ export class StateAreaService {
   getStateByID(idstates) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/states/getStateByID', { idstates: idstates })
+        .post(this.baseURL + '/states/getStateByID', { idstates: idstates })
         .subscribe(
           json => {
             resolve(json);
@@ -38,10 +40,26 @@ export class StateAreaService {
     });
   }
 
+  getAreaByID(idareas) {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(this.baseURL + '/states/getAreaByID', { idareas: idareas })
+        .subscribe(
+          json => {
+            resolve(json);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+
   getAreasByStatesID(idstates) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/states/getAreasByStatesID', { idstates: idstates })
+        .post(this.baseURL + '/states/getAreasByStatesID', { idstates: idstates })
         .subscribe(
           json => {
             resolve(json);
@@ -56,7 +74,7 @@ export class StateAreaService {
   createState(state) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/states/createState', { stateName: state.state, status: state.stateStatus })
+        .post(this.baseURL + '/states/createState', { stateName: state.state, status: state.stateStatus })
         .subscribe(
           json => {
             resolve(json);
@@ -71,7 +89,7 @@ export class StateAreaService {
   editState(idstates, name, status) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/states/editState', { idstates: idstates, name: name, status: status })
+        .post(this.baseURL + '/states/editState', { idstates: idstates, name: name, status: status })
         .subscribe(
           json => {
             resolve(json);
@@ -86,7 +104,7 @@ export class StateAreaService {
   createArea(area) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/states/createArea', { name: area.area, idstates: area.state, basePrice: area.basePrice, extraRV: area.extraRV, extraRW: area.extraRW, status: area.areaStatus })
+        .post(this.baseURL + '/states/createArea', { name: area.area, idstates: area.state, status: area.areaStatus })
         .subscribe(
           json => {
             resolve(json);
@@ -101,7 +119,37 @@ export class StateAreaService {
   editArea(area) {
     return new Promise((resolve, reject) => {
       this.http
-        .post('http://198.58.106.89:3000/states/editArea', { area: area })
+        .post(this.baseURL + '/states/editArea', { area: area })
+        .subscribe(
+          json => {
+            resolve(json);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  deleteState(state) {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(this.baseURL + '/states/deleteState', { state: state })
+        .subscribe(
+          json => {
+            resolve(json);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  deleteArea(area) {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(this.baseURL + '/states/deleteArea', { area: area })
         .subscribe(
           json => {
             resolve(json);

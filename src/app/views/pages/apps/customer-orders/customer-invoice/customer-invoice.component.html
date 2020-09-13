@@ -14,7 +14,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col">
-					<img style="width: 100px;" src="https://cdn.dribbble.com/users/170346/screenshots/6227385/logo_sample_1x.jpg"/>
+					<img style="width: 100px;" src="./assets/media/logos/holo.png"/>
 					<div><strong>www.holoexpress.com</strong></div>
 				</div>
 				<div class="col" style="text-align: right;">
@@ -24,7 +24,7 @@
 			</div>
 			<div class="row" style="margin-top: 20px;">
 				<div class="col">
-					<div>Street King William, 123</div>
+					<div>Street King William, 1233</div>
 					<div>Level 2, C, 442456</div>
 					<div>San Francisco, CA, USA</div>
 				</div>
@@ -67,6 +67,10 @@
 				<mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
 				<mat-cell *matCellDef="let order" (click)="packageView()">{{order.description}}</mat-cell>
 			</ng-container>
+			<ng-container matColumnDef="discount">
+				<mat-header-cell *matHeaderCellDef></mat-header-cell>
+				<mat-cell *matCellDef="let order" (click)="packageView()">{{order.discount}}</mat-cell>
+			</ng-container>
 			<ng-container matColumnDef="total">
 				<mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
 				<mat-cell *matCellDef="let order" (click)="packageView()">{{order.total}}</mat-cell>
@@ -76,31 +80,34 @@
 
 			<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
         </mat-table>
-        <div style="font-size: 15px;
-        margin: 20px;">
-            <strong>Pagos = 50</strong>
-        </div>
-        <mat-table [dataSource]="dataSourcePagos">
-			<ng-container matColumnDef="paymentID">
-				<mat-header-cell *matHeaderCellDef>Payment ID</mat-header-cell>
-				<mat-cell *matCellDef="let pago" (click)="packageView()">{{pago.paymentID}}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="date">
-				<mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
-				<mat-cell *matCellDef="let pago" (click)="packageView()">{{pago.date}}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="description">
-				<mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-				<mat-cell *matCellDef="let pago" (click)="packageView()">{{pago.description}}</mat-cell>
-			</ng-container>
-			<ng-container matColumnDef="amount">
-				<mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
-				<mat-cell *matCellDef="let pago" (click)="packageView()">{{pago.amount}}</mat-cell>
-			</ng-container>
 
-			<mat-header-row *matHeaderRowDef="displayedColumnsPagos"></mat-header-row>
-
-			<mat-row *matRowDef="let row; columns: displayedColumnsPagos"></mat-row>
-        </mat-table>
     </kt-portlet-body>
 </kt-portlet>
+<mat-card style="margin-top: 20px;">
+	<div style="font-size: 15px;
+	margin: 20px;">
+		<strong>Pagos = 50</strong>
+	</div>
+	<mat-table [dataSource]="dataSourcePagos">
+		<ng-container matColumnDef="paymentID">
+			<mat-header-cell *matHeaderCellDef>Payment ID</mat-header-cell>
+			<mat-cell *matCellDef="let pago" (click)="packageView()">{{pago.paymentID}}</mat-cell>
+		</ng-container>
+		<ng-container matColumnDef="date">
+			<mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+			<mat-cell *matCellDef="let pago" (click)="packageView()">{{pago.date}}</mat-cell>
+		</ng-container>
+		<ng-container matColumnDef="description">
+			<mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+			<mat-cell *matCellDef="let pago" (click)="packageView()">{{pago.description}}</mat-cell>
+		</ng-container>
+		<ng-container matColumnDef="amount">
+			<mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
+			<mat-cell *matCellDef="let pago" (click)="packageView()">{{pago.amount}}</mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="displayedColumnsPagos"></mat-header-row>
+
+		<mat-row *matRowDef="let row; columns: displayedColumnsPagos"></mat-row>
+	</mat-table>
+</mat-card>

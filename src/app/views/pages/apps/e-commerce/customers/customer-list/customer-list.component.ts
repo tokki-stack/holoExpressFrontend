@@ -15,7 +15,7 @@ import { OrdersService } from 'src/app/service/orders.service';
 })
 export class CustomerListComponent implements OnInit {
   dataSourceCustomer: MatTableDataSource<any>;
-  displayedColumns = ['select', 'id', 'firstName', 'lastName', 'company', 'orders', 'registered', 'status', 'actions'];
+  displayedColumns = ['id', 'firstName', 'lastName', 'company', 'orders', 'registered', 'status'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
@@ -37,14 +37,14 @@ export class CustomerListComponent implements OnInit {
     this.dataSourceCustomer.sort = this.sort;
   }
   applyFilter(filterValue: string) {
-
+    console.log(filterValue);
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
 
-    this.dataSourceCustomer.filterPredicate = (data: { firstName: string, lastName: string, company: string, orders: string, registered: string, status: string }, filterValue: string) =>
-      (data.firstName.trim().toLowerCase().indexOf(filterValue) !== -1) ||
-      (data.lastName.trim().toLowerCase().indexOf(filterValue) !== -1) ||
-      (data.company.trim().toLowerCase().indexOf(filterValue) !== -1);
+    // this.dataSourceCustomer.filterPredicate = (data: { firstName: string, lastName: string, company: string, orders: string, registered: string, status: string }, filterValue: string) =>
+    //   (data.firstName?.trim().toLowerCase().indexOf(filterValue) !== -1) ||
+    //   (data.lastName?.trim().toLowerCase().indexOf(filterValue) !== -1) ||
+    //   (data.company?.trim().toLowerCase().indexOf(filterValue) !== -1);
 
     if (this.dataSourceCustomer.paginator) {
       this.dataSourceCustomer.paginator.firstPage();
@@ -55,41 +55,47 @@ export class CustomerListComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.customerService.getAll().then(result => {
       this.customers = result;
-      var i = 0;
-      this.customers.map(result => {
-        this.ordersService.getOrdersByCustomer(result.idcustomers).then(result => {
+      this.customers = this.customers.reverse();
+      // var i = 0;
+      this.customers.map(customer => {
+        this.ordersService.getOrdersByCustomer(customer.idcustomers).then(result => {
           this.tempresult = result;
-          this.customers[i].orders = this.tempresult.length;
-          i++;
+          customer.orders = this.tempresult.length;
+          this.dataSourceCustomer = new MatTableDataSource(this.customers);
+          this.setDataSourceAttributes();
+          // i++;
         })
       })
-      this.dataSourceCustomer = new MatTableDataSource(this.customers);
-      this.setDataSourceAttributes();
+
     })
   }
 
   addCustomer() {
-    const dialogRef = this.dialog.open(CustomerNewComponent, { data: {} });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result?.status == "success") {
-        this.customers.push({
-          address: result.data.address,
-          company: result.data.company,
-          customerGroup: result.data.type,
-          email: result.data.email,
-          firstName: result.data.firstName,
-          lastName: result.data.lastName,
-          mobile: result.data.mobile,
-          orders: '0',
-          phone: result.data.phone,
-          register: result.registered,
-          ruc: result.data.phone,
-          status: '0'
-        })
-        this.dataSourceCustomer = new MatTableDataSource(this.customers);
-        this.setDataSourceAttributes();
-      }
-    })
+    // let naviagtionExtras: NavigationExtras = {
+    //   queryParams: customer
+    // }
+    this.router.navigate(['ecommerce/customers/new']);
+    // const dialogRef = this.dialog.open(CustomerNewComponent, { data: {} });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result?.status == "success") {
+    //     this.customers.push({
+    //       address: result.data.address,
+    //       company: result.data.company,
+    //       customerGroup: result.data.type,
+    //       email: result.data.email,
+    //       firstName: result.data.firstName,
+    //       lastName: result.data.lastName,
+    //       mobile: result.data.mobile,
+    //       orders: '0',
+    //       phone: result.data.phone,
+    //       register: result.registered,
+    //       ruc: result.data.phone,
+    //       status: '0'
+    //     })
+    //     this.dataSourceCustomer = new MatTableDataSource(this.customers);
+    //     this.setDataSourceAttributes();
+    //   }
+    // })
   }
 
   filterBystatus() {

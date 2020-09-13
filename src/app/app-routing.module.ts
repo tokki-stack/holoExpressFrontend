@@ -6,18 +6,24 @@ import { RouterModule, Routes } from '@angular/router';
 import { BaseComponent } from './views/theme/base/base.component';
 // Auth
 import { AuthGuard } from './core/auth';
+import { PublicTrackingComponent } from './views/pages/apps/e-commerce/settings/public-tracking/public-tracking.component';
 
 const routes: Routes = [
+  {
+    path: 'tracking',
+    component: PublicTrackingComponent
+  },
   {path: 'auth', loadChildren: () => import('./views/pages/auth/auth.module').then(m => m.AuthModule)},
   {
     path: '',
     component: BaseComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
         loadChildren: () => import('./views/pages/dashboard/dashboard.module').then(m => m.DashboardModule),
       },
+
       {
         path: 'mail',
         loadChildren: () => import('./views/pages/apps/mail/mail.module').then(m => m.MailModule),

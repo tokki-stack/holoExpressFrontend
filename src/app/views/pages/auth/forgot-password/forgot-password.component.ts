@@ -9,6 +9,9 @@ import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 // Auth
 import { AuthNoticeService, AuthService } from '../../../../core/auth';
+import { CustomerService } from 'src/app/service/customer.service';
+import { EmailService } from 'src/app/service/email.service';
+
 
 @Component({
 	selector: 'kt-forgot-password',
@@ -39,7 +42,12 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 		private translate: TranslateService,
 		private router: Router,
 		private fb: FormBuilder,
-		private cdr: ChangeDetectorRef
+		private cdr: ChangeDetectorRef,
+		
+		private customerService: CustomerService,
+		private emailService: EmailService,
+
+
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -96,21 +104,57 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 		this.loading = true;
 
 		const email = controls.email.value;
-		this.authService.requestPassword(email).pipe(
-			tap(response => {
-				if (response) {
-					this.authNoticeService.setNotice(this.translate.instant('AUTH.FORGOT.SUCCESS'), 'success');
-					this.router.navigateByUrl('/auth/login');
-				} else {
-					this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.NOT_FOUND', {name: this.translate.instant('AUTH.INPUT.EMAIL')}), 'danger');
-				}
-			}),
-			takeUntil(this.unsubscribe),
-			finalize(() => {
+
+		var token = this.generateRandomString();
+		var redirectURL = 'https://clientes.holoexpresspanama.com/auth/set-password?token='+token;
+		console.log(email, redirectURL);
+		this.customerService.getCustomerByOnlyEmail(email).then((result:any) => {
+			console.log(result);
+			if(result.length == '0'){
 				this.loading = false;
-				this.cdr.markForCheck();
-			})
-		).subscribe();
+				this.authNoticeService.setNotice('Please input valid email', 'danger');
+			}
+			else {
+				this.customerService.setResetPwdToken(email, token).then(result => {
+					console.log(result);
+					var config = {
+						email: email,
+						html : '<div style="margin: auto;"><img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png"><div>Welcome To HoloExpress</div><div>Hit the link below to reset your password</div><div>'+
+						redirectURL + '</div></div>'
+					}
+					this.emailService.sendmail(config).then(result => {
+						console.log(result);
+						this.authNoticeService.setNotice('email successfully delivered', 'success');
+						this.loading = false;
+					}).catch(err => {
+						console.log(err);
+						this.authNoticeService.setNotice('Unfortunately message did not delivered!', 'danger');
+						this.loading = false;
+
+					})
+				}).catch(err => {
+					this.authNoticeService.setNotice('Unfortunately error occured', 'danger');
+					this.loading = false;
+				})
+
+			}
+
+		})
+		// this.authService.requestPassword(email).pipe(
+		// 	tap(response => {
+		// 		if (response) {
+		// 			this.authNoticeService.setNotice(this.translate.instant('AUTH.FORGOT.SUCCESS'), 'success');
+		// 			this.router.navigateByUrl('/auth/login');
+		// 		} else {
+		// 			this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.NOT_FOUND', {name: this.translate.instant('AUTH.INPUT.EMAIL')}), 'danger');
+		// 		}
+		// 	}),
+		// 	takeUntil(this.unsubscribe),
+		// 	finalize(() => {
+		// 		this.loading = false;
+		// 		this.cdr.markForCheck();
+		// 	})
+		// ).subscribe();
 	}
 
 	/**
@@ -129,5 +173,13 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 			control.hasError(validationType) &&
 			(control.dirty || control.touched);
 		return result;
+	}
+	generateRandomString(){
+		var randomstring = Math.random().toString(36).slice(-10);
+		for (var i=0; i<5; i++){
+		  randomstring = randomstring + Math.random().toString(36).slice(-10);
+		}
+		return randomstring;
+		console.log(randomstring);
 	}
 }

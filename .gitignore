@@ -53,3 +53,4 @@ testem.log
 Thumbs.db
 .git_
 *.zip
+test

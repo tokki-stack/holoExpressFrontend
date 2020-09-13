@@ -3,28 +3,42 @@
         <mat-tab label="General">
             <mat-card>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" [formGroup]="settingForm">
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="Company Name" value="Great Company"/>
+                            <input matInput placeholder="Company Name" formControlName="companyName" />
                         </mat-form-field>
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="R.U.C" value="rucSample"/>
+                            <input matInput placeholder="R.U.C" formControlName="ruc" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Street" formControlName="street" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="State" formControlName="state" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Country" formControlName="country" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="itbms" formControlName="itbms" />
                         </mat-form-field>
                         <span style="font-size: x-large;">SMTP SETTINGS</span>
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="UserName" value="Administrator"/>
+                            <input matInput placeholder="UserName" formControlName="username" />
                         </mat-form-field>
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="Password" value="passwordSample"/>
+                            <input matInput placeholder="Password" formControlName="password" />
                         </mat-form-field>
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="Port" value="4200"/>
+                            <input matInput placeholder="Port" formControlName="port" />
                         </mat-form-field>
+                        <button mat-raised-button type="button" color="primary" (click)="save()">SAVE</button>
+
                     </div>
                     <div class="col-md-2"></div>
                     <div class="col-md-3">
                         <span>Logo</span>
-                        <img style="width: 100%;" src="https://cdn.dribbble.com/users/170346/screenshots/6227385/logo_sample_1x.jpg" />
+                        <img style="width: 100%;" src="./assets/media/logos/holo.png" />
                     </div>
                 </div>
             </mat-card>
@@ -33,9 +47,11 @@
             <kt-package-type></kt-package-type>
         </mat-tab>
         <mat-tab label="Areas & Pricing">
-           <kt-pricing></kt-pricing>
+            <kt-pricing></kt-pricing>
         </mat-tab>
-        <mat-tab label="Customer Groups">Customer Groups</mat-tab>
+        <mat-tab label="Customer Groups">
+            <kt-customer-groups></kt-customer-groups>
+        </mat-tab>
         <mat-tab label="User management">
             <kt-user-list></kt-user-list>
         </mat-tab>
