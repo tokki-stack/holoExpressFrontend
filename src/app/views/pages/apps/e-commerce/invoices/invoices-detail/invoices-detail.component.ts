@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { InvoicesNewPaymentComponent } from '../invoices-new-payment/invoices-new-payment.component'
 import { CustomerService } from 'src/app/service/customer.service';
@@ -175,35 +175,14 @@ export class InvoicesDetailComponent implements OnInit {
     }
   }
 
-  pagos: any = [
-    {
-      id: 0,
-      paymentID: 123,
-      date: '02/02/20 14:28pm',
-      description: 'Pago de factura',
-      amount: '50.00',
-      user: 'jdoe',
-      actions: 1
-    },
-    {
-      id: 1,
-      paymentID: 123,
-      date: '02/02/20 14:28pm',
-      description: 'Pago colectado par empleado',
-      amount: '50.00',
-      user: 'mruiz',
-      actions: 1
-    },
-    {
-      id: 2,
-      paymentID: 123,
-      date: '02/02/20 14:28pm',
-      description: 'Pago de factura',
-      amount: '50.00',
-      user: 'jdoe',
-      actions: 0
+  edit(){
+    console.log(this.invoice);
+    let naviagtionExtras: NavigationExtras = {
+      queryParams: this.invoice
     }
-  ]
+		this.router.navigate(['ecommerce/invoice/new'], naviagtionExtras);
+
+  }
   logs: any = [
     {
       id: 0,

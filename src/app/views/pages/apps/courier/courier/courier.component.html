@@ -4,9 +4,7 @@
             <div class="col-md-12 kt-margin-bottom-10-mobile" style="display: flex;">
                 <mat-icon style="margin-top: auto; margin-bottom: auto;">search</mat-icon>
                 <mat-form-field class="mat-form-field-fluid" style="width: 220px">
-                    <!-- <input matInput placeholder="Search by Order or Tracking" #searchInput /> -->
                     <input matInput placeholder="Search by Order or Tracking" (keyup)="applyFilter($event.target.value)" [(ngModel)]="searchValue" />
-
                 </mat-form-field>
             </div>
         </ng-container>

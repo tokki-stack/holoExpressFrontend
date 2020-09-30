@@ -27,6 +27,8 @@
         <button mat-button (click)="myOrders()" *ngIf="userRole == 0">My Orders</button>
         <button mat-button (click)="invoice()" *ngIf="userRole == 0">Mis Facturas</button>
         <button mat-button (click)="customer_orders()" *ngIf="userRole == 0">Delivery Quote</button>
+        <button mat-button (click)="tracking()" *ngIf="userRole == 0">Search Tracking</button>
+
 
         <!--end::Header Nav-->
     </div>

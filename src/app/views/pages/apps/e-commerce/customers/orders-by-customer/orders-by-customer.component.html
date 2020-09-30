@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-2">
         <mat-form-field class="mat-form-field-fluid">
-            <input matInput placeholder="Search order" (keyup)="applyFilter($event.target.value)"/>
+            <input matInput placeholder="Search order" (keyup)="applyFilter($event.target.value)" />
             <mat-hint align="start">
                 <strong>Search</strong> in all fields
             </mat-hint>
@@ -30,7 +30,7 @@
 
     <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
-        <mat-cell *matCellDef="let order; let i = index" (click)="vieworder(order)">{{i + (paginator.pageIndex * paginator.pageSize) + 1}}</mat-cell>
+        <mat-cell *matCellDef="let order; let i = index" (click)="vieworder(order)">{{order.idorders}}</mat-cell>
     </ng-container>
 
     <!-- <ng-container matColumnDef="tracking">
@@ -66,7 +66,7 @@
     <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
         <mat-cell *matCellDef="let order" (click)="vieworder(order)">
-        <!-- <div *ngIf="order.status == 0" class="status3">
+            <!-- <div *ngIf="order.status == 0" class="status3">
             Active
         </div>
         <div *ngIf="order.status == 1" class="status2">
@@ -90,8 +90,7 @@
             </ng-template> -->
 
             <ng-template ngxPermissionsOnly="canDeleteECommerceData">
-                <button mat-icon-button color="warn" matTooltip="Delete order" type="button"
-                    (click)="deleteorder(order)">
+                <button mat-icon-button color="warn" matTooltip="Delete order" type="button" (click)="deleteorder(order)">
                     <mat-icon>delete</mat-icon>
                 </button>&nbsp;
             </ng-template>
@@ -102,5 +101,4 @@
 
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 </mat-table>
-<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" [length]="10"
-[showFirstLastButtons]="true"></mat-paginator>
+<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" [length]="10" [showFirstLastButtons]="true"></mat-paginator>

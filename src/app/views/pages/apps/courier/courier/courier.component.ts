@@ -86,7 +86,7 @@ export class CourierComponent implements OnInit, OnDestroy {
     this.orderPickUp = [];
     this.changeDetectorRefs.detectChanges();
     if(isNaN(Number(str))){
-      if((str.substring(0,1) == 'H' || str.substring(0,1) == 'H') && str.length == 7){
+      if((str.substring(0,1) == 'H' || str.substring(0,1) == 'h') && str.length == 7){
         var idpackages = Number(str.substring(1));
         this._orderPickUp.map(_order => {
           this.packagesService.getPackagesByOrderID(_order.idorders).then(result => {

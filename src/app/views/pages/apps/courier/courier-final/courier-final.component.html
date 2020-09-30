@@ -9,7 +9,11 @@
     </kt-portlet-header>
     <kt-portlet-body style="padding-left: 15px; padding-right: 15px;">
         <div>Who receive</div>
-        <div style="width: 100%; height: 70px; font-size: 40px; border: black 2px solid; padding-left: 20px; margin-top: 10px">{{order.deliveryName}}</div>
+        <!-- <div style="width: 100%; height: 70px; font-size: 40px; border: black 2px solid; padding-left: 20px; margin-top: 10px">{{order.deliveryName}}</div> -->
+        <mat-form-field class="mat-form-field-fluid" style="width: 220px">
+            <input matInput placeholder="" [(ngModel)]="order.deliveryName" />
+        </mat-form-field>
+
         <div style="margin-top: 20px;">Notes(optional)</div>
         <mat-form-field style="width: 100%;">
             <textarea matInput placeholder="" [(ngModel)]="detail"></textarea>

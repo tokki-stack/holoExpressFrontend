@@ -8,7 +8,7 @@ import { CustomerService } from 'src/app/service/customer.service';
 import { OrdersService } from 'src/app/service/orders.service';
 import { PackagesService } from 'src/app/service/packages.service';
 import { StateAreaService } from 'src/app/service/state-area.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { result } from 'lodash';
 import { PackageTypeService } from 'src/app/service/package-type.service';
 import { PriceService } from 'src/app/service/price.service';
@@ -308,7 +308,10 @@ export class OrderEditComponent implements OnInit {
 				})
 
 				window.alert("successfully saved!");
-				this.router.navigate(['/ecommerce/orders']);
+				let naviagtionExtras: NavigationExtras = {
+					queryParams: this.packages[0]
+				}
+				this.router.navigate(['/ecommerce/package/view'],naviagtionExtras);
 
 				// this.dialogRef.close();
 			})
@@ -317,7 +320,7 @@ export class OrderEditComponent implements OnInit {
 			this.order.pickupAddressNote = this.pickupAddressNote;
 			this.order.deliveryAddressNote = this.deliveryAddressNote;
 
-			this.ordersService.createNewOrder(this.order).then(async result => {
+			this.ordersService.createNewOrder(this.order, '1').then(async result => {
 				this.tempResult = result;
 				await this.packages.map(_package => {
 					_package.idorders = this.tempResult.insertId;
@@ -333,7 +336,10 @@ export class OrderEditComponent implements OnInit {
 					})
 				})
 				window.alert("successfully saved!");
-				this.router.navigate(['/ecommerce/orders']);
+				let naviagtionExtras: NavigationExtras = {
+					queryParams: this.packages[0]
+				}
+				this.router.navigate(['/ecommerce/package/view'],naviagtionExtras);
 			})
 		}
 	}

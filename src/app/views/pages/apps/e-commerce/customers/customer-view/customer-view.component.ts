@@ -37,25 +37,26 @@ export class CustomerViewComponent implements OnInit {
       console.log(this.customer);
       this.customerID = this.customer.idcustomers;
     });
-    if (this.customer.status == '0') {
-      this.status = "Active";
-      this.statusClass = "status3";
-    }
-    else {
-      this.statusClass = "status2"
-      this.status = "InActive";
-    }
-    this.firstName = this.customer.firstName;
-    this.lastName = this.customer.lastName;
-    this.email = this.customer.email;
-    this.phone = this.customer.phone;
-    this.mobile = this.customer.mobile;
-    this.company = this.customer.company;
-    this.register = this.customer.register;
-    this.address = this.customer.address;
-    this.ruc = this.customer.ruc;
-
-
+    this.customerService.getCustomerByID(this.customerID).then((result :any ) => {
+      result[0]
+      if (result[0].status == '0') {
+        this.status = "Active";
+        this.statusClass = "status3";
+      }
+      else {
+        this.statusClass = "status2"
+        this.status = "InActive";
+      }
+      this.firstName = result[0].firstName;
+      this.lastName = result[0].lastName;
+      this.email = result[0].email;
+      this.phone = result[0].phone;
+      this.mobile = result[0].mobile;
+      this.company = result[0].company;
+      this.register = result[0].register;
+      this.address = result[0].address;
+      this.ruc = result[0].ruc;
+    })
   }
 
   back() {
@@ -144,6 +145,9 @@ export class CustomerViewComponent implements OnInit {
             console.log(descriptions);
             this.customerService.createCustomerLog(window.localStorage.getItem('userID'), this.tempCustomer.idcustomers,descriptions).then(result => {
               console.log(result);
+              this.customer = this.tempCustomer;
+              this.router.navigate(['ecommerce/customers']);
+
               this.ngOnInit();
 
             })

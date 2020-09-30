@@ -49,10 +49,10 @@ export class OrdersService {
         );
     });
   }
-  createNewOrder(order){
+  createNewOrder(order, role){
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/createNewOrder', {order})
+        .post(this.baseURL + '/orders/createNewOrder', {order, role})
         .subscribe(
           async json => {
             var tempResult;

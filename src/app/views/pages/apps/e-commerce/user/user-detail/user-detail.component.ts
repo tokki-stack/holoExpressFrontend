@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MessengerService } from 'src/app/service/messenger.service';
 import { result } from 'lodash';
+import { EmailService } from 'src/app/service/email.service';
 
 @Component({
   selector: 'kt-user-detail',
@@ -37,7 +38,9 @@ export class UserDetailComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private messengerService: MessengerService,
+    private emailService: EmailService,
 
+    
   ) { }
 
   ngOnInit(): void {
@@ -95,6 +98,25 @@ export class UserDetailComponent implements OnInit {
       }
       else {
         this.messengerService.createNewMember(this.userForm.value).then(result => {
+          console.log(result);
+          var role;
+          if (this.userForm.value.role == '10'){
+            role  = "Super Admin";
+          }
+          else if (this.userForm.value.role == '2') {
+            role  = "Messenger";
+          }
+          else {
+            role  = "Admin";
+          }
+          var config = {
+						email: this.userForm.value.email,
+						html : '<div style="margin: auto;"><img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png"><div>Welcome To HoloExpress</div><div>Your account was created</div><div>Email: '+
+						this.userForm.value.email + '</div><div>Password: '+this.userForm.value.password+'</div><div>UserRole: '+role+'</div></div>'
+					}
+          this.emailService.sendmail(config).then(result => {
+            window.alert("Email successfully sent!")
+          })
           window.alert("successfully created!")
           this.dialogRef.close();
         })

@@ -12,7 +12,9 @@
                 <span>OPEN</span>
             </button> -->
 
-
+            <button mat-button color="primary" type="button" (click)="edit()">
+                <mat-icon style="font-size: 30px !important; margin-top: -5px;">edit</mat-icon>
+            </button>
             <button mat-button [matMenuTriggerFor]="menu" class="status0" [ngStyle]="buttonStyle">{{title}}</button>
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="menuChange($event)" class="status0">OPEN</button>
@@ -30,7 +32,9 @@
                         <div><strong>www.holoexpress.com</strong></div>
                     </div>
                     <div class="col" style="text-align: right;">
-                        <div style="font-size: 2.1422rem;font-weight: 500;">PAID</div>
+                        <div style="font-size: 2.1422rem;font-weight: 500;">
+                            {{invoice.paymentStatus == '3' ? "PAID" : "UNPAID"}}
+                        </div>
                         <div>Invoice #{{invoice.idinvoice}}</div>
                     </div>
                 </div>

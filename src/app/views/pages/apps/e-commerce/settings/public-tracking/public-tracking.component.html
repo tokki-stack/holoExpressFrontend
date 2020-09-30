@@ -6,8 +6,8 @@
         <!-- <div class="row" style="height: 14vh; border: 1px solid; margin-top: 5vh;">
             Tracking
         </div> -->
-        <mat-form-field class="mat-form-field-fluid" style="width: 80%;font-size: 50px;margin-left: auto;margin-right: auto;">
-            <input #scanInput matInput placeholder="Scan by Tracking" formControlName="idControl" (keydown.enter)="track()" [(ngModel)]="trackingID" />
+        <mat-form-field class="mat-form-field-fluid" style="width: 600px;font-size: 50px;margin-left: auto;margin-right: auto;">
+            <input #scanInput matInput placeholder="Enter a Tracking Number..." formControlName="idControl" (keydown.enter)="track()" [(ngModel)]="trackingID" />
         </mat-form-field>
         <mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="stepperFlag">
             <mat-step>

@@ -24,10 +24,10 @@ const routes: Routes = [
         loadChildren: () => import('./views/pages/dashboard/dashboard.module').then(m => m.DashboardModule),
       },
 
-      {
-        path: 'mail',
-        loadChildren: () => import('./views/pages/apps/mail/mail.module').then(m => m.MailModule),
-      },
+      // {
+      //   path: 'mail',
+      //   loadChildren: () => import('./views/pages/apps/mail/mail.module').then(m => m.MailModule),
+      // },
       {
         path: 'ecommerce',
         loadChildren: () => import('./views/pages/apps/e-commerce/e-commerce.module').then(m => m.ECommerceModule),
@@ -40,14 +40,14 @@ const routes: Routes = [
         path: 'orders',
         loadChildren: () => import('./views/pages/apps/customer-orders/customer-orders.module').then(m => m.CustomerOrdersModule),
       },
-      {
-        path: 'user-management',
-        loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),
-      },
-      {
-        path: 'builder',
-        loadChildren: () => import('./views/theme/content/builder/builder.module').then(m => m.BuilderModule),
-      },
+      // {
+      //   path: 'user-management',
+      //   loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),
+      // },
+      // {
+      //   path: 'builder',
+      //   loadChildren: () => import('./views/theme/content/builder/builder.module').then(m => m.BuilderModule),
+      // },
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: '**', redirectTo: 'dashboard', pathMatch: 'full'},
     ],

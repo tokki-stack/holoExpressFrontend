@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit(): void {
 		this.initLoginForm();
-		this.roleFlag = true;
+		this.roleFlag = false;
 		this.roleTitle = "customer";
 		// redirect back to the returnUrl before login
 		this.route.queryParams.subscribe(params => {

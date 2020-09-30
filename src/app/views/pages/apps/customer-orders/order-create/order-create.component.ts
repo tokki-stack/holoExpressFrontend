@@ -299,7 +299,7 @@ export class OrderCreateComponent implements OnInit {
     this.packages = this.packageForm.value.packages;
     console.log("this.order",this.order);
     console.log("this.packages",this.packages);
-    this.ordersService.createNewOrder(this.order).then(async result => {
+    this.ordersService.createNewOrder(this.order, '0').then(async result => {
       this.tempResult = result;
       if (this.tempResult.insertId) {
         await this.packages.map(result => {

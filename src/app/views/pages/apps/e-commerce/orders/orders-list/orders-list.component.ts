@@ -72,7 +72,7 @@ export class OrdersListComponent implements OnInit {
 		await this.ordersService.getAllOrders().then(async result => {
 			this.orders = result;
 			this.orders = this.orders.reverse();
-			
+			console.log(this.orders);
 			await this.orders.map(async result => {
 				await this.customerService.getCustomerByID(result.idcustomers).then(result1 => {
 					result['customer'] = result1[0]?.firstName;
@@ -119,10 +119,28 @@ export class OrdersListComponent implements OnInit {
 	setDataSourceAttributes() {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
+
 	}
 	applyFilter(filterValue: string) {
 		filterValue = filterValue.trim(); // Remove whitespace
 		filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+
+		this.dataSource.filterPredicate = function(data, filter: string): boolean {
+			console.log(data, filter);
+			Object.keys(data).forEach(key => {
+				if (data[key] == null || data[key] == undefined) {
+					data[key] = '';
+				}
+			})
+			return (data.customer.trim().toLowerCase().indexOf(filterValue) !== -1) ||
+			(data.billing.trim().toLowerCase().indexOf(filterValue) !== -1) ||
+			(data.deliveryAddressNote.trim().toLowerCase().indexOf(filterValue) !== -1) ||
+			(data.deliveryName.trim().toLowerCase().indexOf(filterValue) !== -1) ||
+			(data.deliveryPhone.trim().toLowerCase().indexOf(filterValue) !== -1) ||
+			(data.pickUpAddress.trim().toLowerCase().indexOf(filterValue) !== -1) ||
+			(data.idorders.toString().trim().toLowerCase().indexOf(filterValue) !== -1) ||
+			(data.pickupAddressNote.trim().toLowerCase().indexOf(filterValue) !== -1) ;
+		};
 		this.dataSource.filter = filterValue;
 	}
 	packageView(order) {

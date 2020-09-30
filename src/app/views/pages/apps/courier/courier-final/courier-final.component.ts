@@ -22,6 +22,7 @@ export class CourierFinalComponent implements OnInit {
 
   order;
   packages;
+  receiver;
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.order = params;
