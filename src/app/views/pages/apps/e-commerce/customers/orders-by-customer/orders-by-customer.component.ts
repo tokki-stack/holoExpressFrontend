@@ -10,7 +10,7 @@ import { MatSort } from '@angular/material/sort';
 })
 export class OrdersByCustomerComponent implements OnInit {
   dataSourceOrders: MatTableDataSource<any>;
-  displayedColumns = ['select', 'id', 'date', 'weight', 'volweight', 'cost', 'assignedTo', 'status', 'actions'];
+  displayedColumns = ['select', 'idorders', 'date', 'weight', 'volweight', 'cost', 'assignedTo', 'status', 'actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
@@ -25,6 +25,12 @@ export class OrdersByCustomerComponent implements OnInit {
   setDataSourceAttributes() {
     this.dataSourceOrders.paginator = this.paginator;
     this.dataSourceOrders.sort = this.sort;
+    this.dataSourceOrders.sortingDataAccessor = (item, property): string | number => {
+			switch (property) {
+			  case 'date': return new Date(item.date).getTime();
+			  default: return item[property];
+			}
+		};
   }
   applyFilter(filterValue: string) {
 

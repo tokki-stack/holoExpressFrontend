@@ -19,15 +19,15 @@
 			</ng-container>
 		</ul> -->
         <button mat-button (click)="customers()" (contextmenu)="onRightClick($event)" *ngIf="userRole == 1 || userRole == 10">Customers</button>
-        <button mat-button (click)="orders()" *ngIf="userRole == 1 || userRole == 10">Orders</button>
-        <button mat-button (click)="packages()" *ngIf="userRole == 1 || userRole == 10">Packages</button>
-        <button mat-button (click)="reports()" *ngIf="userRole == 1 || userRole == 10">Invoices</button>
-        <button mat-button (click)="settings()" *ngIf="userRole == 1 || userRole == 10">Settings</button>
-        <button mat-button (click)="courier()" *ngIf="userRole == 2">Courier Web App</button>
-        <button mat-button (click)="myOrders()" *ngIf="userRole == 0">My Orders</button>
+        <button mat-button (click)="orders()" *ngIf="userRole == 1 || userRole == 10">Órdenes</button>
+        <button mat-button (click)="packages()" *ngIf="userRole == 1 || userRole == 10">Paquetes</button>
+        <button mat-button (click)="reports()" *ngIf="userRole == 1 || userRole == 10">Facturas</button>
+        <button mat-button (click)="settings()" *ngIf="userRole == 1 || userRole == 10">Configuraciones</button>
+        <button mat-button (click)="courier()" *ngIf="userRole == 2">Aplicación web Courier</button>
+        <button mat-button (click)="myOrders()" *ngIf="userRole == 0">Mis Órdenes</button>
         <button mat-button (click)="invoice()" *ngIf="userRole == 0">Mis Facturas</button>
-        <button mat-button (click)="customer_orders()" *ngIf="userRole == 0">Delivery Quote</button>
-        <button mat-button (click)="tracking()" *ngIf="userRole == 0">Search Tracking</button>
+        <button mat-button (click)="customer_orders()" *ngIf="userRole == 0">Cotizar</button>
+        <button mat-button (click)="tracking()" *ngIf="userRole == 0">Buscar por Tracking</button>
 
 
         <!--end::Header Nav-->

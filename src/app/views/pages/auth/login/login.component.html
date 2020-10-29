@@ -8,9 +8,9 @@
           margin-bottom: 50px;" src="./assets/media/logos/holo.png" class="max-h-70px" />
             </a>
 
-            <h3 class="font-size-h1">Sign In</h3>
+            <h3 class="font-size-h1">Inicie sesión</h3>
             <p class="text-muted font-weight-bold">
-                Enter your username and password
+                Ingrese usuario y contraseña
             </p>
         </div>
 
@@ -20,8 +20,8 @@
         <form class="form" [formGroup]="loginForm" autocomplete="off" novalidate="novalidate" id="kt_login_form">
             <div class="form-group">
                 <mat-form-field>
-                    <mat-label>{{ "AUTH.INPUT.EMAIL" | translate }}</mat-label>
-                    <input matInput type="email" placeholder="{{ 'AUTH.INPUT.EMAIL' | translate }}" formControlName="email" autocomplete="off" />
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" placeholder="Email" formControlName="email" autocomplete="off" />
                     <mat-error *ngIf="isControlHasError('email', 'required')">
                         <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
                     </mat-error>
@@ -38,8 +38,8 @@
             </div>
             <div class="form-group">
                 <mat-form-field>
-                    <mat-label>{{ "AUTH.INPUT.PASSWORD" | translate }}</mat-label>
-                    <input matInput type="password" placeholder="{{ 'AUTH.INPUT.PASSWORD' | translate }}" formControlName="password" autocomplete="off" />
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput type="password" placeholder="Contraseña" formControlName="password" autocomplete="off" />
                     <mat-error *ngIf="isControlHasError('password', 'required')">
                         <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
                     </mat-error>

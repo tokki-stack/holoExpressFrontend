@@ -124,6 +124,12 @@ export class PackageComponent implements OnInit {
 	setDataSourceAttributes() {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
+		this.dataSource.sortingDataAccessor = (item, property): string | number => {
+			switch (property) {
+			  case 'date': return new Date(item.date).getTime();
+			  default: return item[property];
+			}
+		};
 	}
 	applyFilter(filterValue: string) {
 		filterValue = filterValue.trim(); // Remove whitespace

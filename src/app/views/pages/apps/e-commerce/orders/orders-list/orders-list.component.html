@@ -3,14 +3,14 @@
         <ng-container ktPortletTitle>
             <button mat-button [matMenuTriggerFor]="menu">{{title}}</button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="menuChange($event)">All Orders</button>
-                <button mat-menu-item (click)="menuChange($event)">Open Orders</button>
-                <button mat-menu-item (click)="menuChange($event)">Closed Orders</button>
+                <button mat-menu-item (click)="menuChange($event)">Todos</button>
+                <button mat-menu-item (click)="menuChange($event)">Abiertas</button>
+                <button mat-menu-item (click)="menuChange($event)">Cerrradas</button>
             </mat-menu> | {{total}} total
         </ng-container>
         <ng-container ktPortletTools>
-            <button mat-raised-button matTooltip="Create new customer" color="primary" type="button" (click)="newOrder()">
-				<span>New Order</span>
+            <button mat-raised-button matTooltip="Crear nuevo clientes" color="primary" type="button" (click)="newOrder()">
+				<span>Nueva</span>
 			</button>
         </ng-container>
 
@@ -19,16 +19,16 @@
         <div class="row">
             <div class="col-md-2 kt-margin-bottom-10-mobile">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Search customer" (keyup)="applyFilter($event.target.value)" />
+                    <input matInput placeholder="Buscar Clientes" (keyup)="applyFilter($event.target.value)" />
                     <mat-hint align="start">
-                        <strong>Search</strong> in all fields
+                        <strong>Buscar</strong>
                     </mat-hint>
                 </mat-form-field>
             </div>
             <div style="margin-left: auto;
 			margin-right: 20px;
 			margin-top: 10px;" *ngIf="checkedFlag">
-                <button mat-raised-button color="warn" type="button" (click)="assignPackage()">Assigned To</button>
+                <button mat-raised-button color="warn" type="button" (click)="assignPackage()">Asignado</button>
             </div>
         </div>
 
@@ -37,9 +37,9 @@
 			margin-left: auto;
 			margin-right: auto;
 			justify-content: flex-end;">
-                <div style="margin-right: 20px;" class="status4"> All = {{total}} </div>
-                <div style="margin-right: 20px;" class="status1"> Pending = {{pending}} </div>
-                <div style="margin-right: 20px;" class="status3"> in Progress = {{inProgress}} </div>
+                <div style="margin-right: 20px;" class="status4"> Todos = {{total}} </div>
+                <div style="margin-right: 20px;" class="status1"> Pendiente = {{pending}} </div>
+                <div style="margin-right: 20px;" class="status3"> en progreso = {{inProgress}} </div>
                 <!-- <div style="margin-right: 20px;" class="status3"> Pickup = {{pickUp}} </div> -->
             </div>
         </ng-container>
@@ -48,9 +48,9 @@
 			margin-left: auto;
 			margin-right: auto;
 			justify-content: flex-end;">
-                <div style="margin-right: 20px;" class="status4"> All = {{total}} </div>
-                <div style="margin-right: 20px;" class="status0"> completed = {{completed}} </div>
-                <div style="margin-right: 20px;" class="status2"> cancelled = {{cancelled}} </div>
+                <div style="margin-right: 20px;" class="status4"> Todos = {{total}} </div>
+                <div style="margin-right: 20px;" class="status0"> terminado = {{completed}} </div>
+                <div style="margin-right: 20px;" class="status2"> cancelado = {{cancelled}} </div>
             </div>
         </ng-container>
         <mat-table [dataSource]="dataSource" matSort>
@@ -66,18 +66,18 @@
                 </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="id">
+            <ng-container matColumnDef="idorders">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
                 <mat-cell *matCellDef="let order; let i = index" (click)="packageView(order)">{{order.idorders}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="date">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
                 <mat-cell *matCellDef="let order" (click)="packageView(order)">{{order.date}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="customer">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Customer</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
                 <mat-cell *matCellDef="let order" (click)="packageView(order)">{{order.customer}}</mat-cell>
             </ng-container>
 
@@ -87,7 +87,7 @@
             </ng-container>
 
             <ng-container matColumnDef="cost">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Cost</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Costo</mat-header-cell>
                 <mat-cell *matCellDef="let order" (click)="packageView(order)">{{order.cost}}</mat-cell>
             </ng-container>
 
@@ -97,12 +97,12 @@
             </ng-container>
 
             <ng-container matColumnDef="status">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
                 <mat-cell *matCellDef="let order">
-                    <div *ngIf="order.status == 0" class="status1">Pendding</div>
-                    <div *ngIf="order.status == 1" class="status3">In progress</div>
-                    <div *ngIf="order.status == 2" class="status0">Completed</div>
-                    <div *ngIf="order.status == 3" class="status2">Cancelled</div>
+                    <div *ngIf="order.status == 0" class="status1">Pendiente</div>
+                    <div *ngIf="order.status == 1" class="status3">En progreso</div>
+                    <div *ngIf="order.status == 2" class="status0">Terminado</div>
+                    <div *ngIf="order.status == 3" class="status2">Cancelado</div>
 
                 </mat-cell>
 

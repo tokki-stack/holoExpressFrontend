@@ -28,7 +28,7 @@ export const locale = {
       },
       LOGIN: {
         TITLE: 'Crear una cuenta',
-        BUTTON: 'Registrarse',
+        BUTTON: 'Regístrate',
       },
       FORGOT: {
         TITLE: 'Contraseña olvidada?',
@@ -43,8 +43,8 @@ export const locale = {
       INPUT: {
         EMAIL: 'Email',
         FULLNAME: 'Fullname',
-        PASSWORD: 'Password',
-        CONFIRM_PASSWORD: 'Confirm Password',
+        PASSWORD: 'Contraseña',
+        CONFIRM_PASSWORD: 'Confirmar contraseña',
         USERNAME: 'Usuario'
       },
       VALIDATION: {

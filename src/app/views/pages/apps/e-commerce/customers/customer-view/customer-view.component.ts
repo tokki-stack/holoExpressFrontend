@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { conforms } from 'lodash';
+import { CustomerGroupsService } from 'src/app/service/customer-groups.service';
 import { CustomerService } from 'src/app/service/customer.service';
 
 @Component({
@@ -14,6 +15,9 @@ export class CustomerViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private customerService: CustomerService,
+		private customerGroupsService: CustomerGroupsService,
+		private changeDetectorRefs: ChangeDetectorRef,
+
     private router: Router) { }
   customerID;
   status;
@@ -30,6 +34,9 @@ export class CustomerViewComponent implements OnInit {
   register;
   address;
   ruc;
+  customerGroup;
+	customerGroups;
+
   ngOnInit(): void {
 
     this.route.queryParams.subscribe(params => {
@@ -37,6 +44,17 @@ export class CustomerViewComponent implements OnInit {
       console.log(this.customer);
       this.customerID = this.customer.idcustomers;
     });
+    this.customerGroupsService.getAllCustomerGroups().then(customerGroups => {
+			this.customerGroups = customerGroups;
+			// this.customerGroups.push({
+			// 	idcustomerGroup: '0',
+			// 	name: 'Standard'
+			// })
+			this.customerGroups.map(customerGroup => {
+				console.log(customerGroup);
+				customerGroup.idcustomerGroup = customerGroup.idcustomerGroup.toString();
+			})
+		})
     this.customerService.getCustomerByID(this.customerID).then((result :any ) => {
       result[0]
       if (result[0].status == '0') {
@@ -56,6 +74,10 @@ export class CustomerViewComponent implements OnInit {
       this.register = result[0].register;
       this.address = result[0].address;
       this.ruc = result[0].ruc;
+      this.customerGroup = result[0].customerGroup;
+      this.changeDetectorRefs.detectChanges();
+
+      
     })
   }
 
@@ -105,7 +127,7 @@ export class CustomerViewComponent implements OnInit {
   }
   updateProfile() {
     this.disabledFlag = true;
-
+    
     if ((this.tempCustomer.firstName == this.firstName) &&
       (this.tempCustomer.lastName == this.lastName) &&
       (this.tempCustomer.email == this.email) &&
@@ -114,6 +136,7 @@ export class CustomerViewComponent implements OnInit {
       (this.tempCustomer.company == this.company) &&
       (this.tempCustomer.register == this.register) &&
       (this.tempCustomer.ruc == this.ruc) &&
+      (this.tempCustomer.customerGroup == this.customerGroup) &&
       (this.tempCustomer.address == this.address)) {
     }
     else {
@@ -128,6 +151,7 @@ export class CustomerViewComponent implements OnInit {
           mobile: this.mobile,
           phone: this.phone,
           register: this.register,
+          customerGroup: this.customerGroup,
         }
         this.customerService.updateProfile(this.tempCustomer.idcustomers, temp).then(result => {
           console.log(result);

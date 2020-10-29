@@ -5,19 +5,19 @@
                 <div class="row">
                     <div class="col-md-6" [formGroup]="settingForm">
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="Company Name" formControlName="companyName" />
+                            <input matInput placeholder="Compañia" formControlName="companyName" />
                         </mat-form-field>
                         <mat-form-field class="mat-form-field-fluid">
                             <input matInput placeholder="R.U.C" formControlName="ruc" />
                         </mat-form-field>
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="Street" formControlName="street" />
+                            <input matInput placeholder="Calle" formControlName="street" />
                         </mat-form-field>
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="State" formControlName="state" />
+                            <input matInput placeholder="Estado" formControlName="state" />
                         </mat-form-field>
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="Country" formControlName="country" />
+                            <input matInput placeholder="País" formControlName="country" />
                         </mat-form-field>
                         <mat-form-field class="mat-form-field-fluid">
                             <input matInput placeholder="itbms" formControlName="itbms" />
@@ -43,16 +43,16 @@
                 </div>
             </mat-card>
         </mat-tab>
-        <mat-tab label="Packages">
+        <mat-tab label="Paquetes">
             <kt-package-type></kt-package-type>
         </mat-tab>
-        <mat-tab label="Areas & Pricing">
+        <mat-tab label="Áreas y precios">
             <kt-pricing></kt-pricing>
         </mat-tab>
-        <mat-tab label="Customer Groups">
+        <mat-tab label="Grupos de clientes">
             <kt-customer-groups></kt-customer-groups>
         </mat-tab>
-        <mat-tab label="User management">
+        <mat-tab label="Gestión de usuarios">
             <kt-user-list></kt-user-list>
         </mat-tab>
 

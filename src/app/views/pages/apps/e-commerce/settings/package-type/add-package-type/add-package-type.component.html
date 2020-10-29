@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-header>
-        <div style="height: fit-content; margin-top: auto;">Add Package Type</div>
+        <div style="height: fit-content; margin-top: auto;">Agregar tipo de paquete</div>
         <button style="margin-left: auto;" type="button" mat-raised-button color="primary" (click)="addPackageType()">
             {{buttonName}}
         </button>
@@ -9,12 +9,12 @@
     <mat-card-content>
         <form class="card-body" [formGroup]="packageTypeForm">
             <mat-form-field class="mat-form-field-fluid">
-                <input matInput placeholder="Enter Package Type" formControlName="packageType"/>
-                <mat-error>Package Type is
-                    <strong>required</strong>
+                <input matInput placeholder="Ingrese el tipo de paquete" formControlName="packageType" />
+                <mat-error>Tipo de paquete es
+                    <strong>requerido</strong>
                 </mat-error>
-                <mat-hint align="start">Please enter
-                    <strong>Package Type</strong>
+                <mat-hint align="start">Por favor ingrese
+                    <strong>tipo de paquete</strong>
                 </mat-hint>
             </mat-form-field>
         </form>

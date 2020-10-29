@@ -18,6 +18,7 @@ export class PublicTrackingComponent implements OnInit {
   pickedUp;
   bodega;
   porEntregar;
+  maxStatus: number;
   constructor(
     private fb: FormBuilder,
     private packagesService: PackagesService,
@@ -31,8 +32,10 @@ export class PublicTrackingComponent implements OnInit {
     this.scanForm = this.fb.group({
 			idControl: ['', Validators.required],
     });
+    this.maxStatus = 0;
   }
   track(){
+    this.maxStatus = 0;
     this.statusTitle = undefined;
     this.accepted = undefined;
     this.pickedUp = undefined;
@@ -66,7 +69,7 @@ export class PublicTrackingComponent implements OnInit {
             var orderLogs: any;
             orderLogs = result;
             orderLogs.map(log => {
-              if (log.status == '1'){
+              if (log.status == '0' || log.status == '1'){
                 this.accepted = log.date;
                 this.stepperFlag = true;
                 this.changeDetectorRefs.detectChanges();
@@ -79,11 +82,15 @@ export class PublicTrackingComponent implements OnInit {
               var logs : any;
               logs = result;
               logs.map(log => {
+                if (this.maxStatus < parseInt(log.status)){
+                  this.maxStatus = parseInt(log.status);
+                  this.changeDetectorRefs.detectChanges();
+
+                }
                 if (log.status == '1') {
                   this.pickedUp = log.date;
                   this.stepperFlag = true;
                   this.changeDetectorRefs.detectChanges();
-
                 }
                 else if (log.status == '2') {
                   this.bodega = log.date;

@@ -15,7 +15,7 @@ import { OrdersService } from 'src/app/service/orders.service';
 })
 export class CustomerListComponent implements OnInit {
   dataSourceCustomer: MatTableDataSource<any>;
-  displayedColumns = ['id', 'firstName', 'lastName', 'company', 'orders', 'registered', 'status'];
+  displayedColumns = ['idcustomers', 'firstName', 'lastName', 'company', 'orders', 'register', 'status'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
@@ -35,6 +35,12 @@ export class CustomerListComponent implements OnInit {
   setDataSourceAttributes() {
     this.dataSourceCustomer.paginator = this.paginator;
     this.dataSourceCustomer.sort = this.sort;
+    this.dataSourceCustomer.sortingDataAccessor = (item, property): string | number => {
+			switch (property) {
+			  case 'register': return new Date(item.register).getTime();
+			  default: return item[property];
+			}
+    };
   }
   applyFilter(filterValue: string) {
     console.log(filterValue);

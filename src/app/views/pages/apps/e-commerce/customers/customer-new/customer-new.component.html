@@ -4,7 +4,7 @@
     </kt-alert>
     <div class="card-header">
         <div class="card-title">
-            <h3 class="card-label">New Customer</h3>
+            <h3 class="card-label">Nuevo Cliente</h3>
         </div>
         <div style="height: fit-content;
         margin-top: auto;
@@ -22,33 +22,33 @@
         <div class="row">
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Enter First Name" formControlName="firstName" />
-                    <mat-error>First Name is
-                        <strong>required</strong>
+                    <input matInput placeholder="Ingrese un nombre" formControlName="firstName" />
+                    <mat-error>Nombre es
+                        <strong>requerido</strong>
                     </mat-error>
-                    <mat-hint align="start">Please enter
-                        <strong>First Name</strong>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>Nombre</strong>
                     </mat-hint>
                 </mat-form-field>
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Enter Last Name" formControlName="lastName" />
-                    <mat-error>Last Name is
-                        <strong>required</strong>
+                    <input matInput placeholder="Ingrese un apellido" formControlName="lastName" />
+                    <mat-error>apellido es
+                        <strong>requerido</strong>
                     </mat-error>
-                    <mat-hint align="start">Please enter
-                        <strong>Last Name</strong>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>apellido</strong>
                     </mat-hint>
                 </mat-form-field>
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input type="email" matInput placeholder="Enter Email" formControlName="email" />
-                    <mat-error>Email is
-                        <strong>required</strong>
+                    <input type="email" matInput placeholder="Ingrese Email" formControlName="email" />
+                    <mat-error>Email es
+                        <strong>requerido</strong>
                     </mat-error>
-                    <mat-hint align="start">Please enter
+                    <mat-hint align="start">Por favor ingrese
                         <strong>Email</strong>
                     </mat-hint>
                 </mat-form-field>
@@ -57,34 +57,34 @@
         <div class="row" style="margin-top:20px">
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Enter PhoneNumber" formControlName="phone" />
-                    <mat-error>PhoneNumber is
-                        <strong>required</strong>
+                    <input matInput placeholder="Ingrese teléfono" formControlName="phone" />
+                    <mat-error>teléfono es
+                        <strong>requerido</strong>
                     </mat-error>
-                    <mat-hint align="start">Please enter
-                        <strong>PhoneNumber</strong>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>teléfono</strong>
                     </mat-hint>
                 </mat-form-field>
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Enter MobileNumber" formControlName="mobile" />
-                    <mat-error>MobileNumber is
-                        <strong>required</strong>
+                    <input matInput placeholder="Ingrese celular" formControlName="mobile" />
+                    <mat-error>celular es
+                        <strong> requerido</strong>
                     </mat-error>
-                    <mat-hint align="start">Please enter
-                        <strong>MobileNumber</strong>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>celular</strong>
                     </mat-hint>
                 </mat-form-field>
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Enter CompanyName" formControlName="company" />
-                    <mat-error>Company is
-                        <strong>required</strong>
+                    <input matInput placeholder="Ingrese Compañia" formControlName="company" />
+                    <mat-error>Compañia es
+                        <strong>requerido</strong>
                     </mat-error>
-                    <mat-hint align="start">Please enter
-                        <strong>Company</strong>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>Compañia</strong>
                     </mat-hint>
                 </mat-form-field>
             </div>
@@ -93,55 +93,37 @@
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
                     <input matInput placeholder="R.U.C" formControlName="ruc" />
-                    <mat-error>R.U.C is
-                        <strong>required</strong>
+                    <mat-error>R.U.C es
+                        <strong>requerido</strong>
                     </mat-error>
-                    <mat-hint align="start">Please enter
+                    <mat-hint align="start">Por favor ingrese
                         <strong>R.U.C</strong>
                     </mat-hint>
                 </mat-form-field>
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <input matInput placeholder="Address" formControlName="address" />
-                    <mat-error>Address is
-                        <strong>required</strong>
+                    <input matInput placeholder="Dirección" formControlName="address" />
+                    <mat-error>Dirección es
+                        <strong>requerido</strong>
                     </mat-error>
-                    <mat-hint align="start">Please enter
-                        <strong>Address</strong>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>Dirección</strong>
                     </mat-hint>
                 </mat-form-field>
             </div>
             <div class="col-md-3">
                 <mat-form-field class="mat-form-field-fluid">
-                    <mat-select placeholder="Customer Group" formControlName="type">
+                    <mat-select placeholder="Cliente Grupo" formControlName="type">
                         <mat-option *ngFor="let customerGroup of customerGroups" [value]="customerGroup.idcustomerGroup">{{customerGroup.name}}</mat-option>
                     </mat-select>
                     <mat-hint align="start">
-                        <strong>Customer Group</strong>
+                        <strong>Grupo de Clientes</strong>
                     </mat-hint>
                 </mat-form-field>
             </div>
         </div>
-        <!-- <div class="row" style="margin-top:20px; margin-top: 20px;
-        display: flex;
-        width: fit-content;
-        margin-left: auto;
-        margin-right: 30px;">
-            <button type="button" mat-raised-button color="primary" (click)="close()">
-                Cancel
-            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="button" mat-raised-button color="primary" (click)="save()">
-                Save
-            </button>
-        </div> -->
 
     </form>
-    <!-- <div style="margin: auto;">
-        <img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png">
-        <div>Welcome To HoloExpress</div>
-        <div>Your account was created</div>
-        <div>Email:</div>
-        <div>Password:</div>
-    </div> -->
+
 </div>

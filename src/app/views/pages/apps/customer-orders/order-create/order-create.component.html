@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-header>
-        <span style="font-size: x-large;">Order Information</span>
+        <span style="font-size: x-large;">Información de orden</span>
     </mat-card-header>
 
     <div class="separator separator-dashed my-6"></div>
@@ -9,60 +9,60 @@
 
         <mat-card>
             <mat-card-content>
-                <div style="margin-bottom: 10px;">Service Type</div>
+                <div style="margin-bottom: 10px;">Tipo de Servicio</div>
                 <div style="display: flex;">
                     <ng-container *ngIf="typeOfService == true">
                         <button style="width: 130px;" mat-raised-button color="primary" type="button" (click)="serviceType('1')">
-                            <span>Standard</span>
+                            <span>Estandar</span>
                         </button>
                         <button style="width: 130px;" mat-button color="primary" type="button" (click)="serviceType('2')" style="margin-left: 20px;">
-                            <span>Delivery Pickup</span>
+                            <span>Domicilio</span>
                         </button>
                     </ng-container>
                     <ng-container *ngIf="typeOfService == false">
                         <button style="width: 130px;" mat-button color="primary" type="button" (click)="serviceType('1')">
-                            <span>Standard</span>
+                            <span>Estandar</span>
                         </button>
                         <button style="width: 130px;" mat-raised-button color="primary" type="button" (click)="serviceType('2')" style="margin-left: 20px;">
-                            <span>Delivery Pickup</span>
+                            <span>Domicilio</span>
                         </button>
                     </ng-container>
 
                 </div>
                 <div class="separator separator-dashed my-6"></div>
-                <div>Delivery Information</div>
+                <div>Información de entrega</div>
                 <div class="separator separator-dashed my-6"></div>
                 <div class="row">
                     <div [formGroup]="pickUpAddressForm" class="col-md-5" *ngIf="!typeOfService">
                         <mat-form-field class="mat-form-field-fluid" style="margin-left: 20px;">
-                            <input style="color: black;" matInput placeholder="Pickup Address" formControlName="pickUpAddress" />
-                            <mat-error>Pickup Address is
-                                <strong>required</strong>
+                            <input style="color: black;" matInput placeholder="Pickup Dirección" formControlName="pickUpAddress" />
+                            <mat-error>Pickup Dirección es
+                                <strong>requerido</strong>
                             </mat-error>
-                            <mat-hint align="start">Please enter
-                                <strong>Pickup Address</strong>
+                            <mat-hint align="start">Por favor ingrese
+                                <strong>Pickup Dirección</strong>
                             </mat-hint>
                         </mat-form-field>
                         <div class="row" *ngIf="pickUpNoteFlag" style="margin-left:20px">
                             <mat-form-field class="mat-form-field-fluid">
-                                <input appFocuss matInput placeholder="Leave Notes Here..." formControlName="pickupAddressNote" />
+                                <input appFocuss matInput placeholder="Deja notas aquí..." formControlName="pickupAddressNote" />
                             </mat-form-field>
                         </div>
-                        <label *ngIf="!pickUpNoteFlag" style="color: #3699fd;cursor: pointer; margin-left: 20px; margin-top: 8px;" (click)="addNotes('pickup')">+ Add Notes</label>
+                        <label *ngIf="!pickUpNoteFlag" style="color: #3699fd;cursor: pointer; margin-left: 20px; margin-top: 8px;" (click)="addNotes('pickup')">+ Agregar Nota</label>
 
                         <div class="row" style="margin-left: 20px;">
                             <div class="col-lg-4 kt-margin-bottom-20-mobile" style="padding-left: 0px; width: 200px;">
                                 <mat-form-field class="mat-form-field-fluid">
-                                    <mat-select placeholder="State" formControlName="pickUpAddressState">
+                                    <mat-select placeholder="Provincia" formControlName="pickUpAddressState">
                                         <ng-container *ngFor="let state of states">
                                             <mat-option [value]="state.idstates" (click)="onStateChange(state,'p')">{{state.name}}</mat-option>
                                         </ng-container>
                                     </mat-select>
-                                    <mat-error>State is
-                                        <strong>required</strong>
+                                    <mat-error>Provincia es
+                                        <strong>requerido</strong>
                                     </mat-error>
-                                    <mat-hint align="start">Please enter
-                                        <strong>State</strong>
+                                    <mat-hint align="start">Por favor ingrese
+                                        <strong>Provincia</strong>
                                     </mat-hint>
                                 </mat-form-field>
                             </div>
@@ -73,10 +73,10 @@
                                             <mat-option [value]="area.idareas">{{area.name}}</mat-option>
                                         </ng-container>
                                     </mat-select>
-                                    <mat-error>Area is
-                                        <strong>required</strong>
+                                    <mat-error>Area es
+                                        <strong>requerido</strong>
                                     </mat-error>
-                                    <mat-hint align="start">Please enter
+                                    <mat-hint align="start">Por favor ingrese
                                         <strong>Area</strong>
                                     </mat-hint>
                                 </mat-form-field>
@@ -85,49 +85,49 @@
                     </div>
                     <div [formGroup]="deliveryAddressForm" class="col-md-5">
                         <mat-form-field class="mat-form-field-fluid" style="margin-left: 20px;">
-                            <input style="color: black;" matInput placeholder="Delivery Address" formControlName="deliveryAddress" />
-                            <mat-error>Delivery Address is
-                                <strong>required</strong>
+                            <input style="color: black;" matInput placeholder="Dirección de Entrega" formControlName="deliveryAddress" />
+                            <mat-error>Dirección de Entrega
+                                <strong>requerido</strong>
                             </mat-error>
-                            <mat-hint align="start">Please enter
-                                <strong>Delivery Address</strong>
+                            <mat-hint align="start">Por favor ingrese
+                                <strong>Dirección de Entrega</strong>
                             </mat-hint>
                         </mat-form-field>
                         <div class="row" *ngIf="deliveryNoteFlag" style="margin-left:20px">
                             <mat-form-field class="mat-form-field-fluid">
-                                <input appFocuss matInput placeholder="Leave Notes Here..." formControlName="deliveryAddressNote" />
+                                <input appFocuss matInput placeholder="Deja notas aquí..." formControlName="deliveryAddressNote" />
                             </mat-form-field>
                         </div>
-                        <label *ngIf="!deliveryNoteFlag" style="color: #3699fd;cursor: pointer; margin-left: 20px; margin-top: 8px;" (click)="addNotes('delivery')">+ Add Notes</label>
+                        <label *ngIf="!deliveryNoteFlag" style="color: #3699fd;cursor: pointer; margin-left: 20px; margin-top: 8px;" (click)="addNotes('delivery')">+ Agregar Nota</label>
 
                         <div class="row" style="margin-left: 20px;">
                             <div class="col-lg-4 kt-margin-bottom-20-mobile" style="padding-left: 0px; width: 200px;">
                                 <mat-form-field class="mat-form-field-fluid">
-                                    <mat-select placeholder="State" formControlName="deliveryAddressState">
+                                    <mat-select placeholder="Provincia" formControlName="deliveryAddressState">
                                         <ng-container *ngFor="let state of states">
                                             <mat-option [value]="state.idstates" (click)="onStateChange(state,'d')">{{state.name}}</mat-option>
                                         </ng-container>
                                     </mat-select>
-                                    <mat-error>State is
-                                        <strong>required</strong>
+                                    <mat-error>Provincia es
+                                        <strong>requerido</strong>
                                     </mat-error>
-                                    <mat-hint align="start">Please enter
-                                        <strong>State</strong>
+                                    <mat-hint align="start">Por favor escribe
+                                        <strong>Provincia</strong>
                                     </mat-hint>
                                 </mat-form-field>
                             </div>
                             <div class="col-lg-4 kt-margin-bottom-20-mobile" style="padding-left: 0px; width: 200px;">
                                 <mat-form-field class="mat-form-field-fluid">
-                                    <mat-select placeholder="State" formControlName="deliveryAddressArea" (selectionChange)="calcPrice()">
+                                    <mat-select placeholder="Area" formControlName="deliveryAddressArea" (selectionChange)="calcPrice()">
                                         <ng-container *ngFor="let area of deliveryAreas">
                                             <mat-option [value]="area.idareas">{{area.name}}</mat-option>
                                         </ng-container>
                                     </mat-select>
-                                    <mat-error>State is
-                                        <strong>required</strong>
+                                    <mat-error>Area es
+                                        <strong>requerido</strong>
                                     </mat-error>
-                                    <mat-hint align="start">Please enter
-                                        <strong>State</strong>
+                                    <mat-hint align="start">Por favor escribe
+                                        <strong>Area</strong>
                                     </mat-hint>
                                 </mat-form-field>
                             </div>
@@ -136,10 +136,10 @@
                             <div class="col-md-5">
                                 <mat-form-field class="mat-form-field-fluid" style="margin-left: 20px;">
                                     <input matInput placeholder="Nombre" formControlName="deliveryName" />
-                                    <mat-error>Nombre is
-                                        <strong>required</strong>
+                                    <mat-error>Nombre es
+                                        <strong>requerido</strong>
                                     </mat-error>
-                                    <mat-hint align="start">Please enter
+                                    <mat-hint align="start">Por favor escribe
                                         <strong>Nombre</strong>
                                     </mat-hint>
                                 </mat-form-field>
@@ -148,10 +148,10 @@
                             <div class="col-md-5">
                                 <mat-form-field class="mat-form-field-fluid">
                                     <input matInput placeholder="Telefono" formControlName="deliveryPhone" />
-                                    <mat-error>Telefono is
-                                        <strong>required</strong>
+                                    <mat-error>Telefono es
+                                        <strong>requerido</strong>
                                     </mat-error>
-                                    <mat-hint align="start">Please enter
+                                    <mat-hint align="start">Por favor escribe
                                         <strong>Telefono</strong>
                                     </mat-hint>
                                 </mat-form-field>
@@ -161,7 +161,7 @@
                     </div>
                 </div>
                 <div class="separator separator-dashed my-6"></div>
-                <div>Enter Packages Details</div>
+                <div>Detalles de su paquete</div>
                 <div class="separator separator-dashed my-6"></div>
 
 
@@ -170,7 +170,7 @@
 
                 <div class="row" *ngFor="let package of getControls();let i = index" [formGroup]="package">
                     <div class="col" style="margin-left: 20px;">
-                        <mat-label>Weight</mat-label>
+                        <mat-label>Peso</mat-label>
                         <mat-form-field appearance="outline" class="mat-form-field-fluid">
                             <div matPrefix>
                                 <button type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
@@ -183,8 +183,8 @@
                                 </mat-menu>
                             </div>
                             <input matInput type="number" min="0" formControlName="weight" (change)="calcPrice()" />
-                            <mat-error>Weight is
-                                <strong>required</strong>
+                            <mat-error>Peso es
+                                <strong>requerido</strong>
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -193,7 +193,7 @@
 
 
                     <div class="col" style="margin-left: 20px;">
-                        <mat-label>Length</mat-label>
+                        <mat-label>Largo</mat-label>
                         <mat-form-field appearance="outline" class="mat-form-field-fluid">
                             <div matPrefix>
                                 <button type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
@@ -206,14 +206,14 @@
                                 </mat-menu>
                             </div>
                             <input matInput type="number" min="0" formControlName="length" (change)="calcPrice()" />
-                            <mat-error>Length is
-                                <strong>required</strong>
+                            <mat-error>Largo es
+                                <strong>requerido</strong>
                             </mat-error>
                         </mat-form-field>
                     </div>
 
                     <div class="col" style="margin-left: 20px;">
-                        <mat-label>Width</mat-label>
+                        <mat-label>Ancho</mat-label>
                         <mat-form-field appearance="outline" class="mat-form-field-fluid">
                             <div matPrefix>
                                 <button type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
@@ -226,14 +226,14 @@
                                 </mat-menu>
                             </div>
                             <input matInput type="number" min="0" formControlName="width" (change)="calcPrice()" />
-                            <mat-error>Width is
-                                <strong>required</strong>
+                            <mat-error>Ancho es
+                                <strong>requerido</strong>
                             </mat-error>
                         </mat-form-field>
                     </div>
 
                     <div class="col" style="margin-left: 20px;">
-                        <mat-label>Height</mat-label>
+                        <mat-label>Altura</mat-label>
                         <mat-form-field appearance="outline" class="mat-form-field-fluid">
                             <div matPrefix>
                                 <button type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
@@ -246,15 +246,15 @@
                                 </mat-menu>
                             </div>
                             <input matInput type="number" min="0" formControlName="height" (change)="calcPrice()" />
-                            <mat-error>Height is
-                                <strong>required</strong>
+                            <mat-error>Altura es
+                                <strong>requerido</strong>
                             </mat-error>
                         </mat-form-field>
                     </div>
 
                     <div class="col-md-2" style="height: fit-content; margin-top: 20px; margin-left: 10px;">
                         <mat-form-field class="mat-form-field-fluid" style="width: 100%">
-                            <mat-select placeholder="Type" formControlName="type" (selectionChange)="calcPrice()">
+                            <mat-select placeholder="Tipo" formControlName="type" (selectionChange)="calcPrice()">
                                 <mat-option *ngFor="let type of packageTypes" [value]="type.idpackageType">{{type.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -267,20 +267,20 @@
                     </div>
                 </div>
                 <div class="separator separator-dashed my-6"></div>
-                <div>Set an Order</div>
+                <div>Establecer una orden</div>
                 <div class="separator separator-dashed my-6"></div>
                 <div class="row">
                     <div class="col">
-                        <div style="font-size: 15px;"><strong>Shipping Price: ${{totalPrice}}</strong></div>
-                        <div>Any extra comment for customer read before process order</div>
+                        <div style="font-size: 15px;"><strong>Precio de servicio: ${{totalPrice}}</strong></div>
+                        <div>Cualquier comentario adicional para que el cliente lea antes de procesar el pedido.</div>
                     </div>
                     <div class="col">
-                        <div style="width: fit-content; margin-left: auto; font-size: 15px;"><strong>Want to create an order?</strong></div>
+                        <div style="width: fit-content; margin-left: auto; font-size: 15px;"><strong>¿Deseas crear una orden?</strong></div>
                         <button mat-raised-button color="primary" type="button" (click)="processOrder()" style="margin-left: auto;
                         display: flex;
                         margin-right: 15px;
                         margin-top: 10px;">
-                            <span>Process Order</span>
+                            <span>Procesar orden</span>
                         </button>
                     </div>
                 </div>

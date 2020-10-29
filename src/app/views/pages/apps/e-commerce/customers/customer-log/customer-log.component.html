@@ -1,18 +1,18 @@
 <mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="date">
-        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
         <mat-cell *matCellDef="let detail">
             {{detail.date}}
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Descripción</mat-header-cell>
         <mat-cell *matCellDef="let detail">
             {{detail.description}}
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="user">
-        <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Usuario</mat-header-cell>
         <mat-cell *matCellDef="let detail">
             {{detail.admin}}
         </mat-cell>

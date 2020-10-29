@@ -32,6 +32,7 @@ export class PackageViewComponent implements OnInit {
   order;
   tempResult;
   tempArea;
+  pack;
   constructor(
     public dialog: MatDialog,
 		private route: ActivatedRoute,
@@ -64,6 +65,7 @@ export class PackageViewComponent implements OnInit {
           this.order.deliveryAreaName = this.tempArea.name;
           this.packagesService.getPackagesByOrderID(this.order.idorders).then(packages => {
             this.packages = packages;
+            this.pack = this.packages[0];
             console.log("this.packages",this.packages);
             this.packages.map(pkg => {
 					    pkg.orderStatus = this.order.status;
@@ -95,7 +97,7 @@ export class PackageViewComponent implements OnInit {
         this.messengerService.getMessengerByID(log.idmessengers).then(result => {
           log.user = result[0].name;
           if(log.status == '0'){
-            log.description = 'Order Pending';
+            log.description = 'Order Created';
           }
           else if(log.status == '1'){
             log.description = 'Order in Progress';
@@ -117,8 +119,7 @@ export class PackageViewComponent implements OnInit {
 
   }
   print(pack){
-		const dialogRef = this.dialog.open(PrintLabelComponent, { data: { pack } });
-
+    const dialogRef = this.dialog.open(PrintLabelComponent, { data: { pack } });
   }
   menuChange(event){
     console.log(event.target.outerText);

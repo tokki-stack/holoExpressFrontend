@@ -119,7 +119,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 					console.log(result);
 					var config = {
 						email: email,
-						html : '<div style="margin: auto;"><img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png"><div>Welcome To HoloExpress</div><div>Hit the link below to reset your password</div><div>'+
+						html : '<div style="margin: auto;"><img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png"><div>Bienvenido a Holoexpress</div><div>Dale click al siguiente enlace para reiniciar tu contraseña</div><div>'+
 						redirectURL + '</div></div>'
 					}
 					this.emailService.sendmail(config).then(result => {

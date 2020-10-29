@@ -35,12 +35,18 @@ export class InvoicesListComponent implements OnInit {
 
 
 	dataSource: MatTableDataSource<any>;
-	displayedColumns = ['check','id','date','customer','orders', 'total', 'status'];
+	displayedColumns = ['check','idinvoice','date','customer','orders', 'total', 'status'];
 
   setDataSourceAttributes() {
 		this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.pipe = new DatePipe('en');
+    this.dataSource.sortingDataAccessor = (item, property): string | number => {
+			switch (property) {
+			  case 'date': return new Date(item.date).getTime();
+			  default: return item[property];
+			}
+    };
     this.dataSource.filterPredicate = (data, filter) =>{
       console.log("filterPredicate");
       this.pipe = new DatePipe('en');
@@ -72,7 +78,7 @@ export class InvoicesListComponent implements OnInit {
     this.userRole = window.localStorage.getItem('userRole');
     if(this.userRole == '1' || this.userRole == '10') {
       
-      this.displayedColumns = ['check','id','date','customer','orders', 'total', 'status'];
+      this.displayedColumns = ['check','idinvoice','date','customer','orders', 'total', 'status'];
 
       this.invoiceService.getAllInvoices().then(result => {
         console.log(result);
@@ -138,7 +144,7 @@ export class InvoicesListComponent implements OnInit {
       });
     }
     else {
-      this.displayedColumns = ['check','id','date','orders', 'total', 'status'];
+      this.displayedColumns = ['check','idinvoice','date','orders', 'total', 'status'];
 
       this.invoiceService.getInvoicesByCustomerID(window.localStorage.getItem('idcustomers')).then(result => {
         console.log(result);

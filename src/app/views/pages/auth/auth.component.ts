@@ -4,7 +4,7 @@ import { Component, ElementRef, OnInit, Renderer2, ViewEncapsulation } from '@an
 import { LayoutConfigService, SplashScreenService, TranslationService } from '../../../core/_base/layout';
 // Auth
 import { AuthNoticeService } from '../../../core/auth';
-
+import { Router  } from '@angular/router';
 @Component({
 	selector: 'kt-auth',
 	templateUrl: './auth.component.html',
@@ -15,7 +15,7 @@ export class AuthComponent implements OnInit {
 	// Public properties
 	today: number = Date.now();
 	headerLogo: string;
-
+	loginSignupFlag;
 	/**
 	 * Component constructor
 	 *
@@ -32,7 +32,9 @@ export class AuthComponent implements OnInit {
 		private layoutConfigService: LayoutConfigService,
 		public authNoticeService: AuthNoticeService,
 		private translationService: TranslationService,
-		private splashScreenService: SplashScreenService) {
+		private splashScreenService: SplashScreenService,
+		private router: Router
+		) {
 	}
 
 	/**
@@ -47,6 +49,17 @@ export class AuthComponent implements OnInit {
 		this.headerLogo = this.layoutConfigService.getLogo();
 
 		this.splashScreenService.hide();
+		console.log(this.router.url);
+		if (this.router.url == '/auth/login'){
+			this.loginSignupFlag = true;
+		}
+		else {
+			this.loginSignupFlag = false;
+		}
+	}
+	loginSignup(){
+		this.loginSignupFlag = !this.loginSignupFlag;
+
 	}
 
 	/**

@@ -7,9 +7,9 @@
             Tracking
         </div> -->
         <mat-form-field class="mat-form-field-fluid" style="width: 600px;font-size: 50px;margin-left: auto;margin-right: auto;">
-            <input #scanInput matInput placeholder="Enter a Tracking Number..." formControlName="idControl" (keydown.enter)="track()" [(ngModel)]="trackingID" />
+            <input #scanInput matInput placeholder="Ingrese un número de tracking..." formControlName="idControl" (keydown.enter)="track()" [(ngModel)]="trackingID" />
         </mat-form-field>
-        <mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="stepperFlag">
+        <!-- <mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="stepperFlag">
             <mat-step>
                 <ng-template matStepLabel>
                     <div>orden aceptado</div>
@@ -34,7 +34,100 @@
                     <div>{{porEntregar == 'undefined' ? '' : porEntregar}}</div>
                 </ng-template>
             </mat-step>
-        </mat-horizontal-stepper>
+        </mat-horizontal-stepper> -->
+        <div class="container" *ngIf="stepperFlag">
+            <div class="row" style="font-weight: 500;
+            font-size: 14px;">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-1">
+                            <div style="width: 20px;
+                            height: 20px;
+                            text-align: center;
+                            border-radius: 10px;
+                            color: white;
+                            /* background: #3699ff; */
+                            margin-top: 10px;" [ngStyle]="maxStatus >= 0 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                1
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div>orden aceptado</div>
+                            <div>{{accepted == 'undefined' ? '' : accepted}}</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-1">
+                            <div style="width: 20px;
+                            height: 20px;
+                            text-align: center;
+                            border-radius: 10px;
+                            color: white;
+                            /* background: #3699ff; */
+                            margin-top: 10px;" [ngStyle]="maxStatus >= 1 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                <!-- [ngStyle]="pickedUp == 'undefined' ? {'background': grey} : {'background': #3699ff}" -->
+                                2
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div>recibido</div>
+                            <div>{{pickedUp == 'undefined' ? '' : pickedUp}}</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-1">
+                            <div style="width: 20px;
+                            height: 20px;
+                            text-align: center;
+                            border-radius: 10px;
+                            color: white;
+                            /* background: #3699ff; */
+                            margin-top: 10px;" [ngStyle]="maxStatus >= 2 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                3
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div>Enviado</div>
+                            <div>{{bodega == 'undefined' ? '' : bodega}}</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-1">
+                            <div style="width: 20px;
+                            height: 20px;
+                            text-align: center;
+                            border-radius: 10px;
+                            color: white;
+                            /* background: #3699ff; */
+                            margin-top: 10px;" [ngStyle]="maxStatus >= 3 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                4
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div>Entregado</div>
+                            <div>{{porEntregar == 'undefined' ? '' : porEntregar}}</div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <div style="font-size: 50px;
         width: fit-content;
         margin-left: auto;
@@ -49,21 +142,21 @@
         margin-right: auto;
         margin-top: 18vh;">
             <button mat-raised-button color="primary" type="button" (click)="track()">
-                <span>Search</span>
+                <span>Buscar</span>
             </button>
         </div>
 
         <div class="row">
             <div class="text-dark-50 text-hover-primary my-3 mr-2" id="kt_login_forgot" style="display: flex; cursor: pointer;">
                 <div>
-                    Already have an account?
+                    ¿Ya tienes una cuenta?
                 </div>
                 <div style="margin-left: 10px;">
-                    Sign in
+                    Regístrate
                 </div>
             </div>
             <div class="text-dark-50 text-hover-primary my-3 mr-2" id="kt_login_forgot" style="margin-left: auto; cursor: pointer;">
-                Create an account?
+                ¿Crea una cuenta?
             </div>
         </div>
     </div>

@@ -58,7 +58,7 @@ export class TranslationService {
     if (lang) {
       this.translate.use(this.translate.getDefaultLang());
       this.translate.use(lang);
-      localStorage.setItem('language', lang);
+      localStorage.setItem('language', 'es');
     }
   }
 

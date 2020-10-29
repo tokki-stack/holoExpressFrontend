@@ -35,7 +35,7 @@ export class OrdersListComponent implements OnInit {
 	pageIndex: number = 0;
 	length: number = 10;
 
-	displayedColumns = ['check', 'id', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
+	displayedColumns = ['check', 'idorders', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
 	selection = new SelectionModel<any>(true, []);
 
 	orders: any;
@@ -59,6 +59,7 @@ export class OrdersListComponent implements OnInit {
 	) { }
 
 	async ngOnInit(): Promise<void> {
+
 		this.checkedFlag = false;
 		this.orders = [];
 		this.pending = 0;
@@ -119,7 +120,12 @@ export class OrdersListComponent implements OnInit {
 	setDataSourceAttributes() {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
-
+		this.dataSource.sortingDataAccessor = (item, property): string | number => {
+			switch (property) {
+			  case 'date': return new Date(item.date).getTime();
+			  default: return item[property];
+			}
+		  };
 	}
 	applyFilter(filterValue: string) {
 		filterValue = filterValue.trim(); // Remove whitespace
@@ -169,14 +175,14 @@ export class OrdersListComponent implements OnInit {
 			this.dataSource = new MatTableDataSource(this.openOrders);
 			this.setDataSourceAttributes();
 			this.total = this.openOrders.length;
-			this.displayedColumns = ['check', 'id', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
+			this.displayedColumns = ['check', 'idorders', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
 		}
 		else if (this.title == "Closed Orders") {
 			this.openFlag = 2;
 			this.dataSource = new MatTableDataSource(this.closedOrders);
 			this.setDataSourceAttributes();
 			this.total = this.closedOrders.length;
-			this.displayedColumns = ['id', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
+			this.displayedColumns = ['idorders', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
 
 		}
 		else {
@@ -184,7 +190,7 @@ export class OrdersListComponent implements OnInit {
 			this.dataSource = new MatTableDataSource(this.orders);
 			this.setDataSourceAttributes();
 			this.total = this.orders.length;
-			this.displayedColumns = ['id', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
+			this.displayedColumns = ['idorders', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
 
 		}
 	}

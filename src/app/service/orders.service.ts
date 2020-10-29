@@ -58,39 +58,42 @@ export class OrdersService {
             var tempResult;
             tempResult = json;
             var idorders = tempResult.insertId;
-            await this.invoiceService.checkinvoiceForCustomer(order.idcustomers).then(result=> {
-              tempResult = result
-              if(tempResult.length == 0){
-                this.settingService.getSettings().then(result => {
-                  this.invoiceService.createNewInvoice(order.idcustomers,'0', result[0].itbms).then(result => {
-                    tempResult = result
-                    this.invoiceService.createNewInvoicedOrder({
-                      description: 'Servicio de entrega ' + idorders,
-                      price: order.cost,
-                    }, tempResult.insertId).then(result => {
-                      order['billing'] = tempResult.insertId;
-                      order['idorders'] = idorders;
-                      this.updateOrder(order).then(result => {
+            this.orderLog(idorders, '0', window.localStorage.getItem("userID")).then(async temp => {
+              await this.invoiceService.checkinvoiceForCustomer(order.idcustomers).then(result=> {
+                tempResult = result
+                if(tempResult.length == 0){
+                  this.settingService.getSettings().then(result => {
+                    this.invoiceService.createNewInvoice(order.idcustomers,'0', result[0].itbms).then(result => {
+                      tempResult = result
+                      this.invoiceService.createNewInvoicedOrder({
+                        description: 'Servicio de entrega ' + idorders,
+                        price: order.cost,
+                      }, tempResult.insertId).then(result => {
+                        order['billing'] = tempResult.insertId;
+                        order['idorders'] = idorders;
+                        this.updateOrder(order).then(result => {
+                        })
                       })
                     })
                   })
-                })
-
-              }
-              else {
-                var idinvoice = result[0].idinvoice;
-                this.invoiceService.createNewInvoicedOrder({
-                  description: 'Servicio de entrega ' + idorders,
-                  price: order.cost,
-                }, result[0].idinvoice).then(result => {
-                  order['billing'] = idinvoice;
-                  order['idorders'] = idorders;
-                  this.updateOrder(order).then(result => {
+  
+                }
+                else {
+                  var idinvoice = result[0].idinvoice;
+                  this.invoiceService.createNewInvoicedOrder({
+                    description: 'Servicio de entrega ' + idorders,
+                    price: order.cost,
+                  }, result[0].idinvoice).then(result => {
+                    order['billing'] = idinvoice;
+                    order['idorders'] = idorders;
+                    this.updateOrder(order).then(result => {
+                    })
                   })
-                })
-              }
+                }
+              })
+              resolve(json);
             })
-            resolve(json);
+
           },
           error => {
             reject(error);
