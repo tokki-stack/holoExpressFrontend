@@ -75,15 +75,16 @@ export class CustomerNewComponent implements OnInit {
 					// window.alert("successfully saved!(default password is 123)")
 					var config = {
 						email: this.customerForm.value.email,
-						html : '<div style="margin: auto;"><img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png"><div>Welcome To HoloExpress</div><div>Your account was created</div><div>Email: '+
-						this.customerForm.value.email + '</div><div>Password: '+this.tempResult.password+'</div></div>'
+						title: "Bienvenido a HoloExpress",
+						html : '<div style="margin: auto;"><img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png"><div>Bienvenido a holoeExpress.</div><div>Tu cuenta ha sido creada y puedes crear órdenes de envíos a través de nuestra plataforma www.clientes.holoexpresspanama.com</div><div style="margin-top: 20px;">Utiliza los siguientes credenciales para ingresar:</div><div style="margin-top: 20px;">Email: '+
+						this.customerForm.value.email + '</div><div>Password: '+this.tempResult.password+'</div><div style="margin-top: 20px;">Gracias por preferirnos</div><div style="margin-top: 20px;">Equipo de HoloExpress</div></div>'
 					}
 					this.emailService.sendmail(config).then(result => {
 						console.log(result);
-						window.alert("email successfully delivered")
+						window.alert("correo electrónico entregado correctamente")
 					}).catch(err => {
 						console.log(err);
-						window.alert("Unfortunately message did not delivered!");
+						window.alert("Lamentablemente, el mensaje no se entregó.");
 					})
 					this.router.navigate(['ecommerce/customers']);
 					// this.dialogRef.close({ data: this.customerForm.value, status: 'success', registered: this.tempResult.registered });

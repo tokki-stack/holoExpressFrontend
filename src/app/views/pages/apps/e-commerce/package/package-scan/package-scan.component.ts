@@ -78,6 +78,8 @@ export class PackageScanComponent implements OnInit {
         console.log(result.assignedTo);
         order.assignedTo = result.assignedTo;
         this.scanLog(order, pack);
+        this.scanInput.nativeElement.focus();
+
       })
     }
     else{

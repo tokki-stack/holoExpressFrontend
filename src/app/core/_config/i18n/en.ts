@@ -17,11 +17,11 @@ export const locale = {
     AUTH: {
       GENERAL: {
         OR: 'Or',
-        SUBMIT_BUTTON: 'Submit',
+        SUBMIT_BUTTON: 'Enviar',
         NO_ACCOUNT: 'Don\'t have an account?',
         SIGNUP_BUTTON: 'Sign Up',
         FORGOT_BUTTON: 'Forgot Password',
-        BACK_BUTTON: 'Back',
+        BACK_BUTTON: 'Espalda',
         PRIVACY: 'Privacy',
         LEGAL: 'Legal',
         CONTACT: 'Contact',
@@ -31,7 +31,7 @@ export const locale = {
         BUTTON: 'Sign In',
       },
       FORGOT: {
-        TITLE: 'Forgotten Password?',
+        TITLE: 'Contraseña olvidada?',
         DESC: 'Enter your email to reset your password',
         SUCCESS: 'Your account has been successfully reset.'
       },

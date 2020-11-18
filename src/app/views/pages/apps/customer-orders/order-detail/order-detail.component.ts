@@ -16,7 +16,7 @@ import { OrdersService } from 'src/app/service/orders.service';
 export class OrderDetailComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   dataSource: MatTableDataSource<any>;
-  displayedColumns = ['weight', 'volWeight', 'length', 'width', 'height', 'type'];
+  displayedColumns = ["tracking",'weight', 'volWeight', 'length', 'width', 'height', 'type'];
   isLinear = false;
 
   order;
@@ -29,6 +29,9 @@ export class OrderDetailComponent implements OnInit {
   bodega: any;
   porEntregar: any;
   stepperFlag: boolean;
+  orderCompletedFlag: boolean;
+  maxStatus: number;
+
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
@@ -42,14 +45,34 @@ export class OrderDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.maxStatus = 0;
+
     this.route.queryParams.subscribe(params => {
       this.order = params;
+    })
+    console.log("order",this.order);
+    this.ordersService.getCompletedOrderDetail(this.order.idorders).then((result:any) => {
+      console.log(result.length);
+      if (result.length == 0){
+        this.orderCompletedFlag = false;
+      }
+      else {
+        this.orderCompletedFlag = true;
+
+      }
     })
     this.packagesService.getPackagesByOrderID(this.order.idorders).then(result => {
       this.packages = result;
       console.log(this.packages);
       this.idpackages = this.packages[0].idpackages;
       this.packages.map(_package => {
+
+        var len = 6 - _package.idpackages.toString().length;
+        var tmpString = 'H';
+        for (var i = 0; i < len; i ++) {
+          tmpString = tmpString + '0'
+        }
+        _package.tracking = tmpString + _package.idpackages;
 
         console.log(_package);
         this.packageTypeService.getPackageTypeByID(_package.type).then(async result => {
@@ -66,7 +89,7 @@ export class OrderDetailComponent implements OnInit {
     })
   }
   deliveryProof(): void {
-    const dialogRef = this.dialog.open(DeliveryProofComponent, { data: {} });
+    const dialogRef = this.dialog.open(DeliveryProofComponent, { data: {order:this.order} });
   }
   track(){
     this.accepted = undefined;
@@ -103,19 +126,24 @@ export class OrderDetailComponent implements OnInit {
             var logs : any;
             logs = result;
             logs.map(log => {
-              if (log.status == '1') {
+              if (this.maxStatus < parseInt(log.status)){
+                this.maxStatus = parseInt(log.status);
+                this.changeDetectorRefs.detectChanges();
+
+              }
+              if (log.status == '2') {
                 this.pickedUp = log.date;
                 this.stepperFlag = true;
                 this.changeDetectorRefs.detectChanges();
 
               }
-              else if (log.status == '2') {
+              else if (log.status == '3') {
                 this.bodega = log.date;
                 this.stepperFlag = true;
                 this.changeDetectorRefs.detectChanges();
 
               }
-              else if (log.status == '3') {
+              else if (log.status == '5' || log.status == '4') {
                 this.porEntregar = log.date;
                 this.stepperFlag = true;
                 this.changeDetectorRefs.detectChanges();

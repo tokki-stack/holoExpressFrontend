@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FakeApiService } from '../../../../../../core/_base/layout/server/fake-api/fake-api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortable } from '@angular/material/sort';
 import { Router, NavigationExtras } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderEditComponent } from '../order-edit/order-edit.component'
@@ -67,9 +67,8 @@ export class OrdersListComponent implements OnInit {
 		this.completed = 0;
 		this.cancelled = 0;
 		this.openFlag = 1;
-		this.title = "Open Orders"
+		this.title = "Todos"
 		this.total = 0;
-
 		await this.ordersService.getAllOrders().then(async result => {
 			this.orders = result;
 			this.orders = this.orders.reverse();
@@ -80,7 +79,7 @@ export class OrdersListComponent implements OnInit {
 					this.packagesService.getPackagesByOrderID(result.idorders).then(packages => {
 						this.packages = packages;
 						result['items'] = this.packages.length;
-						this.dataSource = new MatTableDataSource(this.openOrders);
+						this.dataSource = new MatTableDataSource(this.orders);
 						this.setDataSourceAttributes();
 						this.changeDetectorRefs.detectChanges();
 					})
@@ -170,14 +169,14 @@ export class OrdersListComponent implements OnInit {
 	
 	menuChange(event) {
 		this.title = event.target.outerText;
-		if (this.title == "Open Orders") {
+		if (this.title == "Abiertas") {
 			this.openFlag = 1;
 			this.dataSource = new MatTableDataSource(this.openOrders);
 			this.setDataSourceAttributes();
 			this.total = this.openOrders.length;
 			this.displayedColumns = ['check', 'idorders', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
 		}
-		else if (this.title == "Closed Orders") {
+		else if (this.title == "Cerrradas") {
 			this.openFlag = 2;
 			this.dataSource = new MatTableDataSource(this.closedOrders);
 			this.setDataSourceAttributes();
@@ -190,7 +189,7 @@ export class OrdersListComponent implements OnInit {
 			this.dataSource = new MatTableDataSource(this.orders);
 			this.setDataSourceAttributes();
 			this.total = this.orders.length;
-			this.displayedColumns = ['idorders', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
+			this.displayedColumns = ['check','idorders', 'date', 'customer', 'items', 'cost', 'billing', 'status'];
 
 		}
 	}

@@ -173,7 +173,7 @@
                         <mat-label>Peso</mat-label>
                         <mat-form-field appearance="outline" class="mat-form-field-fluid">
                             <div matPrefix>
-                                <button type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
                                 margin-left: -7px;
                                 height: 45px;
                                 border-radius: 4px;" [matMenuTriggerFor]="menuWeightT">{{weightType}}</button>
@@ -196,7 +196,7 @@
                         <mat-label>Largo</mat-label>
                         <mat-form-field appearance="outline" class="mat-form-field-fluid">
                             <div matPrefix>
-                                <button type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
                                 margin-left: -7px;
                                 height: 45px;
                                 border-radius: 4px;" [matMenuTriggerFor]="menu">{{lengthType}}</button>
@@ -204,6 +204,7 @@
                                     <a class="dropdown-item" (click)="changelengthType('cm')">cm</a>
                                     <a class="dropdown-item" (click)="changelengthType('inch')">inch</a>
                                 </mat-menu>
+
                             </div>
                             <input matInput type="number" min="0" formControlName="length" (change)="calcPrice()" />
                             <mat-error>Largo es
@@ -216,7 +217,7 @@
                         <mat-label>Ancho</mat-label>
                         <mat-form-field appearance="outline" class="mat-form-field-fluid">
                             <div matPrefix>
-                                <button type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
                                 margin-left: -7px;
                                 height: 45px;
                                 border-radius: 4px;" [matMenuTriggerFor]="menu">{{lengthType}}</button>
@@ -236,7 +237,7 @@
                         <mat-label>Altura</mat-label>
                         <mat-form-field appearance="outline" class="mat-form-field-fluid">
                             <div matPrefix>
-                                <button type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
                                 margin-left: -7px;
                                 height: 45px;
                                 border-radius: 4px;" [matMenuTriggerFor]="menu">{{lengthType}}</button>

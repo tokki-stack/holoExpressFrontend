@@ -87,18 +87,18 @@ export class PublicTrackingComponent implements OnInit {
                   this.changeDetectorRefs.detectChanges();
 
                 }
-                if (log.status == '1') {
+                if (log.status == '2') {
                   this.pickedUp = log.date;
                   this.stepperFlag = true;
                   this.changeDetectorRefs.detectChanges();
                 }
-                else if (log.status == '2') {
+                else if (log.status == '3') {
                   this.bodega = log.date;
                   this.stepperFlag = true;
                   this.changeDetectorRefs.detectChanges();
 
                 }
-                else if (log.status == '3') {
+                else if (log.status == '5' || log.status == '4') {
                   this.porEntregar = log.date;
                   this.stepperFlag = true;
                   this.changeDetectorRefs.detectChanges();

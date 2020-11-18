@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit(): void {
 		this.initLoginForm();
-		this.roleFlag = true; //true : customer , false: admin
+		this.roleFlag = false; //true : customer , false: admin
 		this.roleTitle = "customer";
 		// redirect back to the returnUrl before login
 		this.route.queryParams.subscribe(params => {
@@ -159,7 +159,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 			this.customerService.getCustomerByEmail(authData).then(result => {
 				this.tempResult = result;
 				if (this.tempResult.length == 0){
-					this.authNoticeService.setNotice('please input valid email and password', 'danger');
+					this.authNoticeService.setNotice('Ingrese un correo electrónico y una contraseña válidos', 'danger');
 				}
 				else{
 					if(this.tempResult[0].status == 1){
@@ -185,7 +185,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 				console.log(this.tempResult);
 
 				if (this.tempResult.length == 0){
-					this.authNoticeService.setNotice('please input valid email and password', 'danger');
+					this.authNoticeService.setNotice('Ingrese un correo electrónico y una contraseña válidos', 'danger');
 				}
 				else{
 					if(this.tempResult[0].status == 1){

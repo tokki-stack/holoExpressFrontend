@@ -91,25 +91,32 @@ export class PackageViewComponent implements OnInit {
         })
       })
     })
-    await this.ordersService.getOrderLog(this._package.idorders).then(logs => {
-      this.logs = logs;
+    await this.ordersService.getOrderLog(this._package.idorders).then((logs:any) => {
+      this.logs = logs.reverse();
+      console.log(this.logs);
       this.logs.map(log => {
-        this.messengerService.getMessengerByID(log.idmessengers).then(result => {
-          log.user = result[0].name;
-          if(log.status == '0'){
-            log.description = 'Order Created';
-          }
-          else if(log.status == '1'){
-            log.description = 'Order in Progress';
-          }
-          else if(log.status == '2'){
-            log.description = 'Order Completed';
-          }
-          else if(log.status == '3'){
-            log.description = 'Order Cancelled';
-          }
+        if(log.status == '0'){
+          log.description = 'Order Created';
+        }
+        else if(log.status == '1'){
+          log.description = 'Order in Progress';
+        }
+        else if(log.status == '2'){
+          log.description = 'Order Completed';
+        }
+        else if(log.status == '3'){
+          log.description = 'Order Cancelled';
+        }
+        if (log.idmessengers == null){
           this.dataSourceLog = new MatTableDataSource(this.logs);
-        })
+        }
+        else {
+          this.messengerService.getMessengerByID(log.idmessengers).then(result => {
+            log.user = result[0].name;
+            this.dataSourceLog = new MatTableDataSource(this.logs);
+          })
+        }
+
       })
     })
     

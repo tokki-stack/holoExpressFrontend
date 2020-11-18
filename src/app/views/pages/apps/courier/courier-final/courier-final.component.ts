@@ -25,13 +25,15 @@ export class CourierFinalComponent implements OnInit {
   receiver;
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.order = params;
+      this.order = JSON.parse(JSON.stringify(params));
     })
   }
   signature() {
     console.log(this.detail, this.order.idorders);
     console.log(this.selectedFile);
+    console.log(this.order.deliveryName);
 
+    
     if (window.confirm("scanning signature!")) {
       var idmessenger = window.localStorage.getItem('userID');
       this.ordersService.setOrderStatus(this.order.idorders, '2', idmessenger).then(result => {
@@ -50,7 +52,7 @@ export class CourierFinalComponent implements OnInit {
         this.imageService.uploadImage(this.selectedFile.file).then(result => {
           console.log(result);
           var tempResult: any = result;
-          this.ordersService.createOrderDetail(this.order.idorders, this.detail, tempResult?.path).then(result => {
+          this.ordersService.createOrderDetail(this.order.idorders, this.detail, tempResult?.path, this.order.deliveryName).then(result => {
             console.log(result);
           })
   
@@ -59,7 +61,7 @@ export class CourierFinalComponent implements OnInit {
         })
       }
       else{
-        this.ordersService.createOrderDetail(this.order.idorders, this.detail, '').then(result => {
+        this.ordersService.createOrderDetail(this.order.idorders, this.detail, '',this.order.deliveryName).then(result => {
           console.log(result);
         })
       }

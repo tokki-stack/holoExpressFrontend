@@ -35,6 +35,22 @@ export class OrdersService {
         );
     });
   }
+  
+  getCompletedOrderDetail(idorders) {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(this.baseURL + '/orders/getCompletedOrderDetail', {idorders: idorders})
+        .subscribe(
+          json => {
+            resolve(json);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
+  }
+
   getAllOrders(){
     return new Promise((resolve, reject) => {
       this.http
@@ -218,10 +234,10 @@ export class OrdersService {
     });
   }
 
-  createOrderDetail(idorders, detail, path) {
+  createOrderDetail(idorders, detail, path, receiver) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/createOrderDetail', { idorders: idorders, detail: detail, path: path})
+        .post(this.baseURL + '/orders/createOrderDetail', { idorders: idorders, detail: detail, path: path, receiver: receiver})
         .subscribe(
           json => {
             resolve(json);

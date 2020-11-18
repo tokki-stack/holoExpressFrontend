@@ -7,16 +7,14 @@
         <div class="row">
             <div class="col">
                 <div>Received by</div>
-                <div><strong>Juan Perez</strong></div>
+                <div><strong>{{proof?.receiver}}</strong></div>
             </div>
             <div class="col">
                 <div>Extra Comments</div>
-                <div><strong>comments comments comments, comments, comments</strong></div>
+                <div><strong>{{proof?.detail}}</strong></div>
             </div>
         </div>
-        <div style="border: black 1px solid; margin: 20px; height: 100px;">
-            Signature
-        </div>
+        <img src={{proof?.imgPath}} style="width: 80%;margin-left: auto;margin-right: auto;margin-top: 20px;border: black 1px solid;" />
 
     </mat-card-content>
 </mat-card>

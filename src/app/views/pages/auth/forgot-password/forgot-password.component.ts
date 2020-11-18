@@ -112,23 +112,24 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 			console.log(result);
 			if(result.length == '0'){
 				this.loading = false;
-				this.authNoticeService.setNotice('Please input valid email', 'danger');
+				this.authNoticeService.setNotice('Ingrese un correo electrónico válido', 'danger');
 			}
 			else {
 				this.customerService.setResetPwdToken(email, token).then(result => {
 					console.log(result);
 					var config = {
 						email: email,
+						title: "Reinicio de contraseña",
 						html : '<div style="margin: auto;"><img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png"><div>Bienvenido a Holoexpress</div><div>Dale click al siguiente enlace para reiniciar tu contraseña</div><div>'+
 						redirectURL + '</div></div>'
 					}
 					this.emailService.sendmail(config).then(result => {
 						console.log(result);
-						this.authNoticeService.setNotice('email successfully delivered', 'success');
+						this.authNoticeService.setNotice('correo electrónico entregado correctamente', 'success');
 						this.loading = false;
 					}).catch(err => {
 						console.log(err);
-						this.authNoticeService.setNotice('Unfortunately message did not delivered!', 'danger');
+						this.authNoticeService.setNotice('Lamentablemente, el mensaje no se entregó.', 'danger');
 						this.loading = false;
 
 					})

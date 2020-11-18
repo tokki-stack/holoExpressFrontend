@@ -318,7 +318,7 @@ export class OrderCreateComponent implements OnInit {
             window.alert("error occured")
           })
         })
-        window.alert("successfully created, (dummy comments by admin)")
+        // window.alert("successfully created, (dummy comments by admin)")
 
       }
       else {
@@ -427,6 +427,10 @@ export class OrderCreateComponent implements OnInit {
 		else{
 			this.pickUpNoteFlag = false;
 		}
-	}
+  }
+  
+  tabcheck(event){
+    console.log(event);
+  }
 
 }

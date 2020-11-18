@@ -125,7 +125,7 @@
                         <label>Peso</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <button type="button" class="btn btn-secondary dropdown-toggle" [matMenuTriggerFor]="menuWeightT">{{weightType}}</button>
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" [matMenuTriggerFor]="menuWeightT">{{weightType}}</button>
                                 <mat-menu #menuWeightT="matMenu">
                                     <a class="dropdown-item" (click)="changeWeightType('kg')">kg</a>
                                     <a class="dropdown-item" (click)="changeWeightType('lb')">lb</a>
@@ -138,7 +138,7 @@
                         <label>Largo</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <button type="button" class="btn btn-secondary dropdown-toggle" [matMenuTriggerFor]="menu">{{lengthType}}</button>
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" [matMenuTriggerFor]="menu">{{lengthType}}</button>
                                 <mat-menu #menu="matMenu">
                                     <a class="dropdown-item" (click)="changelengthType('cm')">cm</a>
                                     <a class="dropdown-item" (click)="changelengthType('inch')">inch</a>
@@ -151,7 +151,7 @@
                         <label>Ancho</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <button type="button" class="btn btn-secondary dropdown-toggle" [matMenuTriggerFor]="menu">{{lengthType}}</button>
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" [matMenuTriggerFor]="menu">{{lengthType}}</button>
                                 <mat-menu #menu="matMenu">
                                     <a class="dropdown-item" (click)="changelengthType('cm')">cm</a>
                                     <a class="dropdown-item" (click)="changelengthType('inch')">inch</a>
@@ -164,7 +164,7 @@
                         <label>Altura</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <button type="button" class="btn btn-secondary dropdown-toggle" [matMenuTriggerFor]="menu">{{lengthType}}</button>
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" [matMenuTriggerFor]="menu">{{lengthType}}</button>
                                 <mat-menu #menu="matMenu">
                                     <a class="dropdown-item" (click)="changelengthType('cm')">cm</a>
                                     <a class="dropdown-item" (click)="changelengthType('inch')">inch</a>
