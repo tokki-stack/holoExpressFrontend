@@ -26,9 +26,8 @@ export class PackageModalComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data.pack.idpackages);
-    this.packagesService.getPackageLog(this.data.pack.idpackages).then(result => {
-      console.log(result);
-      this.logs = result;
+    this.packagesService.getPackageLog(this.data.pack.idpackages).then((result:any) => {
+      this.logs = result.reverse();
       this.logs.map(log => {
         this.messengerService.getMessengerByID(log.idmessengers).then(result => {
           log.user = result[0].name;

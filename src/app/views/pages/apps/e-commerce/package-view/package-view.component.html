@@ -33,7 +33,6 @@
             <mat-card-content style="display: grid; margin-left: 30px;">
                 <span>Delivery Address</span>
                 <span><strong>{{order?.deliveryAddress}}, {{order?.deliveryAreaName}}, {{order?.deliveryStateName}}</strong></span>
-                <span style="color: blue;"><strong>Deliver to {{order?.deliveryName}}, call her at {{order?.deliveryPhone}}</strong></span>
                 <div style="display: flex;">
                     <div style="display: grid;">
                         <span>Name</span>
@@ -58,7 +57,7 @@
                     <ng-container matColumnDef="tracking">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>tracking</mat-header-cell>
                         <mat-cell *matCellDef="let package">
-                            <ng-container *ngIf="package.orderStatus == '1'">
+                            <ng-container *ngIf="package.orderStatus == '1' || package.orderStatus == '2'">
                                 {{package.tracking}}
                             </ng-container>
                         </mat-cell>

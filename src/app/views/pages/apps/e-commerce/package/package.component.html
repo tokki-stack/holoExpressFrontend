@@ -4,14 +4,13 @@
             Paquete| {{total}} total
         </ng-container>
         <ng-container ktPortletTools>
-            <button (click)="scan('salida')" style="width: 150px;
-			margin-right: 20px;" mat-raised-button matTooltip="Create new customer" color="primary" type="button">
-				<span>Scan de Salida</span>
+            <button (click)="scan('recepcion')" style="width: 150px;margin-right: 20px;" mat-raised-button matTooltip="Create new customer" color="primary" type="button">
+				<span>Scan de Recepcion</span>
 			</button>
         </ng-container>
         <ng-container ktPortletTools>
-            <button (click)="scan('recepcion')" style="width: 150px;" mat-raised-button matTooltip="Create new customer" color="primary" type="button">
-				<span>Scan de Recepcion</span>
+            <button (click)="scan('salida')" style="width: 150px;" mat-raised-button matTooltip="Create new customer" color="primary" type="button">
+				<span>Scan de Salida</span>
 			</button>
         </ng-container>
     </kt-portlet-header>
@@ -57,7 +56,7 @@
             <ng-container matColumnDef="tracking">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Tracking</mat-header-cell>
                 <mat-cell *matCellDef="let package" (click)="packageView(package)">
-                    <ng-container *ngIf="package.orderStatus == '1'">
+                    <ng-container *ngIf="package.orderStatus == '1' || package.orderStatus == '2'">
                         {{package.tracking}}
                     </ng-container>
                 </mat-cell>

@@ -48,6 +48,7 @@ export class CustomerNewComponent implements OnInit {
 			// 	idcustomerGroup: '0',
 			// 	name: 'Standard'
 			// })
+			this.customerForm.patchValue({type: '1'})
 			this.customerGroups.map(customerGroup => {
 				console.log(customerGroup);
 				customerGroup.idcustomerGroup = customerGroup.idcustomerGroup.toString();

@@ -39,7 +39,7 @@
 			justify-content: flex-end;">
                 <div style="margin-right: 20px;" class="status4"> Todos = {{total}} </div>
                 <div style="margin-right: 20px;" class="status1"> Pendiente = {{pending}} </div>
-                <div style="margin-right: 20px;" class="status3"> en progreso = {{inProgress}} </div>
+                <div style="margin-right: 20px;" class="status0"> en progreso = {{inProgress}} </div>
                 <!-- <div style="margin-right: 20px;" class="status3"> Pickup = {{pickUp}} </div> -->
             </div>
         </ng-container>
@@ -100,8 +100,8 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
                 <mat-cell *matCellDef="let order">
                     <div *ngIf="order.status == 0" class="status1">Pendiente</div>
-                    <div *ngIf="order.status == 1" class="status3">En progreso</div>
-                    <div *ngIf="order.status == 2" class="status0">Terminado</div>
+                    <div *ngIf="order.status == 1" class="status0">En progreso</div>
+                    <div *ngIf="order.status == 2" class="status3">Terminado</div>
                     <div *ngIf="order.status == 3" class="status2">Cancelado</div>
 
                 </mat-cell>

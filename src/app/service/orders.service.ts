@@ -3,8 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { InvoiceService } from 'src/app/service/invoice.service';
 import { SettingService } from 'src/app/service/setting.service';
+import { EmailService } from 'src/app/service/email.service';
+
 
 import { result } from 'lodash';
+import { CustomerService } from './customer.service';
+import { PackagesService } from './packages.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +18,9 @@ export class OrdersService {
     private http: HttpClient,
     private invoiceService: InvoiceService,
     private settingService: SettingService,
+    private emailService: EmailService,
+    private customerService: CustomerService,
+    private packagesService: PackagesService,
 
     
     ) { }
@@ -181,6 +188,82 @@ export class OrdersService {
           async json => {
             await this.orderLog(idorders, status, idmessengers).then(result => {
             })
+            if (status == '2'){
+              this.getOrderByID(idorders).then((result :any ) => {
+                console.log('order', result);
+                this.customerService.getCustomerByID(result[0].idcustomers).then((customers:any) => {
+                  var customer = customers[0];
+                  console.log('customer', customer);
+                  this.packagesService.getPackagesByOrderID(idorders).then((packages:any)=> {
+                    var tempHtml = '';
+                    // var tempHtml = '<div style="display: flex;">Paquete 1 | Tracking<div style="color: red;">&nbsp;' + '</div></div>';
+
+                    for (let i = 0; i < packages.length; i++) {
+                      var tempTracking = "H"
+
+                      for (var j = 0; j < (6 - packages[i].idpackages.toString().length); j++) {
+                        tempTracking = tempTracking + '0';
+                      }
+                      packages[i].tracking = tempTracking + packages[i].idpackages;
+                      tempHtml = tempHtml + '<div style="display: flex;">Paquete ' + i.toString() + ' | Tracking<div style="color: red;">&nbsp;' + packages[i].tracking + '</div></div>';
+                    };
+                    var html = '<div style="display: flex;"><div>Hola</div> &nbsp;<div style="color: red;">'+ customer.firstName + '&nbsp;' + customer.lastName +'</div></div><br>' +
+                    '<div style="display: flex;">La Orden #<div style="color: red;">'+ idorders.toString() +'</div>&nbsp;con los siguientes paquetes se ha marcado como<strong>&nbsp;Entregada</strong>.</div><br>' + tempHtml 
+                    + '<br><div>Puede comprobar el estado de su orden y ver mas detalles de esta al acceder a su cuenta en </div><div>https://clientes.holoexpresspanama.com/</div><br><div>Si usted tiene preguntas acerca de su orden o desea dejarnos un comentario para mejorar nuestro servicio puede enviarnos un email a info@holoexpresspanama.com</div><br><div>Gracias por confiar en nosotros,</div><br><div>¡Le deseamos un excelente día!</div><div><strong>Holo Express! #LlegandoADondeEstes</strong></div>';
+                    var config = {
+                      email: customer.email,
+                      title: "Bienvenido a HoloExpress",
+                      html : html
+                    }
+                    console.log(config);
+                    this.emailService.sendmail(config).then(result => {
+                      console.log(result);
+                      window.alert("correo electrónico entregado correctamente")
+                    }).catch(err => {
+                      console.log(err);
+                      window.alert("Lamentablemente, el mensaje no se entregó.");
+                    })
+                  })
+                })
+              })
+            }
+            else if (status == '1') {
+              this.getOrderByID(idorders).then((result :any ) => {
+                console.log('order', result);
+                this.customerService.getCustomerByID(result[0].idcustomers).then((customers:any) => {
+                  var customer = customers[0];
+                  console.log('customer', customer);
+                  this.packagesService.getPackagesByOrderID(idorders).then((packages:any)=> {
+                    var tempHtml = '';
+                    for (let i = 0; i < packages.length; i++) {
+                      var tempTracking = "H"
+
+                      for (var j = 0; j < (6 - packages[i].idpackages.toString().length); j++) {
+                        tempTracking = tempTracking + '0';
+                      }
+                      packages[i].tracking = tempTracking + packages[i].idpackages;
+                      tempHtml = tempHtml + '<div style="display: flex;">Paquete ' + i.toString() + ' | Tracking<div style="color: red;">&nbsp;' + packages[i].tracking + '</div></div>';
+                    };
+                    var html = '<div style="display: flex;"><div>Hola</div> &nbsp;<div style="color: red;">'+ customer.firstName + '&nbsp;' + customer.lastName +'</div></div><br>' +
+                    '<div style="display: flex;">Hemos creado la orden #<div style="color: red;">'+ idorders.toString() +'</div>&nbsp;con los siguientes paquetes.</div><br>' + tempHtml 
+                    + '<br><div>Puede comprobar el estado de su orden y ver mas detalles de esta al acceder a su cuenta en </div><div>https://clientes.holoexpresspanama.com/</div><br><div>Si usted tiene preguntas acerca de su orden o desea dejarnos un comentario para mejorar nuestro servicio puede enviarnos un email a info@holoexpresspanama.com</div><br><div>Gracias por confiar en nosotros,</div><br><div>¡Le deseamos un excelente día!</div><div><strong>Holo Express! #LlegandoADondeEstes</strong></div>';
+                    var config = {
+                      email: customer.email,
+                      title: "Bienvenido a HoloExpress",
+                      html : html
+                    }
+                    console.log(config);
+                    this.emailService.sendmail(config).then(result => {
+                      console.log(result);
+                      window.alert("correo electrónico entregado correctamente")
+                    }).catch(err => {
+                      console.log(err);
+                      window.alert("Lamentablemente, el mensaje no se entregó.");
+                    })
+                  })
+                })
+              })
+            }
             resolve(json);
           },
           error => {
