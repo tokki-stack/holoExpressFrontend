@@ -20,8 +20,8 @@ export const locale = {
         SUBMIT_BUTTON: 'Enviar',
         NO_ACCOUNT: 'Don\'t have an account?',
         SIGNUP_BUTTON: 'Sign Up',
-        FORGOT_BUTTON: 'Forgot Password',
-        BACK_BUTTON: 'Espalda',
+        FORGOT_BUTTON: 'Olvide mi contraseña',
+        BACK_BUTTON: 'Anterior',
         PRIVACY: 'Privacy',
         LEGAL: 'Legal',
         CONTACT: 'Contact',
@@ -57,7 +57,7 @@ export const locale = {
         REQUIRED_FIELD: 'Required field',
         MIN_LENGTH_FIELD: 'Minimum field length:',
         MAX_LENGTH_FIELD: 'Maximum field length:',
-        INVALID_FIELD: 'Field is not valid',
+        INVALID_FIELD: 'Campo no es válido',
       }
     },
     ECOMMERCE: {

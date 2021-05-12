@@ -31,8 +31,21 @@
             </mat-card-header>
             <div class="separator separator-dashed my-6"></div>
             <mat-card-content style="display: grid; margin-left: 30px;">
-                <span>Delivery Address</span>
-                <span><strong>{{order?.deliveryAddress}}, {{order?.deliveryAreaName}}, {{order?.deliveryStateName}}</strong></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span>Order Type</span>
+                    <span><strong>{{order?.deliveryType == '1' ? "Servicio de Recogida" : "Entregar en Holo Express"}}</strong></span>
+                </div>
+                <div style="display: flex;">
+                    <div style="display: grid;">
+                        <span>Delivery Address</span>
+                        <span><strong>{{order?.deliveryAddress}}, {{order?.deliveryAreaName}}, {{order?.deliveryStateName}}</strong></span>
+                    </div>
+                    <div *ngIf="order?.deliveryType == '1'" style="display: grid; margin-left: 30%;">
+                        <span>Pickup Address</span>
+                        <span><strong>{{order?.pickUpAddress}}, {{order?.pickUpAreaName}}, {{order?.pickUpStateName}}</strong></span>
+                    </div>
+
+                </div>
                 <div style="display: flex;">
                     <div style="display: grid;">
                         <span>Name</span>
@@ -101,6 +114,8 @@
                             <div *ngIf="package.status == 3" class="status1"> Por Entregar </div>
                             <div *ngIf="package.status == 4" class="status2"> Canceled</div>
                             <div *ngIf="package.status == 5" class="status2"> Completed </div>
+                            <div *ngIf="package.status == 6" class="status1"> Por Recibir </div>
+
                         </mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="log">
@@ -119,7 +134,11 @@
         </mat-card>
         <mat-card style="margin-top: 30px;">
             <mat-card-header>
-                Record Log
+
+                <div>Record Log</div>
+                <button *ngIf='orderCompletedFlag' mat-raised-button color="primary" type="button" style="margin-left: auto;" (click)="deliveryProof()">
+                    <span>Delivery Proof</span>
+                </button>
             </mat-card-header>
             <div class="separator separator-dashed my-6"></div>
             <mat-card-content>

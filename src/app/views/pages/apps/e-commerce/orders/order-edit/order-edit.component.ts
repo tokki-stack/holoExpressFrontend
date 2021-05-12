@@ -274,10 +274,20 @@ export class OrderEditComponent implements OnInit {
 			this.packages.splice(index, 1);
 			this.deletedPackage.push(_package);
 		}
+		this.calcPrice();
 	}
 
 	save() {
 		this.order.items = this.packages.length;
+		console.log(this.pickupAddressNote);
+		console.log(this.order.pickUpAddress);
+		console.log(this.order.deliveryAddress);
+		console.log(this.deliveryAddressNote);
+		if (this.checkSafeString(this.pickupAddressNote) && this.checkSafeString(this.order.pickUpAddress) && this.checkSafeString(this.order.deliveryAddress) && this.checkSafeString(this.deliveryAddressNote) ){
+		} else {
+			window.alert("address and note can't be over 25 characters, can't contain '.' or ','!")
+			return;
+		}
 		if (this.order.idorders) {
 			this.order.pickupAddressNote = this.pickupAddressNote;
 			this.order.deliveryAddressNote = this.deliveryAddressNote;
@@ -341,6 +351,17 @@ export class OrderEditComponent implements OnInit {
 				}
 				this.router.navigate(['/ecommerce/package/view'],naviagtionExtras);
 			})
+		}
+	}
+
+	checkSafeString(string){
+		if (string == undefined || string == null) {
+			return true;
+		}
+		if (string.length > 25 || string.includes(".") || string.includes(",")) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 
@@ -429,11 +450,16 @@ export class OrderEditComponent implements OnInit {
 					}
 					
 					if(this.order.deliveryType == '0'){
-						this.totalPrice = deliveryPrice;
+						this.totalPrice = deliveryPrice + Number(deliveryAreaPrice?.locationPrice);
 					}
 					else {
 						pickUpPrice = Number(pickUpAreaPrice?.pickup);
 						this.totalPrice = deliveryPrice + pickUpPrice;
+						if (Number(deliveryAreaPrice?.locationPrice) > Number(pickUpAreaPrice?.locationPrice)) {
+							this.totalPrice = deliveryPrice + pickUpPrice + Number(deliveryAreaPrice?.locationPrice);
+						} else {
+							this.totalPrice = deliveryPrice + pickUpPrice + Number(pickUpAreaPrice?.locationPrice);
+						}
 					}
 					console.log(this.totalPrice);
 					this.order.cost = this.totalPrice.toFixed(2);

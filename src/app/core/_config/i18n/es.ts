@@ -21,7 +21,7 @@ export const locale = {
         NO_ACCOUNT: 'No tienes una cuenta?',
         SIGNUP_BUTTON: 'Regístrate',
         FORGOT_BUTTON: 'Se te olvidó tu contraseña',
-        BACK_BUTTON: 'Espalda',
+        BACK_BUTTON: 'Anterior',
         PRIVACY: 'Intimidad',
         LEGAL: 'Legal',
         CONTACT: 'Contacto',
@@ -57,7 +57,7 @@ export const locale = {
         REQUIRED_FIELD: 'Required field',
         MIN_LENGTH_FIELD: 'Minimum field length:',
         MAX_LENGTH_FIELD: 'Maximum field length:',
-        INVALID_FIELD: 'Field is not valid',
+        INVALID_FIELD: 'Campo no es válido',
       }
     },
     ECOMMERCE: {

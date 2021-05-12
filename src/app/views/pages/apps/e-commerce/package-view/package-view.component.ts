@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { PackageModalComponent } from './../modal/package-modal/package-modal.component';
@@ -12,6 +12,7 @@ import { PrintLabelComponent } from './print-label/print-label.component';
 import { CustomerService } from 'src/app/service/customer.service';
 import { result } from 'lodash';
 import { MessengerService } from 'src/app/service/messenger.service';
+import { DeliveryProofComponent } from '../../customer-orders/order-detail/delivery-proof/delivery-proof.component';
 
 
 @Component({
@@ -20,44 +21,70 @@ import { MessengerService } from 'src/app/service/messenger.service';
   styleUrls: ['./package-view.component.scss']
 })
 export class PackageViewComponent implements OnInit {
-	@ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   dataSource: MatTableDataSource<any>;
-	dataSourceLog: MatTableDataSource<any>;
-  
-	displayedColumns = ['tracking','weight','volWeight','length', 'width', 'height', 'typeName', 'status', 'log'];
-	displayedColumnsLog = ['date','description','user'];
+  dataSourceLog: MatTableDataSource<any>;
+
+  displayedColumns = ['tracking', 'weight', 'volWeight', 'length', 'width', 'height', 'typeName', 'status', 'log'];
+  displayedColumnsLog = ['date', 'description', 'user'];
+  orderCompletedFlag: boolean;
 
   _package;
-  packages : any = [];
+  packages: any = [];
   order;
   tempResult;
   tempArea;
   pack;
   constructor(
     public dialog: MatDialog,
-		private route: ActivatedRoute,
-		private ordersService: OrdersService,
+    private route: ActivatedRoute,
+    private ordersService: OrdersService,
     private stateAreaService: StateAreaService,
     private packagesService: PackagesService,
-		private packageTypeService: PackageTypeService,
-		private router: Router,
-		private customerService: CustomerService,
+    private packageTypeService: PackageTypeService,
+    private router: Router,
+    private customerService: CustomerService,
     public messengerService: MessengerService,
-    
-    
-		private changeDetectorRefs: ChangeDetectorRef,
-    
-    ) { }
+
+
+    private changeDetectorRefs: ChangeDetectorRef,
+
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(params => {
       this._package = params;
     });
-    console.log("package",this._package);
+    console.log("package", this._package);
+    this.ordersService.getCompletedOrderDetail(this._package.idorders).then((result: any) => {
+      console.log(result.length);
+      if (result.length == 0) {
+        this.orderCompletedFlag = false;
+        this.changeDetectorRefs.detectChanges();
+
+      }
+      else {
+        this.orderCompletedFlag = true;
+        this.changeDetectorRefs.detectChanges();
+
+      }
+    })
     await this.ordersService.getOrderByID(this._package.idorders).then(order => {
       this.order = order[0];
-      console.log("order",this.order);
+      console.log("order", this.order);
       this.stateAreaService.getStateByID(this.order.deliveryAddressState).then(result => {
+        if (this.order.deliveryType == "1") {
+          this.stateAreaService.getStateByID(this.order.pickUpAddressState).then((result: any) => {
+            this.order.pickUpStateName = result[0].name;
+            this.stateAreaService.getAreaByID(this.order.pickUpAddressArea).then((result: any) => {
+              this.order.pickUpAreaName = result[0].name;
+              this.changeDetectorRefs.detectChanges();
+
+            })
+
+          })
+
+        }
         this.tempResult = result[0];
         this.order.deliveryStateName = this.tempResult.name;
         this.stateAreaService.getAreaByID(this.order.deliveryAddressArea).then(result => {
@@ -66,17 +93,17 @@ export class PackageViewComponent implements OnInit {
           this.packagesService.getPackagesByOrderID(this.order.idorders).then(packages => {
             this.packages = packages;
             this.pack = this.packages[0];
-            console.log("this.packages",this.packages);
+            console.log("this.packages", this.packages);
             this.packages.map(pkg => {
-					    pkg.orderStatus = this.order.status;
+              pkg.orderStatus = this.order.status;
 
               var len = 6 - pkg.idpackages.toString().length;
               var tmpString = 'H';
-              for (var i = 0; i < len; i ++) {
+              for (var i = 0; i < len; i++) {
                 tmpString = tmpString + '0'
               }
               pkg.tracking = tmpString + pkg.idpackages;
-              pkg.volWeight = Number(pkg.length)*Number(pkg.height)*Number(pkg.width)/5000;
+              pkg.volWeight = Number(pkg.length) * Number(pkg.height) * Number(pkg.width) / 5000;
               pkg.volWeight = pkg.volWeight.toFixed(2);
               console.log("pkg.volWeight", pkg.volWeight);
               this.packageTypeService.getPackageTypeByID(pkg.type).then(typeName => {
@@ -91,23 +118,23 @@ export class PackageViewComponent implements OnInit {
         })
       })
     })
-    await this.ordersService.getOrderLog(this._package.idorders).then((logs:any) => {
+    await this.ordersService.getOrderLog(this._package.idorders).then((logs: any) => {
       this.logs = logs.reverse();
       console.log(this.logs);
       this.logs.map(log => {
-        if(log.status == '0'){
+        if (log.status == '0') {
           log.description = 'Order Created';
         }
-        else if(log.status == '1'){
+        else if (log.status == '1') {
           log.description = 'Order in Progress';
         }
-        else if(log.status == '2'){
+        else if (log.status == '2') {
           log.description = 'Order Completed';
         }
-        else if(log.status == '3'){
+        else if (log.status == '3') {
           log.description = 'Order Cancelled';
         }
-        if (log.idmessengers == null){
+        if (log.idmessengers == null) {
           this.dataSourceLog = new MatTableDataSource(this.logs);
         }
         else {
@@ -119,40 +146,40 @@ export class PackageViewComponent implements OnInit {
 
       })
     })
-    
-  }
-  log(pack){
-		const dialogRef = this.dialog.open(PackageModalComponent, { data: { pack } });
 
   }
-  print(pack){
+  log(pack) {
+    const dialogRef = this.dialog.open(PackageModalComponent, { data: { pack } });
+
+  }
+  print(pack) {
     const dialogRef = this.dialog.open(PrintLabelComponent, { data: { pack } });
   }
-  menuChange(event){
+  menuChange(event) {
     console.log(event.target.outerText);
     var title = event.target.outerText
-    if(window.confirm("Are you be sure to change order status?")){
+    if (window.confirm("Are you be sure to change order status?")) {
       var idmessenger = window.localStorage.getItem('userID');
 
-      if ( title == "Pendding" ) {
+      if (title == "Pendding") {
         this.ordersService.setOrderStatus(this._package.idorders, '0', idmessenger).then(result => {
           console.log(result);
           this.ngOnInit();
         })
       }
-      else if ( title == "In progress" ) {
+      else if (title == "In progress") {
         this.ordersService.setOrderStatus(this._package.idorders, '1', idmessenger).then(result => {
           console.log(result);
           this.ngOnInit();
         })
       }
-      else if ( title == "Completed" ) {
+      else if (title == "Completed") {
         this.ordersService.setOrderStatus(this._package.idorders, '2', idmessenger).then(result => {
           console.log(result);
           this.ngOnInit();
         })
       }
-      else if ( title == "Cancelled" ) {
+      else if (title == "Cancelled") {
         this.ordersService.setOrderStatus(this._package.idorders, '3', idmessenger).then(result => {
           console.log(result);
           this.ngOnInit();
@@ -162,6 +189,10 @@ export class PackageViewComponent implements OnInit {
     }
   }
 
+
+  deliveryProof(): void {
+    const dialogRef = this.dialog.open(DeliveryProofComponent, { data: { order: this.order } });
+  }
   // menuChange(event) {
   //   if(window.confirm("Are you be sure to change invoice status?")){
   //     if (this.title == "OPEN") {
@@ -182,7 +213,7 @@ export class PackageViewComponent implements OnInit {
   //     this.title = event.target.outerText;
   //   }
   // }
-  edit(){
+  edit() {
     this.customerService.getCustomerByID(this.order.idcustomers).then(result => {
       this.order.customer = result[0].firstName + " " + result[0].lastName;
       let naviagtionExtras: NavigationExtras = {

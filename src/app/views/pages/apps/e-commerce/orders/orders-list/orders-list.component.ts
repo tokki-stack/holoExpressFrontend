@@ -232,5 +232,18 @@ export class OrdersListComponent implements OnInit {
 				this.ngOnInit();
 			})
 		}
+		cancelOrder(){
+			console.log(this.selection.selected);
+			if (window.confirm("are you sure to cancel those order?")) {
+				var idmessenger = window.localStorage.getItem('userID');
+				this.selection.selected.forEach(order => {
+				console.log(order.idorders);
+					this.ordersService.setOrderStatus(order.idorders, '3', idmessenger).then(result => {
+						console.log(result);
+						this.ngOnInit();
+					})
+				})
+			}
+		}
 	
 }

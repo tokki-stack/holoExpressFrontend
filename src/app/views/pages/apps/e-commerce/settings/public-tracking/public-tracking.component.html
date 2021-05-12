@@ -7,7 +7,7 @@
                 Tracking
             </div> -->
         <mat-form-field id="trackingInput" class="mat-form-field-fluid" style="width: 80%;font-size: 50px;margin-left: auto;margin-right: auto;">
-            <input #scanInput matInput placeholder="Ingrese un número de tracking..." formControlName="idControl" (keydown.enter)="track()" [(ngModel)]="trackingID" />
+            <input #scanInput matInput placeholder="Ingrese su tracking..." formControlName="idControl" (keydown.enter)="track()" [(ngModel)]="trackingID" />
         </mat-form-field>
         <!-- <mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="stepperFlag">
                 <mat-step>
@@ -146,7 +146,7 @@
                 </button>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="text-dark-50 text-hover-primary my-3 mr-2" id="kt_login_forgot" style="display: flex; cursor: pointer;">
                 <div>
                     ¿Ya tienes una cuenta?
@@ -158,6 +158,6 @@
             <div class="text-dark-50 text-hover-primary my-3 mr-2" id="kt_login_forgot" style="margin-left: auto; cursor: pointer;">
                 ¿Crea una cuenta?
             </div>
-        </div>
+        </div> -->
     </div>
 </mat-card>

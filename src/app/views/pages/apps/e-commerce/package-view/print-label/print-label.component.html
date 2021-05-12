@@ -7,20 +7,20 @@
     </div> -->
     <div class="separator separator-dashed my-6" style="margin-top: 0px !important; margin-bottom: 5px !important;"></div>
     <div class="col">
-        <div>Weight: <strong>{{data.pack.weight}}KG</strong></div>
-        <div>Size: <strong>{{data.pack.height}}cm *{{data.pack.length}}cm *{{data.pack.width}}cm</strong></div>
+        <div>Peso: <strong>{{data.pack.weight}}KG</strong></div>
+        <div>Tamaño: <strong>{{data.pack.height}}cm *{{data.pack.length}}cm *{{data.pack.width}}cm</strong></div>
     </div>
     <div class="separator separator-dashed my-6" style="margin-top: 5px !important; margin-bottom: 5px !important;"></div>
     <div class="col">
-        <div>From: {{customer?.firstName}}</div>
-        <div>To: {{order?.deliveryName}}</div>
-        <div>Order: {{data.pack.idorders}}</div>
-        <div>Date: {{data.pack.date}}</div>
+        <div>De: {{(customer?.company != null && customer?.company != undefined && customer?.company != "") ? customer?.company : customer?.firstName}}</div>
+        <div>Para: {{order?.deliveryName}}</div>
+        <div>Orden: {{data.pack.idorders}}</div>
+        <div>Fecha: {{data.pack.date}}</div>
     </div>
     <div>
         <div class="col">
             <div style="font-size: 8px; text-align: center;">www.holoexpresspanama.com</div>
-            <div style="font-size: 8px; text-align: center;">+507 254-0979</div>
+            <div style="font-size: 8px; text-align: center;">2460977 / 2460978</div>
         </div>
     </div>
 </mat-card>

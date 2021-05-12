@@ -165,12 +165,32 @@ export class CourierEditComponent implements OnInit {
           }
         }
 
+
         if(this.order.deliveryType == '0'){
-          this.totalPrice = deliveryPrice;
+          this.totalPrice = deliveryPrice + Number(deliveryAreaPrice?.locationPrice);
         }
         else {
-          pickUpPrice = Number(pickUpAreaPrice.pickup);
+          pickUpPrice = Number(pickUpAreaPrice?.pickup);
           this.totalPrice = deliveryPrice + pickUpPrice;
+          if (Number(deliveryAreaPrice?.locationPrice) > Number(pickUpAreaPrice?.locationPrice)) {
+            this.totalPrice = deliveryPrice + pickUpPrice + Number(deliveryAreaPrice?.locationPrice);
+          } else {
+            this.totalPrice = deliveryPrice + pickUpPrice + Number(pickUpAreaPrice?.locationPrice);
+          }
+        }
+
+
+        if(this.order.deliveryType == '0'){
+          this.totalPrice = deliveryPrice + Number(deliveryAreaPrice?.locationPrice);
+        }
+        else {
+          pickUpPrice = Number(pickUpAreaPrice?.pickup);
+          this.totalPrice = deliveryPrice + pickUpPrice;
+          if (Number(deliveryAreaPrice?.locationPrice) > Number(pickUpAreaPrice?.locationPrice)) {
+            this.totalPrice = deliveryPrice + pickUpPrice + Number(deliveryAreaPrice?.locationPrice);
+          } else {
+            this.totalPrice = deliveryPrice + pickUpPrice + Number(pickUpAreaPrice?.locationPrice);
+          }
         }
         if(Number.isNaN(this.totalPrice)){
           this.totalPrice = 0;

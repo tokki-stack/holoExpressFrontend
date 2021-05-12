@@ -271,18 +271,27 @@ export class InvoicesListComponent implements OnInit {
     this.dataSource.filter = ''+Math.random();
   }
 	applyFilter(filterValue: string) {
-		filterValue = filterValue.trim(); // Remove whitespace
-		filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-
-		this.dataSource.filterPredicate = function(data, filter: string): boolean {
-			console.log(data, filter);
-			Object.keys(data).forEach(key => {
-				if (data[key] == null || data[key] == undefined) {
-					data[key] = '';
-				}
-			})
-			return (data.customer.trim().toLowerCase().indexOf(filterValue) !== -1);
-		};
-		this.dataSource.filter = filterValue;
+    console.log(filterValue == '');
+    if (filterValue == '') {
+      this.setDataSourceAttributes();
+    } else {
+      filterValue = filterValue.trim(); // Remove whitespace
+      filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+  
+      this.dataSource.filterPredicate = function(data, filter: string): boolean {
+        // console.log(data, filter);
+        Object.keys(data).forEach(key => {
+          if (data[key] == null || data[key] == undefined) {
+            data[key] = '';
+          }
+        })
+        try {
+          return (data.customer.trim().toLowerCase().indexOf(filterValue) !== -1);
+        } catch {
+          return true;
+        }
+      };
+      this.dataSource.filter = filterValue;
+    }
 	}
 }

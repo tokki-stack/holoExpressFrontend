@@ -22,8 +22,8 @@ export class OrdersService {
     private customerService: CustomerService,
     private packagesService: PackagesService,
 
-    
-    ) { }
+
+  ) { }
 
   baseURL = environment.baseURL;
 
@@ -31,22 +31,7 @@ export class OrdersService {
   getOrdersByCustomer(customerID) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/getOrdersByCustomer', {customerID: customerID})
-        .subscribe(
-          json => {
-            resolve(json);
-          },
-          error => {
-            reject(error);
-          }
-        );
-    });
-  }
-  
-  getCompletedOrderDetail(idorders) {
-    return new Promise((resolve, reject) => {
-      this.http
-        .post(this.baseURL + '/orders/getCompletedOrderDetail', {idorders: idorders})
+        .post(this.baseURL + '/orders/getOrdersByCustomer', { customerID: customerID })
         .subscribe(
           json => {
             resolve(json);
@@ -58,7 +43,22 @@ export class OrdersService {
     });
   }
 
-  getAllOrders(){
+  getCompletedOrderDetail(idorders) {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(this.baseURL + '/orders/getCompletedOrderDetail', { idorders: idorders })
+        .subscribe(
+          json => {
+            resolve(json);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  getAllOrders() {
     return new Promise((resolve, reject) => {
       this.http
         .get(this.baseURL + '/orders/getAllOrders')
@@ -72,46 +72,76 @@ export class OrdersService {
         );
     });
   }
-  createNewOrder(order, role){
+  createNewOrder(order, role) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/createNewOrder', {order, role})
+        .post(this.baseURL + '/orders/createNewOrder', { order, role })
         .subscribe(
           async json => {
             var tempResult;
             tempResult = json;
             var idorders = tempResult.insertId;
             this.orderLog(idorders, '0', window.localStorage.getItem("userID")).then(async temp => {
-              await this.invoiceService.checkinvoiceForCustomer(order.idcustomers).then(result=> {
+              await this.invoiceService.checkinvoiceForCustomer(order.idcustomers).then(result => {
                 tempResult = result
-                if(tempResult.length == 0){
+                if (tempResult.length == 0) {
                   this.settingService.getSettings().then(result => {
-                    this.invoiceService.createNewInvoice(order.idcustomers,'0', result[0].itbms).then(result => {
-                      tempResult = result
+                    this.invoiceService.createNewInvoice(order.idcustomers, '0', result[0].itbms).then(result => {
+                      tempResult = result;
+                      this.packagesService.getPackagesByOrderID(idorders).then((pakcages: any) => {
+                        var description = '';
+                        description = 'Servicio de entrega ' + idorders + ' | ';
+                        for (var index = 0; index < pakcages.length; index++) {
+                          var len = 6 - pakcages[index].idpackages.toString().length;
+                          var tmpString = 'H';
+                          for (var i = 0; i < len; i++) {
+                            tmpString = tmpString + '0'
+                          }
+                          description = description + tmpString + pakcages[index].idpackages + ', ';
+                        }
+                        this.invoiceService.createNewInvoicedOrder({
+                          description: description,
+                          price: order.cost,
+                        }, tempResult.insertId).then(result => {
+                          order['billing'] = tempResult.insertId;
+                          order['idorders'] = idorders;
+                          this.updateOrder(order).then(result => {
+                          })
+                        })
+                      });
+
+                    })
+                  })
+
+                }
+                else {
+                  var idinvoice = result[0].idinvoice;
+                  setTimeout(() => {
+                    this.packagesService.getPackagesByOrderID(idorders).then((pakcages: any) => {
+                      console.log('pakcages~~~~~~~~');
+                      console.log(pakcages);
+
+                      var description = '';
+                      description = 'Servicio de entrega ' + idorders + ' | ';
+                      for (var index = 0; index < pakcages.length; index++) {
+                        var len = 6 - pakcages[index].idpackages.toString().length;
+                        var tmpString = 'H';
+                        for (var i = 0; i < len; i++) {
+                          tmpString = tmpString + '0'
+                        }
+                        description = description + tmpString + pakcages[index].idpackages + ', ';
+                      }
                       this.invoiceService.createNewInvoicedOrder({
-                        description: 'Servicio de entrega ' + idorders,
+                        description: description,
                         price: order.cost,
-                      }, tempResult.insertId).then(result => {
-                        order['billing'] = tempResult.insertId;
+                      }, result[0].idinvoice).then(result => {
+                        order['billing'] = idinvoice;
                         order['idorders'] = idorders;
                         this.updateOrder(order).then(result => {
                         })
                       })
-                    })
-                  })
-  
-                }
-                else {
-                  var idinvoice = result[0].idinvoice;
-                  this.invoiceService.createNewInvoicedOrder({
-                    description: 'Servicio de entrega ' + idorders,
-                    price: order.cost,
-                  }, result[0].idinvoice).then(result => {
-                    order['billing'] = idinvoice;
-                    order['idorders'] = idorders;
-                    this.updateOrder(order).then(result => {
-                    })
-                  })
+                    });
+                  }, 1000);
                 }
               })
               resolve(json);
@@ -124,10 +154,10 @@ export class OrdersService {
         );
     });
   }
-  updateOrder(order){
+  updateOrder(order) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/updateOrder', {order})
+        .post(this.baseURL + '/orders/updateOrder', { order })
         .subscribe(
           json => {
             resolve(json);
@@ -138,10 +168,10 @@ export class OrdersService {
         );
     });
   }
-  getOrdersBymessengerID(idmessengers){
+  getOrdersBymessengerID(idmessengers) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/getOrdersBymessengerID', {idmessengers: idmessengers})
+        .post(this.baseURL + '/orders/getOrdersBymessengerID', { idmessengers: idmessengers })
         .subscribe(
           json => {
             resolve(json);
@@ -152,10 +182,10 @@ export class OrdersService {
         );
     });
   }
-  getOrderByID(idorders){
+  getOrderByID(idorders) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/getOrderByID', {idorders: idorders})
+        .post(this.baseURL + '/orders/getOrderByID', { idorders: idorders })
         .subscribe(
           json => {
             resolve(json);
@@ -166,10 +196,10 @@ export class OrdersService {
         );
     });
   }
-  editOrderdeliveryCostByID(idorders, deliveryAddress, cost){
+  editOrderdeliveryCostByID(idorders, deliveryAddress, cost) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/editOrderdeliveryCostByID', {idorders: idorders, deliveryAddress: deliveryAddress, cost})
+        .post(this.baseURL + '/orders/editOrderdeliveryCostByID', { idorders: idorders, deliveryAddress: deliveryAddress, cost })
         .subscribe(
           json => {
             resolve(json);
@@ -180,24 +210,22 @@ export class OrdersService {
         );
     });
   }
-  setOrderStatus(idorders, status, idmessengers){
+  setOrderStatus(idorders, status, idmessengers) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/setOrderStatus', {idorders: idorders, status: status})
+        .post(this.baseURL + '/orders/setOrderStatus', { idorders: idorders, status: status })
         .subscribe(
           async json => {
             await this.orderLog(idorders, status, idmessengers).then(result => {
             })
-            if (status == '2'){
-              this.getOrderByID(idorders).then((result :any ) => {
+            if (status == '2') {
+              this.getOrderByID(idorders).then((result: any) => {
                 console.log('order', result);
-                this.customerService.getCustomerByID(result[0].idcustomers).then((customers:any) => {
+                this.customerService.getCustomerByID(result[0].idcustomers).then((customers: any) => {
                   var customer = customers[0];
                   console.log('customer', customer);
-                  this.packagesService.getPackagesByOrderID(idorders).then((packages:any)=> {
+                  this.packagesService.getPackagesByOrderID(idorders).then((packages: any) => {
                     var tempHtml = '';
-                    // var tempHtml = '<div style="display: flex;">Paquete 1 | Tracking<div style="color: red;">&nbsp;' + '</div></div>';
-
                     for (let i = 0; i < packages.length; i++) {
                       var tempTracking = "H"
 
@@ -205,15 +233,15 @@ export class OrdersService {
                         tempTracking = tempTracking + '0';
                       }
                       packages[i].tracking = tempTracking + packages[i].idpackages;
-                      tempHtml = tempHtml + '<div style="display: flex;">Paquete ' + i.toString() + ' | Tracking<div style="color: red;">&nbsp;' + packages[i].tracking + '</div></div>';
+                      tempHtml = tempHtml + '<div style="display: flex;">Paquete ' + (i + 1).toString() + ' | Tracking<div>&nbsp;' + packages[i].tracking + '</div></div>';
                     };
-                    var html = '<div style="display: flex;"><div>Hola</div> &nbsp;<div style="color: red;">'+ customer.firstName + '&nbsp;' + customer.lastName +'</div></div><br>' +
-                    '<div style="display: flex;">La Orden #<div style="color: red;">'+ idorders.toString() +'</div>&nbsp;con los siguientes paquetes se ha marcado como<strong>&nbsp;Entregada</strong>.</div><br>' + tempHtml 
-                    + '<br><div>Puede comprobar el estado de su orden y ver mas detalles de esta al acceder a su cuenta en </div><div>https://clientes.holoexpresspanama.com/</div><br><div>Si usted tiene preguntas acerca de su orden o desea dejarnos un comentario para mejorar nuestro servicio puede enviarnos un email a info@holoexpresspanama.com</div><br><div>Gracias por confiar en nosotros,</div><br><div>¡Le deseamos un excelente día!</div><div><strong>Holo Express! #LlegandoADondeEstes</strong></div>';
+                    var html = '<div style="display: flex;"><div>Hola</div> &nbsp;<div>' + customer.firstName + '&nbsp;' + customer.lastName + '</div></div><br>' +
+                      '<div>La Orden #' + idorders.toString() + '&nbsp;con los siguientes paquetes se ha marcado como<strong>&nbsp;Entregada</strong>.</div><br>' + tempHtml
+                      + '<br><div>Puede comprobar el estado de su orden y ver mas detalles de esta al acceder a su cuenta en </div><div>https://clientes.holoexpresspanama.com/</div><br><div>Si usted tiene preguntas acerca de su orden o desea dejarnos un comentario para mejorar nuestro servicio puede enviarnos un email a info@holoexpresspanama.com</div><br><div>Gracias por confiar en nosotros,</div><br><div>¡Le deseamos un excelente día!</div><div><strong>Holo Express! #LlegandoADondeEstes</strong></div>';
                     var config = {
                       email: customer.email,
                       title: "Bienvenido a HoloExpress",
-                      html : html
+                      html: html
                     }
                     console.log(config);
                     this.emailService.sendmail(config).then(result => {
@@ -228,12 +256,12 @@ export class OrdersService {
               })
             }
             else if (status == '1') {
-              this.getOrderByID(idorders).then((result :any ) => {
+              this.getOrderByID(idorders).then((result: any) => {
                 console.log('order', result);
-                this.customerService.getCustomerByID(result[0].idcustomers).then((customers:any) => {
+                this.customerService.getCustomerByID(result[0].idcustomers).then((customers: any) => {
                   var customer = customers[0];
                   console.log('customer', customer);
-                  this.packagesService.getPackagesByOrderID(idorders).then((packages:any)=> {
+                  this.packagesService.getPackagesByOrderID(idorders).then((packages: any) => {
                     var tempHtml = '';
                     for (let i = 0; i < packages.length; i++) {
                       var tempTracking = "H"
@@ -242,15 +270,15 @@ export class OrdersService {
                         tempTracking = tempTracking + '0';
                       }
                       packages[i].tracking = tempTracking + packages[i].idpackages;
-                      tempHtml = tempHtml + '<div style="display: flex;">Paquete ' + i.toString() + ' | Tracking<div style="color: red;">&nbsp;' + packages[i].tracking + '</div></div>';
+                      tempHtml = tempHtml + '<div style="display: flex;">Paquete ' + (i + 1).toString() + ' | Tracking<div>&nbsp;' + packages[i].tracking + '</div></div>';
                     };
-                    var html = '<div style="display: flex;"><div>Hola</div> &nbsp;<div style="color: red;">'+ customer.firstName + '&nbsp;' + customer.lastName +'</div></div><br>' +
-                    '<div style="display: flex;">Hemos creado la orden #<div style="color: red;">'+ idorders.toString() +'</div>&nbsp;con los siguientes paquetes.</div><br>' + tempHtml 
-                    + '<br><div>Puede comprobar el estado de su orden y ver mas detalles de esta al acceder a su cuenta en </div><div>https://clientes.holoexpresspanama.com/</div><br><div>Si usted tiene preguntas acerca de su orden o desea dejarnos un comentario para mejorar nuestro servicio puede enviarnos un email a info@holoexpresspanama.com</div><br><div>Gracias por confiar en nosotros,</div><br><div>¡Le deseamos un excelente día!</div><div><strong>Holo Express! #LlegandoADondeEstes</strong></div>';
+                    var html = '<div style="display: flex;"><div>Hola</div> &nbsp;<div>' + customer.firstName + '&nbsp;' + customer.lastName + '</div></div><br>' +
+                      '<div style="display: flex;">Hemos creado la orden # ' + idorders.toString() + '&nbsp;con los siguientes paquetes.</div><br>' + tempHtml
+                      + '<br><div>Puede comprobar el estado de su orden y ver mas detalles de esta al acceder a su cuenta en </div><div>https://clientes.holoexpresspanama.com/</div><br><div>Si usted tiene preguntas acerca de su orden o desea dejarnos un comentario para mejorar nuestro servicio puede enviarnos un email a info@holoexpresspanama.com</div><br><div>Gracias por confiar en nosotros,</div><br><div>¡Le deseamos un excelente día!</div><div><strong>Holo Express! #LlegandoADondeEstes</strong></div>';
                     var config = {
                       email: customer.email,
                       title: "Bienvenido a HoloExpress",
-                      html : html
+                      html: html
                     }
                     console.log(config);
                     this.emailService.sendmail(config).then(result => {
@@ -272,10 +300,10 @@ export class OrdersService {
         );
     });
   }
-  assignOrder(idorders, idmessengers){
+  assignOrder(idorders, idmessengers) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/assignOrder', {idorders: idorders, idmessengers: idmessengers})
+        .post(this.baseURL + '/orders/assignOrder', { idorders: idorders, idmessengers: idmessengers })
         .subscribe(
           json => {
             resolve(json);
@@ -290,7 +318,7 @@ export class OrdersService {
   orderLog(idorders, status, idmessengers) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/packages/orderLog', { idorders: idorders, status: status , idmessengers: idmessengers})
+        .post(this.baseURL + '/packages/orderLog', { idorders: idorders, status: status, idmessengers: idmessengers })
         .subscribe(
           json => {
             resolve(json);
@@ -305,7 +333,7 @@ export class OrdersService {
   getOrderLog(idorders) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/packages/getOrderLog', { idorders: idorders})
+        .post(this.baseURL + '/packages/getOrderLog', { idorders: idorders })
         .subscribe(
           json => {
             resolve(json);
@@ -320,7 +348,7 @@ export class OrdersService {
   createOrderDetail(idorders, detail, path, receiver) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(this.baseURL + '/orders/createOrderDetail', { idorders: idorders, detail: detail, path: path, receiver: receiver})
+        .post(this.baseURL + '/orders/createOrderDetail', { idorders: idorders, detail: detail, path: path, receiver: receiver })
         .subscribe(
           json => {
             resolve(json);

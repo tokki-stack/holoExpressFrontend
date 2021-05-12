@@ -35,6 +35,7 @@ export class InvoicesDetailComponent implements OnInit {
   paymentsTotal;
   userRole;
   settings;
+  paidFlag:boolean;
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -50,6 +51,7 @@ export class InvoicesDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.paidFlag = false;
     this.userRole = window.localStorage.getItem('userRole');
     this.route.queryParams.subscribe(params => {
       this.invoice = params;
@@ -113,6 +115,10 @@ export class InvoicesDetailComponent implements OnInit {
                 this.paymentsTotal = Number(this.paymentsTotal) + Number(payment.amount);
                 this.paymentsTotal = this.paymentsTotal.toFixed(2);
                 this.changeDetectorRefs.detectChanges();
+                if (Number(this.total) - Number(this.paymentsTotal) == 0 ){
+                  this.paidFlag = true;
+                  this.changeDetectorRefs.detectChanges();
+                }
               }
             })
           })
@@ -184,24 +190,28 @@ export class InvoicesDetailComponent implements OnInit {
 
   }
   logs: any = [
-    {
-      id: 0,
-      date: '02/02/20 14:28pm',
-      description: 'Order 32512 Price 2.34-->3.38',
-      user: 'MRuiz',
-    },
-    {
-      id: 1,
-      date: '02/02/20 14:28pm',
-      description: 'Added order 14521512 45214',
-      user: 'JDoe',
-    },
-    {
-      id: 2,
-      date: '02/02/20 14:28pm',
-      description: 'Removed custom charge 50.00',
-      user: 'JDoe',
-    },
+    // {
+    //   id: 0,
+    //   date: '02/02/20 14:28pm',
+    //   description: 'Order 32512 Price 2.34-->3.38',
+    //   user: 'MRuiz',
+    // },
+    // {
+    //   id: 1,
+    //   date: '02/02/20 14:28pm',
+    //   description: 'Added order 14521512 45214',
+    //   user: 'JDoe',
+    // },
+    // {
+    //   id: 2,
+    //   date: '02/02/20 14:28pm',
+    //   description: 'Removed custom charge 50.00',
+    //   user: 'JDoe',
+    // },
   ]
+
+  printInvoice() {
+    window.print();
+  }
 
 }

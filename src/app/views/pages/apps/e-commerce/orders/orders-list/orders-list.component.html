@@ -30,6 +30,10 @@
 			margin-top: 10px;" *ngIf="checkedFlag">
                 <button mat-raised-button color="warn" type="button" (click)="assignPackage()">Asignado</button>
             </div>
+            <div style="margin-right: 20px;
+			margin-top: 10px;" *ngIf="checkedFlag">
+                <button mat-raised-button color="warn" type="button" (click)="cancelOrder()">Canncel Order</button>
+            </div>
         </div>
 
         <ng-container *ngIf="openFlag == 1">

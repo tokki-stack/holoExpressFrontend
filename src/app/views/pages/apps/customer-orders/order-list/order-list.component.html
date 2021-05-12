@@ -11,12 +11,12 @@
         </ng-container>
 
     </kt-portlet-header>
-    <kt-portlet-body>
+    <kt-portlet-body class="scrollview">
 
-        <mat-table [dataSource]="dataSource" matSort>
+        <mat-table style="min-width: 500px;" [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
-                <mat-cell *matCellDef="let order; let i = index" (click)="detail(order)">{{i + (paginator.pageIndex * paginator.pageSize) + 1}}</mat-cell>
+                <mat-cell *matCellDef="let order; let i = index" (click)="detail(order)">{{order.idorders}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="date">

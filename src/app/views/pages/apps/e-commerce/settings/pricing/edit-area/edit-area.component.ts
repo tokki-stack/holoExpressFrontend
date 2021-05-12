@@ -73,6 +73,9 @@ export class EditAreaComponent implements OnInit {
               extraRV: ['', Validators.required],
               extraRW: ['', Validators.required],
               pickup: ['', Validators.required],
+              locationPrice: ['', Validators.required],
+
+              
             }));
             await this.priceService.getPrice(this.data.idcustomerGroup, this.data.area.idareas, this.packageTypes[i].idpackageType).then(result => {
               console.log(result);
@@ -85,6 +88,8 @@ export class EditAreaComponent implements OnInit {
                 extraRV:  price[0]?.extraRV, 
                 extraRW:  price[0]?.extraRW, 
                 pickup:  price[0]?.pickup, 
+                locationPrice:  price[0]?.locationPrice, 
+
               });
             })
           }

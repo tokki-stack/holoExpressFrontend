@@ -75,6 +75,10 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Pickup</mat-header-cell>
                 <mat-cell *matCellDef="let area">{{area.pickup}}</mat-cell>
             </ng-container>
+            <ng-container matColumnDef="locationPrice">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Location Price</mat-header-cell>
+                <mat-cell *matCellDef="let area">{{area.locationPrice}}</mat-cell>
+            </ng-container>
             <ng-container matColumnDef="status">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
                 <mat-cell *matCellDef="let area">

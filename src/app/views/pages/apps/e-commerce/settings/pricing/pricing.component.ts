@@ -20,7 +20,7 @@ export class PricingComponent implements OnInit {
   dataSourceStates: MatTableDataSource<any>;
 
   displayedColumnsStates = ['name', 'areas', 'status', 'action'];
-  displayedColumnsAreas = ['name', 'basePrice', 'extraRV', 'extraRW', 'pickup', 'status', 'action'];
+  displayedColumnsAreas = ['name', 'basePrice', 'extraRV', 'extraRW', 'pickup','locationPrice', 'status', 'action'];
 
   states;
   state;
@@ -142,6 +142,8 @@ export class PricingComponent implements OnInit {
       area.extraRV = '';
       area.extraRW = '';
       area.pickup = '';
+      area.locationPrice = '';
+
       for(var i = 0 ; i < this.packageTypes.length ; i ++){
 
         await this.priceService.getPrice(this.idcustomerGroup, area.idareas, this.packageTypes[i].idpackageType).then(price => {
@@ -151,40 +153,21 @@ export class PricingComponent implements OnInit {
           area.extraRV = area.extraRV + this.tempPrice[0]?.extraRV;
           area.extraRW = area.extraRW + this.tempPrice[0]?.extraRW;
           area.pickup = area.pickup + this.tempPrice[0]?.pickup;
+          area.locationPrice = area.locationPrice + this.tempPrice[0]?.locationPrice;
+
           if( i+1 != this.packageTypes.length){
             area.basePrice = area.basePrice + ' / ';
             area.extraRV = area.extraRV + ' / ';
             area.extraRW = area.extraRW + ' / ';
             area.pickup = area.pickup + ' / ';
+            area.locationPrice = area.locationPrice + ' / ';
+
           }
           this.dataSourceAreas = new MatTableDataSource(this.areas);
           this.changeDetectorRefs.detectChanges();
         })
         console.log("area", area);
       }
-
-      // await this.packageTypes.forEach(async (packageType, index) => {
-      //   console.log(index);
-
-      //   await this.priceService.getPrice(this.idcustomerGroup, area.idareas, packageType.idpackageType).then(price => {
-      //     console.log(price);
-      //     this.tempPrice = price;
-      //     area.basePrice = area.basePrice + this.tempPrice[0]?.basePrice;
-      //     area.extraRV = area.extraRV + this.tempPrice[0]?.extraRV;
-      //     area.extraRW = area.extraRW + this.tempPrice[0]?.extraRW;
-      //     area.pickup = area.pickup + this.tempPrice[0]?.pickup;
-      //     if( index+1 != this.packageTypes.length){
-      //       area.basePrice = area.basePrice + ' / ';
-      //       area.extraRV = area.extraRV + ' / ';
-      //       area.extraRW = area.extraRW + ' / ';
-      //       area.pickup = area.pickup + ' / ';
-      //     }
-      //     this.dataSourceAreas = new MatTableDataSource(this.areas);
-      //     this.changeDetectorRefs.detectChanges();
-      //   })
-      //   console.log("area", area);
-      // })
-
     })
     console.log("this.areas",this.areas);
 

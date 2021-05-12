@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, Inject } from '@angular/core';
 import { StateAreaService } from 'src/app/service/state-area.service';
 import { OrdersService } from 'src/app/service/orders.service';
 import { PackagesService } from 'src/app/service/packages.service';
@@ -7,6 +7,9 @@ import { PackageTypeService } from 'src/app/service/package-type.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { PriceService } from 'src/app/service/price.service';
+import { EmailService } from 'src/app/service/email.service';
+import { CustomerService } from 'src/app/service/customer.service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'kt-order-create',
@@ -67,6 +70,9 @@ export class OrderCreateComponent implements OnInit {
 		private fb: FormBuilder,
 		private changeDetectorRefs: ChangeDetectorRef,
     private el: ElementRef,
+		private emailService: EmailService,
+    private customerService: CustomerService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -307,13 +313,30 @@ export class OrderCreateComponent implements OnInit {
           result.weightUnit = this.weightType;
           result.lengthUnit = this.lengthType;
           if (this.order.deliveryType == '0') {
-            result.status = '2'
+            result.status = '6'
           }
           else {
             result.status = '0'
           }
           this.packagesService.createNewPackage(result).then(result => {
-            this.router.navigate(['orders/myOrder']); // Main page
+            this.customerService.getCustomerByID(this.idcustomers).then((customerInfo:any) => {
+              var config = {
+                email: 'info@holoexpresspanama.com',
+                // email: 'hisokayamamura@gmail.com',
+                title: "Nueva orden",
+                html : '<div>Name: ' + customerInfo[0].firstName + ' ' + customerInfo[0].lastName + '</div><div>Email: ' + customerInfo[0].email + '</div><div>Phone: ' + customerInfo[0].mobile + '</div><div>Order ID: '+ this.tempResult.insertId +'</div>'
+              }
+              this.emailService.sendmail(config).then(result => {
+                console.log('result');
+                console.log(result);
+
+                this.router.navigate(['orders/myOrder']); // Main page
+              }).catch(err => {
+                console.log('err');
+                console.log(err);
+                this.router.navigate(['orders/myOrder']); // Main page
+              })
+            })
           }).catch(err => {
             window.alert("error occured")
           })
@@ -388,11 +411,16 @@ export class OrderCreateComponent implements OnInit {
           }
 
           if(this.typeOfService){
-            this.totalPrice = deliveryPrice;
+						this.totalPrice = deliveryPrice + Number(deliveryAreaPrice?.locationPrice);
           }
           else {
             pickUpPrice = Number(pickUpAreaPrice.pickup);
             this.totalPrice = deliveryPrice + pickUpPrice;
+            if (Number(deliveryAreaPrice?.locationPrice) > Number(pickUpAreaPrice?.locationPrice)) {
+							this.totalPrice = deliveryPrice + pickUpPrice + Number(deliveryAreaPrice?.locationPrice);
+						} else {
+							this.totalPrice = deliveryPrice + pickUpPrice + Number(pickUpAreaPrice?.locationPrice);
+						}
           }
           if(Number.isNaN(this.totalPrice)){
             this.totalPrice = 0;
@@ -431,6 +459,29 @@ export class OrderCreateComponent implements OnInit {
   
   tabcheck(event){
     console.log(event);
+  }
+
+  openImage(){
+    console.log("openImage");
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    });
+  }
+
+}
+
+
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'image-dialog.html',
+})
+export class DialogOverviewExampleDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }

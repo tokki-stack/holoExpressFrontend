@@ -75,7 +75,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { environment } from '../../../../../environments/environment';
 import { NgbProgressbarModule, NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { OrderCreateComponent } from './order-create/order-create.component';
+import { DialogOverviewExampleDialog, OrderCreateComponent } from './order-create/order-create.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { CustomerInvoiceComponent } from './customer-invoice/customer-invoice.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
@@ -188,13 +188,15 @@ const routes: Routes = [
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
 		DeliveryProofComponent,
+		DialogOverviewExampleDialog,
 	],
 	declarations: [
     // CourierComponent,
     // CourierDetailComponent,
     // CourierEditComponent,
     // CourierStatusComponent,
-    // CourierFinalComponent,
+	// CourierFinalComponent,
+	DialogOverviewExampleDialog,
 	OrderCreateComponent,
     OrderListComponent,
     CustomerInvoiceComponent,

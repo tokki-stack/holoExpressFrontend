@@ -55,6 +55,7 @@ export class OrderListComponent implements OnInit {
               result.messenger = results[0].name;
             })
           }
+          console.log(this.orders);
           this.dataSource = new MatTableDataSource(this.orders);
           this.setDataSourceAttributes();
           this.total = this.orders.length;

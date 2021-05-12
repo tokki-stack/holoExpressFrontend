@@ -11,13 +11,18 @@
             </mat-card-header>
             <div class="separator separator-dashed my-6"></div>
             <mat-card-content style="display: grid; margin-left: 30px;">
+                <div style="display: flex; flex-direction: column;">
+                    <span>Order Type</span>
+                    <span><strong>{{order?.deliveryType == '1' ? "Servicio de Recogida" : "Entregar en Holo Express"}}</strong></span>
+                </div>
                 <div class="row">
-                    <div class="col" *ngIf="order.deliveryType == '0'">
+
+                    <div class="col-lg col-sm-12 col-md-6" *ngIf="order.deliveryType == '1'">
                         <div>Pickup Address</div>
                         <div><strong>{{order.pickUpAddress}}</strong></div>
-                        <div style="color: blue;"><strong>custom notes about pickup</strong></div>
+                        <!-- <div style="color: blue;"><strong>custom notes about pickup</strong></div> -->
                     </div>
-                    <div class="col">
+                    <div class="col-lg col-sm-12 col-md-6">
                         <div>Delivery Address</div>
                         <div><strong>{{order.deliveryAddress}}</strong></div>
                     </div>
@@ -30,8 +35,8 @@
                 <span>Packages = {{order.items}}</span>
             </mat-card-header>
             <div class="separator separator-dashed my-6"></div>
-            <mat-card-content>
-                <mat-table [dataSource]="dataSource" matSort>
+            <mat-card-content class="scrollview">
+                <mat-table style="min-width: 500px;" [dataSource]="dataSource" matSort>
                     <ng-container matColumnDef="tracking">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>tracking</mat-header-cell>
                         <mat-cell *matCellDef="let package">{{package.tracking}}</mat-cell>
@@ -123,7 +128,7 @@
                                     <div>orden aceptado</div>
                                     <div>{{accepted == 'undefined' ? '' : accepted}}</div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-3 hidemobile">
                                     <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
                                 </div>
                             </div>
@@ -146,7 +151,7 @@
                                     <div>recibido</div>
                                     <div>{{pickedUp == 'undefined' ? '' : pickedUp}}</div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-3 hidemobile">
                                     <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
                                 </div>
                             </div>
@@ -168,7 +173,7 @@
                                     <div>Enviado</div>
                                     <div>{{bodega == 'undefined' ? '' : bodega}}</div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-3 hidemobile">
                                     <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
                                 </div>
                             </div>

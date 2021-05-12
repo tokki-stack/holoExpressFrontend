@@ -211,6 +211,40 @@ export class PackageScanComponent implements OnInit {
                   return;
                 }
               }
+
+              else if (this.tempResult[0].status == '6'){
+                if (this.data.flag == 'salida'){
+                  this.statusTitle = "paquete no recibido";
+                  this.changeDetectorRefs.detectChanges();
+                  this.scanForm.setValue({idControl: ''});
+                  return;
+                }
+                else {
+                  var idmessenger = window.localStorage.getItem('userID');
+                  await this.packagesService.setPackageStatus(this.tempResult[0], '2', idmessenger).then(result => {
+                    this.checkassignedTo(this.tempOrder[0], this.tempResult[0]);
+
+                    console.log(result);
+                    this.statusTitle = "aceptado";
+                    this.description.push({
+                      tracking: this.tempResult[0].idpackages,
+                      date: vtoday,
+                      assignedTo: 'mriz',
+                      by: this.by
+                    })
+                    this.dataSource = new MatTableDataSource(this.description);
+                    this.scanForm.setValue({idControl: ''});
+
+                    this.changeDetectorRefs.detectChanges();
+                  })
+                }
+              }
+
+
+
+
+
+
               else if (this.tempResult[0].status == '1'){
                 if (this.data.flag == 'salida'){
 

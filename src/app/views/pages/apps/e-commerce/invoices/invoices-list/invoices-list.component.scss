@@ -39,3 +39,18 @@
     -webkit-hyphens: auto;
     hyphens: auto;
 }
+
+@media screen and (max-width: 992px) {
+    .mat-column-check {
+        flex: 0 0 10% !important;
+        width: 10% !important;
+    }
+    .mat-column-idinvoice {
+        flex: 0 0 10% !important;
+        width: 10% !important;
+    }
+    .mat-column-edit {
+        flex: 0 0 10% !important;
+        width: 10% !important;
+    }
+}

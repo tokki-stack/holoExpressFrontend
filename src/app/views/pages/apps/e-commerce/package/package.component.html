@@ -94,7 +94,7 @@
                     <div *ngIf="package.status == 1" class="status3"> Recogido </div>
                     <div *ngIf="package.status == 2" class="status0"> bodega </div>
                     <div *ngIf="package.status == 3" class="status1"> Por Entregar </div>
-
+                    <div *ngIf="package.status == 6" class="status1"> Por Recibir </div>
 
                     <!-- {{package.status == 0 ? 'bodega' : (package.status == 1 ? 'Por Entregar' : (package.status == 2 ? 'Por Recoger' : (package.status == 3 ? 'Recogido')))}} -->
                 </mat-cell>

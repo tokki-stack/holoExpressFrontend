@@ -78,7 +78,7 @@ export class CustomerNewComponent implements OnInit {
 						email: this.customerForm.value.email,
 						title: "Bienvenido a HoloExpress",
 						html : '<div style="margin: auto;"><img style="width: 100px;margin-left: auto;margin-right: auto;" src="https://app.holoexpresspanama.com/assets/media/logos/holo.png"><div>Bienvenido a holoeExpress.</div><div>Tu cuenta ha sido creada y puedes crear órdenes de envíos a través de nuestra plataforma www.clientes.holoexpresspanama.com</div><div style="margin-top: 20px;">Utiliza los siguientes credenciales para ingresar:</div><div style="margin-top: 20px;">Email: '+
-						this.customerForm.value.email + '</div><div>Password: '+this.tempResult.password+'</div><div style="margin-top: 20px;">Gracias por preferirnos</div><div style="margin-top: 20px;">Equipo de HoloExpress</div></div>'
+						this.customerForm.value.email + '</div><div>Contraseña: '+this.tempResult.password+'</div><div style="margin-top: 20px;">Gracias por preferirnos</div><div style="margin-top: 20px;">Equipo de HoloExpress</div></div>'
 					}
 					this.emailService.sendmail(config).then(result => {
 						console.log(result);

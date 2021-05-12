@@ -1,20 +1,19 @@
 <!-- begin:: Header Mobile -->
 <div id="kt_header_mobile" class="header-mobile align-items-center" [ngClass]="headerMobileClasses">
     <!--begin::Logo-->
-    <a routerLink="/courier">
+    <a>
+        <!-- <a routerLink="/courier"> -->
         <img alt="logo" style="width: 90px;" [attr.src]="headerLogo" />
     </a>
     <!--end::Logo-->
 
     <!--begin::Toolbar-->
     <div class="d-flex align-items-center">
-        <ng-container *ngIf="asideSelfDisplay">
-            <!--begin::Aside Mobile Toggle-->
+        <!-- <ng-container *ngIf="asideSelfDisplay">
             <button class="btn p-0 burger-icon burger-icon-left" id="kt_aside_mobile_toggle">
         <span></span>
       </button>
-            <!--end::Aside Mobile Toggle-->
-        </ng-container>
+        </ng-container> -->
 
         <ng-container *ngIf="headerMenuSelfDisplay">
             <!--begin::Header Menu Mobile Toggle-->
